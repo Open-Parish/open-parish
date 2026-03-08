@@ -1,0 +1,43 @@
+---
+name: "Deployment Workflow"
+
+'on':
+  push:
+    branches:
+      - master
+
+jobs:
+  ci:
+    name: "Deploy to Vultr"
+    runs-on: "ubuntu-20.04"
+    steps:
+      - name: "Checkout Code"
+        uses: "actions/checkout@v2"
+
+      - name: "Lint code"
+        run: |
+              npm ci
+              npm run lint
+
+      - name: "Building typescript"
+        run: npm run build
+
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: 'vultr-two'
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy with rsync
+        run: |
+              rsync -avz --stats ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/root/open-parish-api
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          script: pm2 restart open-parish-api

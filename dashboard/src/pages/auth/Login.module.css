@@ -1,0 +1,353 @@
+/* ============================================================
+   LOGIN — Split-screen: dark brand panel | clean form panel
+   ============================================================ */
+
+.root {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+/* ── LEFT: Brand panel ─────────────────────────────────────── */
+
+.brand {
+  position: relative;
+  width: 44%;
+  min-width: 360px;
+  background: #0b0b12;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.brandInner {
+  position: relative;
+  z-index: 2;
+  padding: 52px 48px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 56px;
+}
+
+.logoMark {
+  width: 36px;
+  height: 36px;
+  color: #c9a157;
+  flex-shrink: 0;
+}
+
+.logoSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.logoText {
+  font-family: 'Sora', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.04em;
+}
+
+/* Headline */
+.headline {
+  font-family: 'Sora', sans-serif;
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #ffffff;
+  letter-spacing: -0.05em;
+  margin: 0 0 20px;
+}
+
+.headlineAccent {
+  color: #c9a157;
+}
+
+.subHeadline {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+  line-height: 1.6;
+  max-width: 280px;
+}
+
+/* Pill badges */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 36px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.01em;
+}
+
+.pillDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #c9a157;
+  flex-shrink: 0;
+}
+
+/* Geometric background */
+.geo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.geoRing1 {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 161, 87, 0.07);
+  bottom: -200px;
+  right: -200px;
+  animation: spin 40s linear infinite;
+}
+
+.geoRing2 {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 161, 87, 0.05);
+  bottom: -60px;
+  right: -80px;
+  animation: spin 28s linear infinite reverse;
+}
+
+.geoDot1 {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #c9a157;
+  opacity: 0.5;
+  top: 30%;
+  right: 80px;
+  animation: float 7s ease-in-out infinite;
+}
+
+.geoDot2 {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #c9a157;
+  opacity: 0.3;
+  top: 55%;
+  right: 140px;
+  animation: float 9s ease-in-out infinite 2s;
+}
+
+.geoGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* Corner glow */
+.geoGlow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 161, 87, 0.08) 0%, transparent 70%);
+  bottom: -60px;
+  right: -60px;
+}
+
+/* Footer */
+.brandFooter {
+  position: relative;
+  z-index: 2;
+  padding: 20px 48px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.02em;
+}
+
+/* ── RIGHT: Form panel ─────────────────────────────────────── */
+
+.formPanel {
+  flex: 1;
+  background: #f9f9f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px;
+}
+
+.formInner {
+  width: 100%;
+  max-width: 384px;
+}
+
+.formHeader {
+  margin-bottom: 40px;
+}
+
+.formEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #c9a157;
+  background: rgba(201, 161, 87, 0.1);
+  border: 1px solid rgba(201, 161, 87, 0.2);
+  border-radius: 100px;
+  padding: 4px 10px;
+  margin-bottom: 16px;
+}
+
+.formTitle {
+  font-family: 'Sora', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #0b0b12;
+  letter-spacing: -0.04em;
+  margin: 0 0 8px;
+  line-height: 1.15;
+}
+
+.formSubtitle {
+  font-size: 14px;
+  color: #999;
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.formBody {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Input overrides */
+.inputLabel {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #444 !important;
+  margin-bottom: 6px !important;
+  letter-spacing: -0.01em !important;
+}
+
+.inputField {
+  border-radius: 10px !important;
+  border-color: #e6e6e2 !important;
+  background: #ffffff !important;
+  font-size: 14px !important;
+  height: 46px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+  color: #0b0b12 !important;
+}
+
+.inputField:focus-within {
+  border-color: #c9a157 !important;
+  box-shadow: 0 0 0 3px rgba(201, 161, 87, 0.15) !important;
+}
+
+/* Error */
+.errorBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 14px;
+  background: #fff1f0;
+  border: 1px solid #ffccc7;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #cf1322;
+  font-weight: 500;
+}
+
+/* Submit button */
+.submitBtn {
+  height: 48px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+  background: #a21a3a !important;
+  font-family: 'DM Sans', sans-serif !important;
+  letter-spacing: -0.01em !important;
+  margin-top: 4px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease !important;
+}
+
+.submitBtn:hover:not(:disabled) {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(162, 26, 58, 0.35) !important;
+}
+
+.submitBtn:active:not(:disabled) {
+  transform: translateY(0) !important;
+}
+
+/* Keyframes */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 840px) {
+  .root {
+    flex-direction: column;
+  }
+
+  .brand {
+    width: 100%;
+    min-height: 220px;
+  }
+
+  .brandInner {
+    padding: 36px 28px 28px;
+  }
+
+  .headline {
+    font-size: 30px;
+  }
+
+  .pills {
+    display: none;
+  }
+}

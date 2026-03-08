@@ -1,0 +1,238 @@
+#!/usr/bin/env node
+
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import process from 'node:process';
+import { MongoClient, ObjectId } from 'mongodb';
+
+function usage() {
+  console.error(
+    [
+      'Usage:',
+      '  node scripts/export-mongo-certificates-to-d1-sql.mjs',
+      '',
+      'Required env:',
+      '  MONGODB_URI   MongoDB connection URI',
+      '',
+      'Optional env:',
+      '  MONGODB_DB    Database name override',
+      '  OUTPUT_SQL    Output SQL file path (default: ./tmp/certificates-import.sql)',
+    ].join('\n')
+  );
+}
+
+function toIsoDate(value) {
+  if (!value) return new Date().toISOString();
+  const date = value instanceof Date ? value : new Date(String(value));
+  return Number.isNaN(date.getTime()) ? new Date().toISOString() : date.toISOString();
+}
+
+function sqlText(value) {
+  return `'${String(value ?? '').replaceAll("'", "''")}'`;
+}
+
+function sqlNullableText(value) {
+  if (value === null || value === undefined || value === '') return 'NULL';
+  return sqlText(value);
+}
+
+function toPlain(value) {
+  if (value === null || value === undefined) return value;
+  if (value instanceof Date) return value.toISOString();
+  if (value instanceof ObjectId) return value.toHexString();
+  if (Array.isArray(value)) return value.map((item) => toPlain(item));
+  if (typeof value === 'object') {
+    const record = {};
+    for (const [key, item] of Object.entries(value)) {
+      record[key] = toPlain(item);
+    }
+    return record;
+  }
+  if (typeof value === 'bigint') return Number(value);
+  return value;
+}
+
+function pickCertificateType(kind, doc) {
+  if (kind === 'birth') {
+    const type = String(doc.certificateType ?? 'baptismal').toLowerCase();
+    if (type === 'birth') return 'baptismal';
+    if (type === 'confirmation') return 'confirmation';
+    return 'baptismal';
+  }
+  return kind;
+}
+
+function pickFirstName(kind, doc) {
+  if (kind === 'marriage') {
+    return String(doc.bride?.firstName ?? '');
+  }
+  return String(doc.firstName ?? '');
+}
+
+function pickLastName(kind, doc) {
+  if (kind === 'marriage') {
+    return String(doc.bride?.lastName ?? '');
+  }
+  return String(doc.lastName ?? '');
+}
+
+function pickDeletedAt(doc) {
+  if (doc.deletedAt) return toIsoDate(doc.deletedAt);
+  if (doc.deleted === true) return toIsoDate(doc.updatedAt ?? doc.createdAt ?? new Date());
+  return null;
+}
+
+async function firstExistingCollection(db, names) {
+  for (const name of names) {
+    const exists = await db.listCollections({ name }, { nameOnly: true }).hasNext();
+    if (exists) return name;
+  }
+  return null;
+}
+
+async function loadCollectionDocs(db, candidates) {
+  const collectionName = await firstExistingCollection(db, candidates);
+  if (!collectionName) {
+    return { collectionName: null, docs: [] };
+  }
+
+  const docs = await db.collection(collectionName).find({}).toArray();
+  return { collectionName, docs };
+}
+
+async function main() {
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    usage();
+    process.exit(1);
+  }
+
+  const outputSql = process.env.OUTPUT_SQL
+    ? path.resolve(process.cwd(), process.env.OUTPUT_SQL)
+    : path.resolve(process.cwd(), 'tmp/certificates-import.sql');
+
+  const client = new MongoClient(uri);
+  await client.connect();
+
+  try {
+    const dbFromUri = (() => {
+      try {
+        const parsed = new URL(uri);
+        const rawPath = parsed.pathname.replace(/^\/+/, '');
+        return rawPath ? decodeURIComponent(rawPath) : null;
+      } catch {
+        return null;
+      }
+    })();
+
+    const dbName = process.env.MONGODB_DB || dbFromUri;
+    if (!dbName) {
+      throw new Error('Unable to infer database name from URI. Set MONGODB_DB.');
+    }
+
+    const db = client.db(dbName);
+
+    const birth = await loadCollectionDocs(db, ['births', 'birth']);
+    const death = await loadCollectionDocs(db, ['deaths', 'death']);
+    const marriage = await loadCollectionDocs(db, ['marriages', 'marriage']);
+
+    const rows = [];
+    const pushRows = (kind, docs) => {
+      for (const rawDoc of docs) {
+        const doc = toPlain(rawDoc);
+        const id = String(doc._id ?? '');
+        if (!id) continue;
+
+        const certificateType = pickCertificateType(kind, doc);
+        const firstName = pickFirstName(kind, doc);
+        const lastName = pickLastName(kind, doc);
+        const createdAt = toIsoDate(doc.createdAt);
+        const updatedAt = toIsoDate(doc.updatedAt ?? doc.createdAt);
+        const deletedAt = pickDeletedAt(doc);
+
+        const payload = {
+          ...doc,
+          _id: id,
+          id,
+        };
+
+        rows.push({
+          id,
+          kind,
+          certificateType,
+          firstName,
+          lastName,
+          payload: JSON.stringify(payload),
+          createdAt,
+          updatedAt,
+          deletedAt,
+        });
+      }
+    };
+
+    pushRows('birth', birth.docs);
+    pushRows('death', death.docs);
+    pushRows('marriage', marriage.docs);
+
+    const sqlLines = [
+      '-- Generated by scripts/export-mongo-certificates-to-d1-sql.mjs',
+      `-- Source DB: ${dbName}`,
+      `-- Collections: birth=${birth.collectionName ?? 'missing'}(${birth.docs.length}), death=${death.collectionName ?? 'missing'}(${death.docs.length}), marriage=${marriage.collectionName ?? 'missing'}(${marriage.docs.length})`,
+      `-- Rows: ${rows.length}`,
+      'BEGIN TRANSACTION;',
+    ];
+
+    for (const row of rows) {
+      sqlLines.push(
+        [
+          'INSERT INTO certificates (id, kind, certificate_type, first_name, last_name, payload, created_at, updated_at, deleted_at)',
+          `VALUES (${sqlText(row.id)}, ${sqlText(row.kind)}, ${sqlText(row.certificateType)}, ${sqlText(row.firstName)}, ${sqlText(row.lastName)}, ${sqlText(row.payload)}, ${sqlText(row.createdAt)}, ${sqlText(row.updatedAt)}, ${sqlNullableText(row.deletedAt)})`,
+          'ON CONFLICT(id) DO UPDATE SET',
+          '  kind = excluded.kind,',
+          '  certificate_type = excluded.certificate_type,',
+          '  first_name = excluded.first_name,',
+          '  last_name = excluded.last_name,',
+          '  payload = excluded.payload,',
+          '  created_at = excluded.created_at,',
+          '  updated_at = excluded.updated_at,',
+          '  deleted_at = excluded.deleted_at;',
+        ].join('\n')
+      );
+    }
+
+    sqlLines.push('COMMIT;');
+
+    await fs.mkdir(path.dirname(outputSql), { recursive: true });
+    await fs.writeFile(outputSql, `${sqlLines.join('\n')}\n`, 'utf8');
+
+    console.log(
+      JSON.stringify(
+        {
+          dbName,
+          outputSql,
+          counts: {
+            birth: birth.docs.length,
+            death: death.docs.length,
+            marriage: marriage.docs.length,
+            total: rows.length,
+          },
+          collections: {
+            birth: birth.collectionName,
+            death: death.collectionName,
+            marriage: marriage.collectionName,
+          },
+        },
+        null,
+        2
+      )
+    );
+  } finally {
+    await client.close();
+  }
+}
+
+main().catch((error) => {
+  console.error(error instanceof Error ? error.message : String(error));
+  process.exit(1);
+});
+

@@ -1,0 +1,31 @@
+INSERT OR IGNORE INTO settings (
+  id,
+  header_line_1,
+  header_line_2,
+  header_line_3,
+  header_line_4,
+  header_line_5,
+  header_line_6,
+  current_priest,
+  current_priest_signature,
+  logo,
+  pdf_image_left,
+  pdf_image_right,
+  created_at,
+  updated_at
+) VALUES (
+  1,
+  'Archdiocese of Cebu',
+  'Our Lady of the Sacred Heart Parish',
+  'Marigondon, Lapu-Lapu City',
+  'Tel No: 505-0713',
+  'Parish Canonical Erection: XXXXXXX',
+  'Parish Feast day: XXXX XXXXX',
+  'Fr XXXxxx',
+  '',
+  '',
+  '',
+  '',
+  datetime('now'),
+  datetime('now')
+);

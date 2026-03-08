@@ -1,0 +1,10 @@
+:root {
+  --oc-readonly-bg: var(--mantine-color-gray-1);
+  --oc-readonly-text: var(--mantine-color-gray-7);
+}
+
+input[readonly] {
+  background-color: var(--oc-readonly-bg);
+  color: var(--oc-readonly-text);
+  cursor: not-allowed;
+}

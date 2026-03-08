@@ -1,0 +1,9 @@
+cloudflare_api_token = "<set-in-env-or-here>"
+cloudflare_account_id = "<your-account-id>"
+
+project_name = "open-parish"
+environment = "prod"
+
+d1_database_name = "olshp"
+r2_uploads_bucket_name = "olshp-uploads"
+r2_preview_bucket_name = "olshp-uploads-preview"

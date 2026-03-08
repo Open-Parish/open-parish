@@ -1,0 +1,21 @@
+name = "olshp-api"
+main = "src/index.ts"
+compatibility_date = "2026-03-08"
+
+[observability]
+enabled = true
+
+[vars]
+JWT_SECRET = "change-me-in-cloudflare"
+R2_PUBLIC_URL = ""
+
+[[d1_databases]]
+binding = "DB"
+database_name = "olshp"
+database_id = "9140faa6-7bbd-43b7-ae7d-76535d174ffd"
+migrations_dir = "migrations"
+
+[[r2_buckets]]
+binding = "UPLOADS"
+bucket_name = "olshp-uploads"
+preview_bucket_name = "olshp-uploads-preview"

@@ -1,0 +1,33 @@
+import { getJson, postFormData } from '@/api/client';
+
+export type SettingsPayload = {
+  headerLine1: string;
+  headerLine2: string;
+  headerLine3: string;
+  headerLine4: string;
+  headerLine5: string;
+  headerLine6: string;
+  currentPriest: string;
+  currentPriestSignature: string | File;
+  pdfImageLeft: string | File;
+  pdfImageRight: string | File;
+};
+
+export function getSettings() {
+  return getJson<SettingsPayload>('/settings');
+}
+
+export function updateSettings(values: SettingsPayload) {
+  const formData = new FormData();
+  formData.append('headerLine1', values.headerLine1);
+  formData.append('headerLine2', values.headerLine2);
+  formData.append('headerLine3', values.headerLine3);
+  formData.append('headerLine4', values.headerLine4);
+  formData.append('headerLine5', values.headerLine5);
+  formData.append('headerLine6', values.headerLine6);
+  formData.append('currentPriest', values.currentPriest);
+  formData.append('currentPriestSignature', values.currentPriestSignature);
+  formData.append('pdfImageLeft', values.pdfImageLeft);
+  formData.append('pdfImageRight', values.pdfImageRight);
+  return postFormData<SettingsPayload>('/settings', formData);
+}

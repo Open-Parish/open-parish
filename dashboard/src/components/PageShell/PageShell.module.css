@@ -1,0 +1,27 @@
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: var(--page-shell-justify);
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+.headerRowCompact {
+  gap: 12px;
+  margin-top: 0;
+}
+
+.title {
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin-top: 2px;
+  color: var(--page-shell-muted);
+  max-width: 640px;
+}
+
+.subtitleCompact {
+  margin-top: 2px;
+}

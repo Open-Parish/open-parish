@@ -1,0 +1,20 @@
+---
+name: "Production PR Workflow"
+
+'on':
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  ci:
+    name: "Integration"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout Code"
+        uses: "actions/checkout@v2"
+
+      - name: "Lint code"
+        run: |
+          npm ci
+          npm run lint
