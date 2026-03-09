@@ -17,9 +17,10 @@ import { useEffect, useMemo, useRef } from 'react';
 import { resolveApiUrl } from '@/api/client';
 import { PageShell } from '@/components/PageShell/PageShell';
 import { getSettings, updateSettings } from '@/features/settings/settingsApi';
+import { getToken } from '@/lib/session';
 import type { SettingsForm } from './Settings.types';
 
-function resolveAssetPreview(value: string): string {
+function resolveAssetPreview(value: string, authToken?: string | null): string {
   const trimmed = String(value ?? '').trim();
   if (!trimmed) return '';
   if (
@@ -31,12 +32,21 @@ function resolveAssetPreview(value: string): string {
     return trimmed;
   }
   if (trimmed.startsWith('/')) {
-    return resolveApiUrl(trimmed);
+    return withAuthToken(resolveApiUrl(trimmed), authToken);
   }
-  return resolveApiUrl(`/${trimmed}`);
+  return withAuthToken(resolveApiUrl(`/${trimmed}`), authToken);
+}
+
+function withAuthToken(url: string, authToken?: string | null): string {
+  if (!authToken) return url;
+  const [path, query = ''] = url.split('?');
+  const params = new URLSearchParams(query);
+  params.set('auth_token', authToken);
+  return `${path}?${params.toString()}`;
 }
 
 export function Settings() {
+  const authToken = getToken();
   const query = useQuery({ queryKey: ['settings'], queryFn: getSettings });
   const hasHydratedFromQuery = useRef(false);
 
@@ -89,16 +99,16 @@ export function Settings() {
   );
 
   const leftImagePreview = useMemo(
-    () => resolveAssetPreview(leftImageObjectUrl || String(form.values.pdfImageLeft || '')),
-    [form.values.pdfImageLeft, leftImageObjectUrl],
+    () => resolveAssetPreview(leftImageObjectUrl || String(form.values.pdfImageLeft || ''), authToken),
+    [authToken, form.values.pdfImageLeft, leftImageObjectUrl],
   );
   const rightImagePreview = useMemo(
-    () => resolveAssetPreview(rightImageObjectUrl || String(form.values.pdfImageRight || '')),
-    [form.values.pdfImageRight, rightImageObjectUrl],
+    () => resolveAssetPreview(rightImageObjectUrl || String(form.values.pdfImageRight || ''), authToken),
+    [authToken, form.values.pdfImageRight, rightImageObjectUrl],
   );
   const signaturePreview = useMemo(
-    () => resolveAssetPreview(signatureObjectUrl || String(form.values.currentPriestSignature || '')),
-    [form.values.currentPriestSignature, signatureObjectUrl],
+    () => resolveAssetPreview(signatureObjectUrl || String(form.values.currentPriestSignature || ''), authToken),
+    [authToken, form.values.currentPriestSignature, signatureObjectUrl],
   );
 
   useEffect(() => {

@@ -9,7 +9,11 @@
     "cf-typegen": "wrangler types",
     "d1:migrate:local": "wrangler d1 migrations apply olshp --local",
     "d1:migrate:remote": "wrangler d1 migrations apply olshp --remote",
-    "d1:seed:local": "wrangler d1 execute olshp --local --file ./migrations/0002_seed.sql"
+    "d1:seed:local": "wrangler d1 execute olshp --local --file ./migrations/0002_seed.sql",
+    "lint": "eslint \"src/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm run lint && npm run format"
   },
   "dependencies": {
     "hono": "^4.7.2",
@@ -17,6 +21,11 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "@typescript-eslint/parser": "^8.39.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3",
     "typescript": "^5.8.2",
     "wrangler": "^4.4.0"
   }

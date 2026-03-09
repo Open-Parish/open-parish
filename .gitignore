@@ -13,10 +13,6 @@ node_modules/
 api/tmp/
 terraform/terraform.tfvars
 terraform/terraform.tfvars.json
-*.archive
-*.archive.gz
-bk/
-*.zip
 .env
 **/.env
 **/.env.local

@@ -1,6 +1,2 @@
+dist
 node_modules
-coverage
-jest*
-dist/
-documentation/
-.eslintrc.js
