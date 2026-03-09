@@ -7,7 +7,6 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Open-Parish_open-parish&metric=bugs)](https://sonarcloud.io/project/overview?id=Open-Parish_open-parish)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Open-Parish_open-parish&metric=vulnerabilities)](https://sonarcloud.io/project/overview?id=Open-Parish_open-parish)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Open-Parish_open-parish&metric=code_smells)](https://sonarcloud.io/project/overview?id=Open-Parish_open-parish)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Open-Parish_open-parish&metric=coverage)](https://sonarcloud.io/project/overview?id=Open-Parish_open-parish)
 [![Duplicated Lines](https://sonarcloud.io/api/project_badges/measure?project=Open-Parish_open-parish&metric=duplicated_lines_density)](https://sonarcloud.io/project/overview?id=Open-Parish_open-parish)
 
 Open Parish is an open-source parish records and certificate management system.
@@ -32,7 +31,7 @@ It includes:
 
 ## Tech Stack
 
-- Frontend: React, Vite, TypeScript, Mantine, TanStack Query, Zustand
+- Frontend: React, Vite, TypeScript, Mantine, TanStack Query, React Context
 - API: Hono, TypeScript, Zod validation, JOSE (JWT)
 - Cloudflare: Workers, D1, R2, Wrangler
 
@@ -131,4 +130,7 @@ This repo includes Sonar exclusions for migrations in:
 
 ## License
 
-License file is not yet defined. If you plan public contributions, add `LICENSE` (MIT/Apache-2.0 recommended).
+Free for parishes/nonprofits and self-hosted use.  
+No resale and no hosted SaaS offering without a separate commercial license.  
+Business Source License 1.1 (BSL 1.1) with a custom Additional Use Grant.  
+See [`LICENSE`](/Users/keithics/Documents/Code-new/olshp/LICENSE).
