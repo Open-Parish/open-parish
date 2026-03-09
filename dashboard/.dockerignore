@@ -1,8 +1,7 @@
 node_modules
-.wrangler
 dist
+.vite
 coverage
-tmp
 npm-debug.log*
 .env
 .env.*

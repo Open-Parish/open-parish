@@ -9,7 +9,6 @@ const SERVER_URL = `http://localhost:${SERVER_PORT}`;
 const VITE_CMD = ['npm', ['run', 'dev', '--', '--host', '127.0.0.1', '--port', `${SERVER_PORT}`, '--strictPort']];
 const CYPRESS_BIN = './node_modules/.bin/cypress';
 const TEST_ENV_FILE = path.resolve(process.cwd(), '.env.test');
-const LOCAL_ENV_FILE = path.resolve(process.cwd(), '.env.local');
 
 const parseEnvFile = (content) =>
   content
@@ -33,16 +32,6 @@ const loadTestEnv = () => {
 
   if (fs.existsSync(TEST_ENV_FILE)) {
     Object.assign(env, parseEnvFile(fs.readFileSync(TEST_ENV_FILE, 'utf8')));
-  }
-
-  if (fs.existsSync(LOCAL_ENV_FILE)) {
-    const localEnv = parseEnvFile(fs.readFileSync(LOCAL_ENV_FILE, 'utf8'));
-    if (!env.CYPRESS_E2E_EMAIL && localEnv.DEFAULT_OWNER_EMAIL) {
-      env.CYPRESS_E2E_EMAIL = localEnv.DEFAULT_OWNER_EMAIL;
-    }
-    if (!env.CYPRESS_E2E_PASSWORD && localEnv.DEFAULT_OWNER_PASSWORD) {
-      env.CYPRESS_E2E_PASSWORD = localEnv.DEFAULT_OWNER_PASSWORD;
-    }
   }
 
   return env;

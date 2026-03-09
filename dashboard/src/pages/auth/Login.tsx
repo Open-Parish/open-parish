@@ -3,7 +3,6 @@ import { Button, PasswordInput, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useNavigate } from 'react-router-dom';
 import { OpenParishMark } from '@/components/OpenParishMark/OpenParishMark';
-import { DEV_DEFAULT_OWNER_EMAIL, DEV_DEFAULT_OWNER_PASSWORD } from '@/config';
 import { useAuth } from '@/context/AuthContext';
 import type { LoginForm } from './Login.types';
 import styles from './Login.module.css';
@@ -15,8 +14,8 @@ export function Login() {
 
   const form = useForm<LoginForm>({
     initialValues: {
-      email: DEV_DEFAULT_OWNER_EMAIL ?? '',
-      password: DEV_DEFAULT_OWNER_PASSWORD ?? '',
+      email: '',
+      password: '',
     },
     validate: {
       email: (value) => (value.trim().length === 0 ? 'Email is required' : null),

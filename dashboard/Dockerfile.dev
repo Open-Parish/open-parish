@@ -1,0 +1,19 @@
+FROM node:22-alpine AS build
+
+WORKDIR /app
+ENV CYPRESS_INSTALL_BINARY=0
+
+COPY package*.json ./
+RUN npm ci --legacy-peer-deps
+
+COPY . .
+RUN npm run build
+
+FROM node:22-alpine AS runtime
+
+COPY --from=build /app/dist /usr/share/app
+RUN npm i -g serve
+
+EXPOSE 5173
+
+CMD ["serve", "-s", "/usr/share/app", "-l", "5173"]

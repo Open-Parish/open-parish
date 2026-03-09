@@ -1,0 +1,29 @@
+services:
+  api:
+    build:
+      context: https://github.com/Open-Parish/open-parish.git#main:api
+      dockerfile: Dockerfile.dev
+    working_dir: /app
+    command: >
+      sh -c "npm run d1:migrate:local &&
+      npx wrangler dev dist/index.js --local --ip 0.0.0.0 --port 8787"
+    ports:
+      - "8787:8787"
+    volumes:
+      - api_wrangler:/app/.wrangler
+
+  dashboard:
+    build:
+      context: https://github.com/Open-Parish/open-parish.git#main:dashboard
+      dockerfile: Dockerfile.dev
+    working_dir: /app
+    command: npm run dev -- --host 0.0.0.0 --port 5173
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_BASE_URL: http://localhost:8787
+    depends_on:
+      - api
+
+volumes:
+  api_wrangler:

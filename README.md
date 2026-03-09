@@ -56,7 +56,6 @@ It includes:
 cd api
 npm install
 npm run d1:migrate:local
-npm run d1:seed:local
 npm run dev
 ```
 
@@ -71,6 +70,27 @@ npm run dev
 By default:
 - Dashboard: `http://localhost:5173`
 - API (Wrangler dev): shown by Wrangler output
+
+## Docker Compose (Fork-Friendly)
+
+Run both API and Dashboard with Docker:
+
+```bash
+docker compose up --build
+```
+
+Services:
+- Dashboard: `http://localhost:5173`
+- API: `http://localhost:8787`
+
+Notes:
+- API container runs local D1 migrations on startup.
+- Local D1 data is persisted in Docker volume `api_wrangler`.
+- To stop and remove containers:
+
+```bash
+docker compose down
+```
 
 ## Cloudflare Deployment
 
@@ -126,12 +146,6 @@ This repo includes Sonar exclusions for migrations in:
 2. Create a feature branch
 3. Run `npm run check` in changed projects
 4. Open a PR with a clear summary and screenshots for UI changes
-
-## Security
-
-- Never commit secrets or tokens
-- Use Cloudflare Secrets for sensitive runtime values
-- Rotate exposed tokens immediately
 
 ## License
 

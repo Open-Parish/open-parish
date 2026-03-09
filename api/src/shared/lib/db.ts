@@ -1,8 +1,20 @@
 import type { SettingsRecord } from "./types.types";
-import { DEFAULT_SETTINGS } from "./constants";
 import { asTrimmedString } from "../utils/normalize";
 
 const LEGACY_ASSET_PATHS = new Set(["/logo.png", "/signature.png"]);
+const EMPTY_SETTINGS: SettingsRecord = {
+  parishName: "",
+  headerLine1: "",
+  headerLine2: "",
+  headerLine3: "",
+  headerLine4: "",
+  headerLine5: "",
+  headerLine6: "",
+  currentPriest: "",
+  currentPriestSignature: "",
+  pdfImageLeft: "",
+  pdfImageRight: "",
+};
 
 function normalizeAssetPath(value: string | null | undefined): string {
   const trimmed = asTrimmedString(value);
@@ -58,46 +70,7 @@ export async function ensureSettings(db: D1Database): Promise<SettingsRecord> {
       pdf_image_right: string;
     }>();
 
-  if (!existing) {
-    await db
-      .prepare(
-        `INSERT INTO settings (
-          id,
-          parish_name,
-          header_line_1,
-          header_line_2,
-          header_line_3,
-          header_line_4,
-          header_line_5,
-          header_line_6,
-          current_priest,
-          current_priest_signature,
-          logo,
-          pdf_image_left,
-          pdf_image_right,
-          created_at,
-          updated_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))`,
-      )
-      .bind(
-        1,
-        DEFAULT_SETTINGS.parishName,
-        DEFAULT_SETTINGS.headerLine1,
-        DEFAULT_SETTINGS.headerLine2,
-        DEFAULT_SETTINGS.headerLine3,
-        DEFAULT_SETTINGS.headerLine4,
-        DEFAULT_SETTINGS.headerLine5,
-        DEFAULT_SETTINGS.headerLine6,
-        DEFAULT_SETTINGS.currentPriest,
-        DEFAULT_SETTINGS.currentPriestSignature,
-        DEFAULT_SETTINGS.pdfImageLeft,
-        DEFAULT_SETTINGS.pdfImageLeft,
-        DEFAULT_SETTINGS.pdfImageRight,
-      )
-      .run();
-
-    return DEFAULT_SETTINGS;
-  }
+  if (!existing) return EMPTY_SETTINGS;
 
   const normalizedLegacyLogo = normalizeAssetPath(existing.logo);
   const normalizedLeft =
@@ -130,8 +103,7 @@ export async function ensureSettings(db: D1Database): Promise<SettingsRecord> {
   }
 
   return {
-    parishName:
-      asTrimmedString(existing.parish_name) || DEFAULT_SETTINGS.parishName,
+    parishName: asTrimmedString(existing.parish_name),
     headerLine1: existing.header_line_1,
     headerLine2: existing.header_line_2,
     headerLine3: existing.header_line_3,

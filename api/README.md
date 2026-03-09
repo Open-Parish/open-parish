@@ -10,7 +10,6 @@ Hono API running on Cloudflare Workers with:
 - Worker entry: `src/index.ts`
 - Hono modules: `src/domains/**`, `src/shared/**`
 - D1 migrations: `migrations/**`
-- D1 seeds: `seeds/**`
 - Wrangler config: `wrangler.toml`
 
 ## Setup
@@ -38,7 +37,6 @@ Set `R2_PUBLIC_URL` in `wrangler.toml` (or via environment vars) if bucket objec
 
 ```bash
 npm run d1:migrate:local
-npm run d1:seed:local
 npm run dev
 ```
 
