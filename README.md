@@ -1,5 +1,10 @@
 # Open Parish
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Open-Parish_open-parish&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Open-Parish_open-parish)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Open-Parish_open-parish&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Open-Parish_open-parish)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Open-Parish_open-parish&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Open-Parish_open-parish)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Open-Parish_open-parish&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Open-Parish_open-parish)
+
 Open Parish is an open-source parish records and certificate management system.
 
 It includes:
