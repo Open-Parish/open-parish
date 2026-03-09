@@ -13,6 +13,7 @@ import {
 import {
   buildCertificatePrintHtml,
   createCertificate,
+  getCertificateTotals,
   getCertificateById,
   getCertificatesPage,
   resolveCertificateType,
@@ -54,6 +55,11 @@ export async function certificatesSearchController(c: Context<Env>) {
     payload.filters as FilterInput[] | undefined,
   );
   return c.json(pageResult);
+}
+
+export async function certificateCountsController(c: Context<Env>) {
+  const totals = await getCertificateTotals(c.env.DB);
+  return c.json(totals);
 }
 
 export async function getCertificateController(c: Context<Env>) {

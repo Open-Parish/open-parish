@@ -1,49 +1,23 @@
-import { Card, Grid, Group, Stack, Text, ThemeIcon } from '@mantine/core';
-import { IconArrowUpRight, IconCross, IconDroplet, IconFlame, IconHearts, IconSettings } from '@tabler/icons-react';
-import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { useAuth } from '@/context/AuthContext';
 import { PageShell } from '@/components/PageShell/PageShell';
-import { getGreeting } from './utils/getGreeting';
-import styles from './Dashboard.module.css';
-
-const MODULES = [
-  {
-    path: '/baptismal',
-    title: 'Baptismal Certificates',
-    subtitle: 'Record and manage baptismal sacraments',
-    icon: IconDroplet,
-    color: 'wine',
-  },
-  {
-    path: '/confirmation',
-    title: 'Confirmation Certificates',
-    subtitle: 'Track confirmation sacrament records',
-    icon: IconFlame,
-    color: 'orange',
-  },
-  {
-    path: '/death',
-    title: 'Death Certificates',
-    subtitle: 'Maintain death and burial records',
-    icon: IconCross,
-    color: 'gray',
-  },
-  {
-    path: '/marriage',
-    title: 'Marriage Certificates',
-    subtitle: 'Record matrimonial sacrament details',
-    icon: IconHearts,
-    color: 'pink',
-  },
-  {
-    path: '/settings',
-    title: 'Settings',
-    subtitle: 'Parish header and print configuration',
-    icon: IconSettings,
-    color: 'yellow',
-  },
-] as const;
+import { getCertificateTotals } from '@/features/certificates/api';
+import { CERTIFICATE_MODULES } from './data/certificateModules';
+import { DashboardBanner } from './components/DashboardBanner';
+import { CertificateCountsGrid } from './components/CertificateCountsGrid';
+import { CertificateCardsSection } from './components/CertificateCardsSection';
+import { SettingsCardSection } from './components/SettingsCardSection';
+import { firstNameFromEmail } from './utils/firstNameFromEmail';
 
 export function Dashboard() {
+  const { email } = useAuth();
+  const firstName = firstNameFromEmail(email);
+  const totalsQuery = useQuery({
+    queryKey: ['cert-totals'],
+    queryFn: getCertificateTotals,
+    staleTime: 60_000,
+  });
+
   const dateStr = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
@@ -53,36 +27,14 @@ export function Dashboard() {
 
   return (
     <PageShell title="Dashboard" subtitle="Parish certificate management system.">
-      <div className={styles.banner}>
-        <div className={styles.bannerOrb1} />
-        <div className={styles.bannerOrb2} />
-        <Stack gap={4}>
-          <p className={styles.bannerEyebrow}>{dateStr}</p>
-          <h2 className={styles.bannerTitle}>{getGreeting()}, Admin</h2>
-          <p className={styles.bannerSub}>Select a module below to manage parish records and generate certificates.</p>
-        </Stack>
-      </div>
-
-      <Grid gutter="md">
-        {MODULES.map(({ path, title, subtitle, icon: Icon, color }) => (
-          <Grid.Col key={path} span={{ base: 12, sm: 6, lg: 4 }}>
-            <Card component={Link} to={path} withBorder radius="md" padding="lg" className={styles.moduleCard}>
-              <Group justify="space-between" mb="md" align="flex-start">
-                <ThemeIcon variant="light" color={color} size={40} radius="md">
-                  <Icon size={20} />
-                </ThemeIcon>
-                <IconArrowUpRight size={16} className={styles.cardArrow} color="var(--mantine-color-dimmed)" />
-              </Group>
-              <Text fw={600} size="sm" mb={4}>
-                {title}
-              </Text>
-              <Text size="xs" c="dimmed">
-                {subtitle}
-              </Text>
-            </Card>
-          </Grid.Col>
-        ))}
-      </Grid>
+      <DashboardBanner dateLabel={dateStr} firstName={firstName} />
+      <CertificateCountsGrid
+        modules={CERTIFICATE_MODULES}
+        totals={totalsQuery.data}
+        isLoading={totalsQuery.isLoading}
+      />
+      <CertificateCardsSection modules={CERTIFICATE_MODULES} />
+      <SettingsCardSection />
     </PageShell>
   );
 }

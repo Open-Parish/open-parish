@@ -1,5 +1,10 @@
 import { deleteJson, getJson, postJson, putJson } from '@/api/client';
-import type { CertificateConfig, CertificatePageResponse, CertificateRecord } from './certificates.types';
+import type {
+  CertificateConfig,
+  CertificatePageResponse,
+  CertificateRecord,
+  CertificateTotals,
+} from './certificates.types';
 
 function buildFilters(search: string) {
   const terms = search
@@ -40,4 +45,8 @@ export async function updateCertificate(config: CertificateConfig, id: string, v
 
 export async function removeCertificate(config: CertificateConfig, id: string) {
   return deleteJson<{ success: boolean }>(`/certificates/${config.apiModule}/${id}`);
+}
+
+export async function getCertificateTotals() {
+  return getJson<CertificateTotals>('/certificates/counts');
 }

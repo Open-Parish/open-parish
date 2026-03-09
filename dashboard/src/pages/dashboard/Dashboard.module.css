@@ -1,32 +1,59 @@
 .banner {
-  background: linear-gradient(135deg, #0f0b07 0%, #1e0d10 60%, #2a0c15 100%);
+  background: linear-gradient(135deg, #fdf6ee 0%, #fef2f3 100%);
   border-radius: 14px;
-  padding: 28px 32px;
+  padding: 24px 32px;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(201, 161, 87, 0.12);
+  border: 1px solid rgba(162, 26, 58, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+[data-mantine-color-scheme='dark'] .banner {
+  background: linear-gradient(135deg, #1e1209 0%, #1f0d10 100%);
+  border-color: rgba(201, 161, 87, 0.12);
+}
+
+.bannerBody {
+  position: relative;
+  z-index: 2;
 }
 
 .bannerOrb1 {
   position: absolute;
-  top: -60px;
-  right: -60px;
-  width: 240px;
-  height: 240px;
+  top: -50px;
+  right: 160px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(201, 161, 87, 0.14) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(162, 26, 58, 0.06) 0%, transparent 70%);
   pointer-events: none;
 }
 
 .bannerOrb2 {
   position: absolute;
-  bottom: -40px;
-  right: 110px;
-  width: 160px;
-  height: 160px;
+  bottom: -30px;
+  right: 40px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(162, 26, 58, 0.2) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(201, 161, 87, 0.07) 0%, transparent 70%);
   pointer-events: none;
+}
+
+.bannerCross {
+  position: relative;
+  z-index: 1;
+  width: 64px;
+  height: 80px;
+  flex-shrink: 0;
+  color: rgba(162, 26, 58, 0.1);
+}
+
+[data-mantine-color-scheme='dark'] .bannerCross {
+  color: rgba(201, 161, 87, 0.12);
 }
 
 .bannerEyebrow {
@@ -34,46 +61,211 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  color: #a97c50;
+  margin: 0 0 6px;
+}
+
+[data-mantine-color-scheme='dark'] .bannerEyebrow {
   color: rgba(255, 255, 255, 0.35);
-  margin-bottom: 6px;
 }
 
 .bannerTitle {
   font-size: 20px;
   font-weight: 700;
-  color: #ffffff;
-  letter-spacing: -0.025em;
-  margin: 0 0 4px;
+  color: #1a0a0e;
+  letter-spacing: -0.03em;
+  margin: 0 0 5px;
+  line-height: 1.2;
+}
+
+[data-mantine-color-scheme='dark'] .bannerTitle {
+  color: #f5ede8;
+}
+
+.bannerAccent {
+  color: #a21a3a;
+}
+
+[data-mantine-color-scheme='dark'] .bannerAccent {
+  color: #c9a157;
 }
 
 .bannerSub {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.45);
+  color: #7a5a62;
   margin: 0;
+  line-height: 1.5;
 }
 
-.moduleCard {
+[data-mantine-color-scheme='dark'] .bannerSub {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.sectionLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mantine-color-dimmed);
+  margin: 0 0 10px;
+}
+
+.statCard {
+  background: var(--mantine-color-default);
+  border: 1px solid var(--mantine-color-default-border);
+  border-radius: var(--mantine-radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statIconWrap {
+  color: var(--accent, #888);
+  margin-bottom: 2px;
+}
+
+.statCount {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--mantine-color-text);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.statLabel {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--mantine-color-dimmed);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.certCard {
   text-decoration: none !important;
   transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease;
+    transform 0.16s ease,
+    box-shadow 0.16s ease;
   cursor: pointer;
+  position: relative;
 }
 
-.moduleCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1) !important;
+.certCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
 }
 
-.cardArrow {
+.certCardInner {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.certIconWrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent, #ccc) 12%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--accent, #888);
+  transition: background 0.16s;
+}
+
+.certCard:hover .certIconWrap {
+  background: color-mix(in srgb, var(--accent, #ccc) 18%, transparent);
+}
+
+.certText {
+  flex: 1;
+  min-width: 0;
+}
+
+.certTitle {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--mantine-color-text);
+  margin: 0 0 3px;
+  line-height: 1.3;
+}
+
+[data-mantine-color-scheme='dark'] .certTitle {
+  color: #f0f0ee;
+}
+
+.certSub {
+  font-size: 12px;
+  color: var(--mantine-color-dimmed);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.certArrow {
+  flex-shrink: 0;
+  color: var(--accent, #ccc);
   opacity: 0;
+  transform: translate(-4px, 4px);
   transition:
     opacity 0.15s,
     transform 0.15s;
-  transform: translate(-4px, 4px);
+  margin-top: 2px;
 }
 
-.moduleCard:hover .cardArrow {
+.certCard:hover .certArrow {
   opacity: 1;
   transform: translate(0, 0);
+}
+
+.settingsCard {
+  text-decoration: none !important;
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease;
+  cursor: pointer;
+}
+
+.settingsCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07) !important;
+}
+
+.settingsInner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.settingsIconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(201, 161, 87, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #c9a157;
+}
+
+.settingsText {
+  flex: 1;
+}
+
+.settingsTitle {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--mantine-color-text);
+  margin: 0 0 2px;
+}
+
+[data-mantine-color-scheme='dark'] .settingsTitle {
+  color: #f0f0ee;
+}
+
+.settingsSub {
+  font-size: 12px;
+  color: var(--mantine-color-dimmed);
+  margin: 0;
 }

@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import type { Env } from "../../index.types";
 import {
+  certificateCountsController,
   certificatesPageController,
   certificatesSearchController,
   createCertificateController,
@@ -23,6 +24,7 @@ const router = new Hono<Env>({ strict: false });
 
 router.use("/certificates/*", requireAuth);
 
+router.get("/certificates/counts", certificateCountsController);
 router.post(
   "/certificates/:type/page",
   validateJson(certificatesPageSchema),

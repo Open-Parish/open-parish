@@ -47,6 +47,36 @@ export async function getCertificatesPage(
   return getCrud(type).page(db, pageInput, filters);
 }
 
+export async function getCertificateTotals(db: D1Database) {
+  const row = await db
+    .prepare(
+      `SELECT
+        (SELECT COUNT(*) FROM births WHERE deleted = 0 AND LOWER(certificateType) = 'baptismal') AS baptismal,
+        (SELECT COUNT(*) FROM births WHERE deleted = 0 AND LOWER(certificateType) = 'confirmation') AS confirmation,
+        (SELECT COUNT(*) FROM deaths WHERE deleted = 0) AS death,
+        (SELECT COUNT(*) FROM marriages WHERE deleted = 0) AS marriage`,
+    )
+    .first<{
+      baptismal: number;
+      confirmation: number;
+      death: number;
+      marriage: number;
+    }>();
+
+  const baptismal = Number(row?.baptismal ?? 0);
+  const confirmation = Number(row?.confirmation ?? 0);
+  const death = Number(row?.death ?? 0);
+  const marriage = Number(row?.marriage ?? 0);
+
+  return {
+    baptismal,
+    confirmation,
+    death,
+    marriage,
+    total: baptismal + confirmation + death + marriage,
+  };
+}
+
 export async function getCertificateById(
   db: D1Database,
   type: CertificateRouteType,

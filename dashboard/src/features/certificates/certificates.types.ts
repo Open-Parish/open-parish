@@ -25,6 +25,14 @@ export type CertificatePageResponse = {
   nextPage: number | null;
 };
 
+export type CertificateTotals = {
+  baptismal: number;
+  confirmation: number;
+  death: number;
+  marriage: number;
+  total: number;
+};
+
 export type FormField = {
   path: string;
   label: string;
