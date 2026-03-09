@@ -1,7 +1,9 @@
 import type { SettingsRecord } from "./types.types";
+import { asString, asTrimmedString } from "../utils/normalize";
+import { pickString } from "../utils/pickString";
 
 function escapeHtml(value: unknown): string {
-  return String(value ?? "")
+  return asString(value)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
@@ -17,8 +19,8 @@ function toRecord(value: unknown): Record<string, unknown> {
 
 function fullName(value: unknown): string {
   const person = toRecord(value);
-  const firstName = String(person.firstName ?? "").trim();
-  const lastName = String(person.lastName ?? "").trim();
+  const firstName = asTrimmedString(person.firstName);
+  const lastName = asTrimmedString(person.lastName);
   return `${firstName} ${lastName}`.trim();
 }
 
@@ -38,7 +40,7 @@ function ordinalSuffix(day: number): string {
 
 function fullDateLine(value: unknown): string {
   if (!value) return "";
-  const date = new Date(String(value));
+  const date = new Date(asString(value));
   if (Number.isNaN(date.getTime())) return "";
 
   const day = date.getUTCDate();
@@ -165,7 +167,7 @@ export function buildCertificateHtml(input: {
     authToken,
   );
   const rightImageUrl = resolveAssetUrl(
-    settings.pdfImageRight || settings.pdfImageLeft,
+    pickString(settings.pdfImageRight, settings.pdfImageLeft),
     baseUrl,
     authToken,
   );
@@ -266,7 +268,7 @@ function resolveAssetUrl(
   baseUrl: string,
   authToken?: string,
 ): string {
-  const trimmed = String(value ?? "").trim();
+  const trimmed = asTrimmedString(value);
   if (!trimmed) return "";
   if (
     trimmed.startsWith("http://") ||

@@ -1,6 +1,7 @@
 import { z } from "zod";
+import { isFileValue } from "../../shared/utils/typeGuards";
 
-const fileSchema = z.custom<File>((value) => value instanceof File, {
+const fileSchema = z.custom<File>((value) => isFileValue(value), {
   message: "Invalid file upload",
 });
 

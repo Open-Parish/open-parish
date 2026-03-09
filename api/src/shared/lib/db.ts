@@ -1,10 +1,11 @@
 import type { SettingsRecord } from "./types.types";
 import { DEFAULT_SETTINGS } from "./constants";
+import { asTrimmedString } from "../utils/normalize";
 
 const LEGACY_ASSET_PATHS = new Set(["/logo.png", "/signature.png"]);
 
 function normalizeAssetPath(value: string | null | undefined): string {
-  const trimmed = String(value ?? "").trim();
+  const trimmed = asTrimmedString(value);
   if (!trimmed || LEGACY_ASSET_PATHS.has(trimmed)) {
     return "";
   }

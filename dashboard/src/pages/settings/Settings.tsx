@@ -17,6 +17,9 @@ import { useEffect, useMemo, useRef } from 'react';
 import { PageShell } from '@/components/PageShell/PageShell';
 import { getSettings, updateSettings } from '@/features/settings/settingsApi';
 import { getToken } from '@/lib/session';
+import { createObjectUrlIfFile } from '@/utils/createObjectUrlIfFile';
+import { fileValueOrNull } from '@/utils/fileValueOrNull';
+import { pickNormalizedString } from '@/utils/pickNormalizedString';
 import type { SettingsForm } from './Settings.types';
 import { resolveAssetPreview } from './utils/resolveAssetPreview';
 
@@ -59,30 +62,26 @@ export function Settings() {
     },
   });
 
-  const leftImageObjectUrl = useMemo(
-    () => (form.values.pdfImageLeft instanceof File ? URL.createObjectURL(form.values.pdfImageLeft) : ''),
-    [form.values.pdfImageLeft],
-  );
+  const leftImageObjectUrl = useMemo(() => createObjectUrlIfFile(form.values.pdfImageLeft), [form.values.pdfImageLeft]);
   const rightImageObjectUrl = useMemo(
-    () => (form.values.pdfImageRight instanceof File ? URL.createObjectURL(form.values.pdfImageRight) : ''),
+    () => createObjectUrlIfFile(form.values.pdfImageRight),
     [form.values.pdfImageRight],
   );
   const signatureObjectUrl = useMemo(
-    () =>
-      form.values.currentPriestSignature instanceof File ? URL.createObjectURL(form.values.currentPriestSignature) : '',
+    () => createObjectUrlIfFile(form.values.currentPriestSignature),
     [form.values.currentPriestSignature],
   );
 
   const leftImagePreview = useMemo(
-    () => resolveAssetPreview(leftImageObjectUrl || String(form.values.pdfImageLeft || ''), authToken),
+    () => resolveAssetPreview(pickNormalizedString(leftImageObjectUrl, form.values.pdfImageLeft), authToken),
     [authToken, form.values.pdfImageLeft, leftImageObjectUrl],
   );
   const rightImagePreview = useMemo(
-    () => resolveAssetPreview(rightImageObjectUrl || String(form.values.pdfImageRight || ''), authToken),
+    () => resolveAssetPreview(pickNormalizedString(rightImageObjectUrl, form.values.pdfImageRight), authToken),
     [authToken, form.values.pdfImageRight, rightImageObjectUrl],
   );
   const signaturePreview = useMemo(
-    () => resolveAssetPreview(signatureObjectUrl || String(form.values.currentPriestSignature || ''), authToken),
+    () => resolveAssetPreview(pickNormalizedString(signatureObjectUrl, form.values.currentPriestSignature), authToken),
     [authToken, form.values.currentPriestSignature, signatureObjectUrl],
   );
 
@@ -153,9 +152,7 @@ export function Settings() {
                       placeholder="Upload signature image"
                       accept="image/*"
                       clearable
-                      value={
-                        form.values.currentPriestSignature instanceof File ? form.values.currentPriestSignature : null
-                      }
+                      value={fileValueOrNull(form.values.currentPriestSignature)}
                       onChange={(file) =>
                         form.setFieldValue('currentPriestSignature', file ?? query.data?.currentPriestSignature ?? '')
                       }
@@ -165,7 +162,7 @@ export function Settings() {
                       placeholder="Upload left header image"
                       accept="image/*"
                       clearable
-                      value={form.values.pdfImageLeft instanceof File ? form.values.pdfImageLeft : null}
+                      value={fileValueOrNull(form.values.pdfImageLeft)}
                       onChange={(file) => form.setFieldValue('pdfImageLeft', file ?? query.data?.pdfImageLeft ?? '')}
                     />
                   </SimpleGrid>
@@ -175,7 +172,7 @@ export function Settings() {
                       placeholder="Upload right header image"
                       accept="image/*"
                       clearable
-                      value={form.values.pdfImageRight instanceof File ? form.values.pdfImageRight : null}
+                      value={fileValueOrNull(form.values.pdfImageRight)}
                       onChange={(file) => form.setFieldValue('pdfImageRight', file ?? query.data?.pdfImageRight ?? '')}
                     />
                   </SimpleGrid>

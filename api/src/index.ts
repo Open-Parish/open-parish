@@ -1,12 +1,13 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { HTTPException } from "hono/http-exception";
 import { authRoutes } from "./domains/auth/auth.routes";
 import { certificateRoutes } from "./domains/certificates/certificates.routes";
 import { settingsRoutes } from "./domains/settings/settings.routes";
 import { uploadRoutes } from "./domains/uploads/uploads.routes";
 import { peopleRoutes } from "./domains/people/people.routes";
 import type { Env } from "./index.types";
+import { errorMessageFromUnknown } from "./shared/utils/errorMessageFromUnknown";
+import { isHttpException } from "./shared/utils/typeGuards";
 export type { Env } from "./index.types";
 
 const app = new Hono<Env>({ strict: false });
@@ -26,7 +27,7 @@ app.route("/", peopleRoutes);
 app.notFound((c) => c.json({ error: true, message: "404 not found" }, 404));
 
 app.onError((err, c) => {
-  if (err instanceof HTTPException) {
+  if (isHttpException(err)) {
     return c.json(
       {
         message: err.message || "Request failed",
@@ -40,7 +41,7 @@ app.onError((err, c) => {
     {
       message: "Internal server error",
       statusCode: 500,
-      details: err instanceof Error ? err.message : String(err),
+      details: errorMessageFromUnknown(err),
     },
     500,
   );

@@ -1,4 +1,5 @@
 import type { CertificateConfig } from './certificates.types';
+import { normalizeText } from '@/utils/normalizeText';
 
 const person = (name: string) => [
   { path: `${name}.firstName`, label: `${name} First Name` },
@@ -45,7 +46,7 @@ export const certificateConfigs: CertificateConfig[] = [
       pageNumber: 0,
     },
     nameFromRecord: (record) => `${record.firstName ?? ''} ${record.lastName ?? ''}`.trim(),
-    secondaryFromRecord: (record) => String(record.occasionDate ?? ''),
+    secondaryFromRecord: (record) => normalizeText(record.occasionDate),
   },
   {
     key: 'confirmation',
@@ -82,7 +83,7 @@ export const certificateConfigs: CertificateConfig[] = [
       pageNumber: 0,
     },
     nameFromRecord: (record) => `${record.firstName ?? ''} ${record.lastName ?? ''}`.trim(),
-    secondaryFromRecord: (record) => String(record.occasionDate ?? ''),
+    secondaryFromRecord: (record) => normalizeText(record.occasionDate),
   },
   {
     key: 'death',
@@ -122,7 +123,7 @@ export const certificateConfigs: CertificateConfig[] = [
       pageNumber: 0,
     },
     nameFromRecord: (record) => `${record.firstName ?? ''} ${record.lastName ?? ''}`.trim(),
-    secondaryFromRecord: (record) => String(record.burialDate ?? ''),
+    secondaryFromRecord: (record) => normalizeText(record.burialDate),
   },
   {
     key: 'marriage',
@@ -163,7 +164,7 @@ export const certificateConfigs: CertificateConfig[] = [
       const groom = (record.groom as { firstName?: string; lastName?: string } | undefined) ?? {};
       return `${bride.firstName ?? ''} ${bride.lastName ?? ''} + ${groom.firstName ?? ''} ${groom.lastName ?? ''}`.trim();
     },
-    secondaryFromRecord: (record) => String(record.occasionDate ?? ''),
+    secondaryFromRecord: (record) => normalizeText(record.occasionDate),
   },
 ];
 

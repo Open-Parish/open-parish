@@ -12,6 +12,7 @@ import { FieldInput } from './helpers/FieldInput';
 import { fieldLabel } from './helpers/fieldLabel';
 import { groupFields } from './helpers/groupFields';
 import { isPersonNamePath } from './helpers/isPersonNamePath';
+import { normalizeText } from '@/utils/normalizeText';
 
 export function CertificateFormPage() {
   const location = useLocation();
@@ -126,12 +127,12 @@ export function CertificateFormPage() {
                               const nextValues = setByPath(form.values, field.path, val);
                               form.setValues(nextValues);
                               if (isPersonNamePath(field.path)) {
-                                setPersonQuery(String(val ?? ''));
+                                setPersonQuery(normalizeText(val));
                               }
                             }}
                             onFocus={() => {
                               setActivePersonFieldPath(field.path);
-                              setPersonQuery(String(getByPath(form.values, field.path) ?? ''));
+                              setPersonQuery(normalizeText(getByPath(form.values, field.path)));
                             }}
                             data={activePersonFieldPath === field.path ? personSuggestions : []}
                             loading={activePersonFieldPath === field.path && autocompleteQuery.isFetching}
@@ -149,13 +150,13 @@ export function CertificateFormPage() {
                           const nextValues = setByPath(form.values, target.path, val);
                           form.setValues(nextValues);
                           if (isPersonNamePath(target.path)) {
-                            setPersonQuery(String(val ?? ''));
+                            setPersonQuery(normalizeText(val));
                           }
                         }}
                         onFocus={() => {
                           const target = group.fields[0];
                           setActivePersonFieldPath(target.path);
-                          setPersonQuery(String(getByPath(form.values, target.path) ?? ''));
+                          setPersonQuery(normalizeText(getByPath(form.values, target.path)));
                         }}
                         data={activePersonFieldPath === group.fields[0].path ? personSuggestions : []}
                         loading={activePersonFieldPath === group.fields[0].path && autocompleteQuery.isFetching}

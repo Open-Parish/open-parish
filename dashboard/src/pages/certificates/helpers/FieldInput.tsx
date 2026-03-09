@@ -1,4 +1,5 @@
 import { Autocomplete, NumberInput, Text, TextInput } from '@mantine/core';
+import { normalizeText } from '@/utils/normalizeText';
 import type { FieldInputProps } from './FieldInput.types';
 
 export function FieldInput({ field, label, value, onChange, onFocus, data, loading }: FieldInputProps) {
@@ -7,7 +8,7 @@ export function FieldInput({ field, label, value, onChange, onFocus, data, loadi
       <TextInput
         label={label}
         type="date"
-        value={value ? String(value).slice(0, 10) : ''}
+        value={normalizeText(value).slice(0, 10)}
         onChange={(e) => onChange(e.currentTarget.value)}
       />
     );
@@ -25,7 +26,7 @@ export function FieldInput({ field, label, value, onChange, onFocus, data, loadi
       <Autocomplete
         label={label}
         data={data ?? []}
-        value={String(value ?? '')}
+        value={normalizeText(value)}
         onChange={(next) => onChange(next)}
         onFocus={onFocus}
         limit={10}
@@ -44,7 +45,7 @@ export function FieldInput({ field, label, value, onChange, onFocus, data, loadi
   return (
     <TextInput
       label={label}
-      value={String(value ?? '')}
+      value={normalizeText(value)}
       onChange={(e) => onChange(e.currentTarget.value)}
       onFocus={onFocus}
     />

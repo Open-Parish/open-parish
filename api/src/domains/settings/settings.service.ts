@@ -7,6 +7,7 @@ import {
 } from "../../shared/lib/security/password";
 import type { SettingsRecord } from "../../shared/lib/types.types";
 import { asString } from "../../shared/utils/normalize";
+import { isFileValue } from "../../shared/utils/typeGuards";
 import { uploadToR2 } from "../../shared/utils/upload";
 
 export async function getSettings(db: D1Database) {
@@ -27,17 +28,17 @@ export async function updateSettings(
   let pdfImageRight = existing.pdfImageRight;
   let currentPriestSignature = existing.currentPriestSignature;
 
-  if (leftImageFile instanceof File && leftImageFile.size > 0) {
+  if (isFileValue(leftImageFile) && leftImageFile.size > 0) {
     pdfImageLeft = await uploadToR2(env, leftImageFile);
   }
 
-  if (rightImageFile instanceof File && rightImageFile.size > 0) {
+  if (isFileValue(rightImageFile) && rightImageFile.size > 0) {
     pdfImageRight = await uploadToR2(env, rightImageFile);
   } else if (!pdfImageRight) {
     pdfImageRight = pdfImageLeft;
   }
 
-  if (signatureFile instanceof File && signatureFile.size > 0) {
+  if (isFileValue(signatureFile) && signatureFile.size > 0) {
     currentPriestSignature = await uploadToR2(env, signatureFile);
   }
 

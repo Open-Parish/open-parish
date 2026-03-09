@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { normalizeText } from '@/utils/normalizeText';
 
 export function getByPath(obj: unknown, path: string): unknown {
   return path.split('.').reduce<unknown>((current, key) => {
@@ -27,7 +28,7 @@ export function setByPath(obj: Record<string, unknown>, path: string, value: unk
 
 export function friendlyDate(value: unknown): string {
   if (!value) return '-';
-  const date = new Date(String(value));
+  const date = new Date(normalizeText(value));
   if (Number.isNaN(date.getTime())) return '-';
   return format(date, 'MMM dd, yyyy');
 }

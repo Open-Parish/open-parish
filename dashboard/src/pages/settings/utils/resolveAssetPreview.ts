@@ -1,8 +1,9 @@
 import { resolveApiUrl } from '@/api/client';
+import { normalizeText } from '@/utils/normalizeText';
 import { withAuthToken } from './withAuthToken';
 
 export function resolveAssetPreview(value: string, authToken?: string | null): string {
-  const trimmed = String(value ?? '').trim();
+  const trimmed = normalizeText(value).trim();
   if (!trimmed) return '';
 
   if (

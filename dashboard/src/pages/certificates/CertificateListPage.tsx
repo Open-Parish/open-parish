@@ -8,6 +8,7 @@ import { PageShell } from '@/components/PageShell/PageShell';
 import { QueryState } from '@/components/QueryState/QueryState';
 import { API_BASE_URL } from '@/config';
 import { getToken } from '@/lib/session';
+import { normalizeText } from '@/utils/normalizeText';
 import { listCertificates, removeCertificate } from '@/features/certificates/api';
 import { getCertificateConfigByPath } from '@/features/certificates/config';
 import { friendlyDate } from '@/features/certificates/utils';
@@ -107,7 +108,7 @@ export function CertificateListPage() {
             >
               {docs.map((row) => {
                 const { id: rawId, occasionDate, createdAt, updatedAt } = row;
-                const id = String(rawId ?? '');
+                const id = normalizeText(rawId);
                 const printType = config.certificateType ?? config.apiModule;
                 const printLink = `${API_BASE_URL}/certificates/${config.apiModule}/print/${id}/${printType}?auth_token=${token ?? ''}`;
 

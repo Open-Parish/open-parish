@@ -1,7 +1,17 @@
+import { isDateValue } from "./typeGuards";
+
 export function asString(value: unknown, fallback = ""): string {
   if (typeof value === "string") return value;
   if (value === null || value === undefined) return fallback;
-  return String(value);
+  if (
+    typeof value === "number" ||
+    typeof value === "boolean" ||
+    typeof value === "bigint"
+  ) {
+    return String(value);
+  }
+  if (isDateValue(value)) return value.toISOString();
+  return fallback;
 }
 
 export function asTrimmedLowercase(value: unknown): string {
