@@ -9,6 +9,7 @@
     "types": ["./worker-configuration.d.ts"],
     "jsx": "react-jsx",
     "allowJs": false,
+    "resolveJsonModule": true,
     "noEmit": true
   },
   "include": ["src/index.ts", "src/cf/**/*.ts"]

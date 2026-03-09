@@ -1,0 +1,393 @@
+{
+  "baptismal": [
+    {
+      "firstName": "Jose",
+      "lastName": "Rizal",
+      "address": "Calamba, Philippines",
+      "parent1FirstName": "Francisco",
+      "parent1LastName": "Mercado",
+      "parent2FirstName": "Teodora",
+      "parent2LastName": "Alonso",
+      "sponsor1FirstName": "Paciano",
+      "sponsor1LastName": "Rizal",
+      "sponsor2FirstName": "Narcisa",
+      "sponsor2LastName": "Rizal",
+      "celebrant": {
+      "firstName": "Rev. Fr. Manuel",
+      "lastName": "Santos, S.Th.D."
+    },
+      "birthDate": "1861-06-19",
+      "occasionDate": "1861-06-22",
+      "bookNumber": 12,
+      "pageNumber": 87
+    },
+    {
+      "firstName": "Marie",
+      "lastName": "Curie",
+      "address": "Warsaw, Poland",
+      "parent1FirstName": "Wladyslaw",
+      "parent1LastName": "Sklodowski",
+      "parent2FirstName": "Bronislawa",
+      "parent2LastName": "Boguska",
+      "sponsor1FirstName": "Jozef",
+      "sponsor1LastName": "Sklodowski",
+      "sponsor2FirstName": "Helena",
+      "sponsor2LastName": "Sklodowska",
+      "celebrant": {
+      "firstName": "Rev. Fr. Jan",
+      "lastName": "Kowalski, J.C.L."
+    },
+      "birthDate": "1867-11-07",
+      "occasionDate": "1867-11-10",
+      "bookNumber": 13,
+      "pageNumber": 12
+    },
+    {
+      "firstName": "Albert",
+      "lastName": "Einstein",
+      "address": "Ulm, Germany",
+      "parent1FirstName": "Hermann",
+      "parent1LastName": "Einstein",
+      "sponsor1FirstName": "Jakob",
+      "sponsor1LastName": "Einstein",
+      "celebrant": {
+      "firstName": "Rev. Fr. Lukas",
+      "lastName": "Weber, O.P."
+    },
+      "birthDate": "1879-03-14",
+      "occasionDate": "1879-03-17",
+      "bookNumber": 14,
+      "pageNumber": 55
+    },
+    {
+      "firstName": "Frida",
+      "lastName": "Kahlo",
+      "address": "Coyoacan, Mexico",
+      "parent1FirstName": "Guillermo",
+      "parent1LastName": "Kahlo",
+      "parent2FirstName": "Matilde",
+      "parent2LastName": "Calderon",
+      "sponsor1FirstName": "Cristina",
+      "sponsor1LastName": "Kahlo",
+      "sponsor2FirstName": "Matilde",
+      "sponsor2LastName": "Calderon",
+      "celebrant": {
+      "firstName": "Rev. Fr. Alejandro",
+      "lastName": "Ruiz, S.J."
+    },
+      "birthDate": "1907-07-06",
+      "occasionDate": "1907-07-09",
+      "bookNumber": 15,
+      "pageNumber": 101
+    },
+    {
+      "firstName": "Nelson",
+      "lastName": "Mandela",
+      "address": "Mvezo, South Africa",
+      "parent1FirstName": "Gadla",
+      "parent1LastName": "Mandela",
+      "parent2FirstName": "Nosekeni",
+      "parent2LastName": "Fanny",
+      "sponsor1FirstName": "Justice",
+      "sponsor1LastName": "Dalindyebo",
+      "sponsor2FirstName": "Nomafu",
+      "sponsor2LastName": "Mabandla",
+      "celebrant": {
+      "firstName": "Rev. Fr. Themba",
+      "lastName": "Ndlovu, S.T.L."
+    },
+      "birthDate": "1918-07-18",
+      "occasionDate": "1918-07-21",
+      "bookNumber": 16,
+      "pageNumber": 9
+    }
+  ],
+  "confirmation": [
+    {
+      "firstName": "Teresa",
+      "lastName": "Calcutta",
+      "address": "Skopje, North Macedonia",
+      "parent1FirstName": "Nikolle",
+      "parent1LastName": "Bojaxhiu",
+      "parent2FirstName": "Drana",
+      "parent2LastName": "Bojaxhiu",
+      "celebrant": {
+      "firstName": "Rev. Fr. Lazar",
+      "lastName": "Petrovski, O.C.D."
+    },
+      "sponsor1FirstName": "Agnes",
+      "sponsor1LastName": "Janko",
+      "sponsor2FirstName": "Maria",
+      "sponsor2LastName": "Bojaxhiu",
+      "birthDate": "1910-08-26",
+      "occasionDate": "1928-09-15",
+      "bookNumber": 21,
+      "pageNumber": 201
+    },
+    {
+      "firstName": "Karol",
+      "lastName": "Wojtyla",
+      "address": "Wadowice, Poland",
+      "parent1FirstName": "Karol",
+      "parent1LastName": "Wojtyla",
+      "parent2FirstName": "Emilia",
+      "parent2LastName": "Kaczorowska",
+      "celebrant": {
+      "firstName": "Rev. Fr. Stefan",
+      "lastName": "Nowak, J.C.D."
+    },
+      "sponsor1FirstName": "Edmund",
+      "sponsor1LastName": "Wojtyla",
+      "sponsor2FirstName": "Maria",
+      "sponsor2LastName": "Wojtyla",
+      "birthDate": "1920-05-18",
+      "occasionDate": "1938-06-18",
+      "bookNumber": 21,
+      "pageNumber": 202
+    },
+    {
+      "firstName": "Oscar",
+      "lastName": "Romero",
+      "address": "Ciudad Barrios, El Salvador",
+      "parent1FirstName": "Santos",
+      "parent1LastName": "Romero",
+      "celebrant": {
+      "firstName": "Rev. Fr. Miguel",
+      "lastName": "Rivera, S.J."
+    },
+      "sponsor1FirstName": "Rutilio",
+      "sponsor1LastName": "Grande",
+      "birthDate": "1917-08-15",
+      "occasionDate": "1931-11-11",
+      "bookNumber": 22,
+      "pageNumber": 88
+    },
+    {
+      "firstName": "Giovanni",
+      "lastName": "Bosco",
+      "address": "Becchi, Italy",
+      "parent1FirstName": "Francesco",
+      "parent1LastName": "Bosco",
+      "parent2FirstName": "Margherita",
+      "parent2LastName": "Occhiena",
+      "celebrant": {
+      "firstName": "Rev. Fr. Giuseppe",
+      "lastName": "Moretti, S.D.B."
+    },
+      "sponsor1FirstName": "Michele",
+      "sponsor1LastName": "Rua",
+      "sponsor2FirstName": "Teresa",
+      "sponsor2LastName": "Bosco",
+      "birthDate": "1815-08-16",
+      "occasionDate": "1827-10-14",
+      "bookNumber": 22,
+      "pageNumber": 99
+    },
+    {
+      "firstName": "Kateri",
+      "lastName": "Tekakwitha",
+      "address": "Auriesville, United States",
+      "parent1FirstName": "Kenneronkwa",
+      "parent1LastName": "Tekakwitha",
+      "celebrant": {
+      "firstName": "Rev. Fr. Jacques",
+      "lastName": "Martin, S.J."
+    },
+      "sponsor1FirstName": "Anastasia",
+      "sponsor1LastName": "Karonhiakta",
+      "birthDate": "1656-01-01",
+      "occasionDate": "1669-04-18",
+      "bookNumber": 23,
+      "pageNumber": 47
+    }
+  ],
+  "deaths": [
+    {
+      "firstName": "Leonardo",
+      "lastName": "da Vinci",
+      "address": "Amboise, France",
+      "age": "67",
+      "spouseName": "Francesco Melzi",
+      "burialDate": "1519-05-04",
+      "deathDate": "1519-05-02",
+      "burialPlace": "Chapel of Saint-Hubert",
+      "sacraments": "Last Rites",
+      "celebrant": {
+      "firstName": "Rev. Fr. Jean",
+      "lastName": "Dupont, O.P."
+    },
+      "bookNumber": 8,
+      "pageNumber": 44
+    },
+    {
+      "firstName": "Isaac",
+      "lastName": "Newton",
+      "address": "London, United Kingdom",
+      "age": "84",
+      "spouseName": "Catherine Barton",
+      "burialDate": "1727-03-31",
+      "deathDate": "1727-03-20",
+      "burialPlace": "Westminster Abbey",
+      "sacraments": "Last Rites",
+      "celebrant": {
+      "firstName": "Rev. Fr. Thomas",
+      "lastName": "Whitaker, D.D."
+    },
+      "bookNumber": 8,
+      "pageNumber": 45
+    },
+    {
+      "firstName": "Mahatma",
+      "lastName": "Gandhi",
+      "address": "New Delhi, India",
+      "age": "78",
+      "spouseName": "Kasturba Gandhi",
+      "burialDate": "1948-01-31",
+      "deathDate": "1948-01-30",
+      "burialPlace": "Raj Ghat Memorial",
+      "sacraments": "Anointing of the Sick",
+      "celebrant": {
+      "firstName": "Rev. Fr. Anthony",
+      "lastName": "D'Souza, S.J."
+    },
+      "bookNumber": 9,
+      "pageNumber": 11
+    },
+    {
+      "firstName": "Simon",
+      "lastName": "Bolivar",
+      "address": "Santa Marta, Colombia",
+      "age": "47",
+      "spouseName": "Maria Antonia Bolivar",
+      "burialDate": "1830-12-18",
+      "deathDate": "1830-12-17",
+      "burialPlace": "Cathedral Basilica",
+      "sacraments": "Last Rites",
+      "celebrant": {
+      "firstName": "Rev. Fr. Rafael",
+      "lastName": "Ortega, J.C.L."
+    },
+      "bookNumber": 9,
+      "pageNumber": 12
+    },
+    {
+      "firstName": "Nelson",
+      "lastName": "Mandela",
+      "address": "Johannesburg, South Africa",
+      "age": "95",
+      "spouseName": "Graca Machel",
+      "burialDate": "2013-12-15",
+      "deathDate": "2013-12-05",
+      "burialPlace": "Qunu Burial Site",
+      "sacraments": "Anointing of the Sick",
+      "celebrant": {
+      "firstName": "Rev. Fr. Peter",
+      "lastName": "Mokoena, S.T.L."
+    },
+      "bookNumber": 9,
+      "pageNumber": 13
+    }
+  ],
+  "marriages": [
+    {
+      "brideFirstName": "Marie",
+      "brideLastName": "Curie",
+      "groomFirstName": "Pierre",
+      "groomLastName": "Curie",
+      "sponsor1FirstName": "Paul",
+      "sponsor1LastName": "Langevin",
+      "sponsor2FirstName": "Eugene",
+      "sponsor2LastName": "Curie",
+      "licenseNumber": "LCR-FR-1895-0001",
+      "registryNumber": "REG-FR-1895-001",
+      "remarks": "Historical sample entry",
+      "occasionDate": "1895-07-26",
+      "celebrant": {
+      "firstName": "Rev. Fr. Henri",
+      "lastName": "Delacroix, O.P."
+    },
+      "bookNumber": 27,
+      "pageNumber": 319
+    },
+    {
+      "brideFirstName": "Victoria",
+      "brideLastName": "Hanover",
+      "groomFirstName": "Albert",
+      "groomLastName": "Saxe-Coburg",
+      "sponsor1FirstName": "Leopold",
+      "sponsor1LastName": "Belgium",
+      "sponsor2FirstName": "Louise",
+      "sponsor2LastName": "Saxe",
+      "licenseNumber": "LCR-UK-1840-0001",
+      "registryNumber": "REG-UK-1840-001",
+      "remarks": "Historical sample entry",
+      "occasionDate": "1840-02-10",
+      "celebrant": {
+      "firstName": "Rev. Fr. William",
+      "lastName": "Ashford, D.D."
+    },
+      "bookNumber": 27,
+      "pageNumber": 320
+    },
+    {
+      "brideFirstName": "Frida",
+      "brideLastName": "Kahlo",
+      "groomFirstName": "Diego",
+      "groomLastName": "Rivera",
+      "sponsor1FirstName": "Cristina",
+      "sponsor1LastName": "Kahlo",
+      "sponsor2FirstName": "Miguel",
+      "sponsor2LastName": "Nolasco",
+      "licenseNumber": "LCR-MX-1929-0001",
+      "registryNumber": "REG-MX-1929-001",
+      "remarks": "Historical sample entry",
+      "occasionDate": "1929-08-21",
+      "celebrant": {
+      "firstName": "Rev. Fr. Javier",
+      "lastName": "Moreno, S.J."
+    },
+      "bookNumber": 27,
+      "pageNumber": 321
+    },
+    {
+      "brideFirstName": "Napoleon",
+      "brideLastName": "Bonaparte",
+      "groomFirstName": "Josephine",
+      "groomLastName": "Beauharnais",
+      "sponsor1FirstName": "Paul",
+      "sponsor1LastName": "Barras",
+      "sponsor2FirstName": "Jean",
+      "sponsor2LastName": "Tallien",
+      "licenseNumber": "LCR-FR-1796-0001",
+      "registryNumber": "REG-FR-1796-002",
+      "remarks": "Historical sample entry",
+      "occasionDate": "1796-03-09",
+      "celebrant": {
+      "firstName": "Rev. Fr. Claude",
+      "lastName": "Mercier, J.C.D."
+    },
+      "bookNumber": 28,
+      "pageNumber": 40
+    },
+    {
+      "brideFirstName": "Shah",
+      "brideLastName": "Jahan",
+      "groomFirstName": "Mumtaz",
+      "groomLastName": "Mahal",
+      "sponsor1FirstName": "Asaf",
+      "sponsor1LastName": "Khan",
+      "sponsor2FirstName": "Nur",
+      "sponsor2LastName": "Jahan",
+      "licenseNumber": "LCR-IN-1612-0001",
+      "registryNumber": "REG-IN-1612-001",
+      "remarks": "Historical sample entry",
+      "occasionDate": "1612-05-10",
+      "celebrant": {
+      "firstName": "Rev. Fr. Thomas",
+      "lastName": "D'Silva, S.T.L."
+    },
+      "bookNumber": 28,
+      "pageNumber": 41
+    }
+  ]
+}
