@@ -1,5 +1,5 @@
 import { Outlet, useLocation, NavLink } from 'react-router-dom';
-import { ActionIcon, Avatar, Tooltip } from '@mantine/core';
+import { ActionIcon, Tooltip } from '@mantine/core';
 import {
   IconLayoutDashboard,
   IconSettings,
@@ -7,7 +7,6 @@ import {
   IconFlame,
   IconCross,
   IconHearts,
-  IconBell,
   IconSun,
   IconMoon,
   IconLogout,
@@ -87,15 +86,6 @@ export function DashboardLayout() {
           </div>
 
           <div className={styles.headerRight}>
-            <Tooltip label="Notifications" withArrow>
-              <div className={styles.bellWrap}>
-                <ActionIcon variant="subtle" className={styles.headerIconBtn}>
-                  <IconBell size={17} />
-                </ActionIcon>
-                <span className={styles.notifBadge} aria-hidden="true" />
-              </div>
-            </Tooltip>
-
             <Tooltip label={colorScheme === 'dark' ? 'Light mode' : 'Dark mode'} withArrow>
               <ActionIcon variant="subtle" className={styles.headerIconBtn} onClick={toggleColorScheme}>
                 {colorScheme === 'dark' ? <IconSun size={17} /> : <IconMoon size={17} />}
@@ -103,9 +93,6 @@ export function DashboardLayout() {
             </Tooltip>
 
             <div className={styles.userChip}>
-              <Avatar className={styles.userAvatar} radius="xl">
-                AD
-              </Avatar>
               <span className={styles.userName}>{email}</span>
               <ActionIcon variant="subtle" className={styles.headerIconBtn} onClick={logout} aria-label="Logout">
                 <IconLogout size={16} />

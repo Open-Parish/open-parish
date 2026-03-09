@@ -146,17 +146,38 @@ export function Settings() {
                 </Text>
                 <Stack mt={4}>
                   <TextInput label="Priest Name" {...form.getInputProps('currentPriest')} />
+                  <FileInput
+                    label="Priest Signature"
+                    placeholder="Upload signature image"
+                    accept="image/*"
+                    clearable
+                    value={fileValueOrNull(form.values.currentPriestSignature)}
+                    onChange={(file) =>
+                      form.setFieldValue('currentPriestSignature', file ?? query.data?.currentPriestSignature ?? '')
+                    }
+                  />
+                  <Group>
+                    {signaturePreview ? (
+                      <Image src={signaturePreview} alt="Priest signature preview" mah={90} fit="contain" />
+                    ) : null}
+                    <Text size="sm" c="dimmed">
+                      Signature preview
+                    </Text>
+                  </Group>
+                </Stack>
+              </Stack>
+
+              <Divider />
+
+              <Stack gap="xs">
+                <Text size="xs" fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.06em' }}>
+                  PDF Header Images
+                </Text>
+                <Text size="xs" c="dimmed">
+                  Upload the left and right images shown in printed certificate headers.
+                </Text>
+                <Stack mt={4}>
                   <SimpleGrid cols={{ base: 1, xs: 2 }} spacing="md">
-                    <FileInput
-                      label="Priest Signature"
-                      placeholder="Upload signature image"
-                      accept="image/*"
-                      clearable
-                      value={fileValueOrNull(form.values.currentPriestSignature)}
-                      onChange={(file) =>
-                        form.setFieldValue('currentPriestSignature', file ?? query.data?.currentPriestSignature ?? '')
-                      }
-                    />
                     <FileInput
                       label="PDF Header Image (Left)"
                       placeholder="Upload left header image"
@@ -165,8 +186,6 @@ export function Settings() {
                       value={fileValueOrNull(form.values.pdfImageLeft)}
                       onChange={(file) => form.setFieldValue('pdfImageLeft', file ?? query.data?.pdfImageLeft ?? '')}
                     />
-                  </SimpleGrid>
-                  <SimpleGrid cols={{ base: 1, xs: 2 }} spacing="md">
                     <FileInput
                       label="PDF Header Image (Right)"
                       placeholder="Upload right header image"
@@ -178,14 +197,6 @@ export function Settings() {
                   </SimpleGrid>
                   <SimpleGrid cols={{ base: 1, xs: 2 }} spacing="md">
                     <Group>
-                      {signaturePreview ? (
-                        <Image src={signaturePreview} alt="Priest signature preview" mah={90} fit="contain" />
-                      ) : null}
-                      <Text size="sm" c="dimmed">
-                        Signature preview
-                      </Text>
-                    </Group>
-                    <Group>
                       {leftImagePreview ? (
                         <Image src={leftImagePreview} alt="PDF header left image preview" mah={90} fit="contain" />
                       ) : null}
@@ -193,8 +204,6 @@ export function Settings() {
                         Left image preview
                       </Text>
                     </Group>
-                  </SimpleGrid>
-                  <SimpleGrid cols={{ base: 1, xs: 2 }} spacing="md">
                     <Group>
                       {rightImagePreview ? (
                         <Image src={rightImagePreview} alt="PDF header right image preview" mah={90} fit="contain" />

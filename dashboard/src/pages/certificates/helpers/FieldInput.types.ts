@@ -4,6 +4,7 @@ export type FieldInputProps = {
   field: FormField;
   label: string;
   value: unknown;
+  error?: string;
   onChange: (val: unknown) => void;
   onFocus?: () => void;
   data?: string[];

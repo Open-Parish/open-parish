@@ -1,12 +1,11 @@
 import { Box, Button, Divider, Group, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { PageShell } from '@/components/PageShell/PageShell';
 import { createCertificate, getCertificate, updateCertificate } from '@/features/certificates/api';
 import { getCertificateConfigByPath } from '@/features/certificates/config';
-import { getByPath, setByPath } from '@/features/certificates/utils';
 import { autocompletePeople } from '@/features/people/api';
 import { FieldInput } from './helpers/FieldInput';
 import { fieldLabel } from './helpers/fieldLabel';
@@ -22,6 +21,8 @@ export function CertificateFormPage() {
   const isEdit = Boolean(id);
   const [activePersonFieldPath, setActivePersonFieldPath] = useState<string | null>(null);
   const [personQuery, setPersonQuery] = useState('');
+  const hydratedDefaultsKeyRef = useRef<string | null>(null);
+  const hydratedDetailKeyRef = useRef<string | null>(null);
 
   const detailQuery = useQuery({
     queryKey: ['cert-detail', config?.key, id],
@@ -55,14 +56,19 @@ export function CertificateFormPage() {
   });
 
   useEffect(() => {
-    if (config) form.setValues(config.defaultValues);
+    if (!config) return;
+    if (hydratedDefaultsKeyRef.current === config.key) return;
+    form.setValues(config.defaultValues);
+    hydratedDefaultsKeyRef.current = config.key;
   }, [config, form]);
 
   useEffect(() => {
-    if (isEdit && detailQuery.data) {
-      form.setValues(detailQuery.data as Record<string, unknown>);
-    }
-  }, [detailQuery.data, form, isEdit]);
+    if (!isEdit || !id || !detailQuery.data) return;
+    const detailHydrationKey = `${config?.key ?? 'unknown'}:${id}`;
+    if (hydratedDetailKeyRef.current === detailHydrationKey) return;
+    form.setValues(detailQuery.data as Record<string, unknown>);
+    hydratedDetailKeyRef.current = detailHydrationKey;
+  }, [config?.key, detailQuery.data, form, id, isEdit]);
 
   const createMutation = useMutation({
     mutationFn: (values: Record<string, unknown>) => {
@@ -88,6 +94,11 @@ export function CertificateFormPage() {
 
   const groups = useMemo(() => groupFields(config?.fields ?? []), [config?.fields]);
   const activeSegment = activePersonFieldPath?.split('.').pop() ?? '';
+  const fieldValue = (path: string) => form.getInputProps(path).value;
+  const fieldError = (path: string) => {
+    const rawError = form.getInputProps(path).error;
+    return typeof rawError === 'string' ? rawError : undefined;
+  };
 
   const personSuggestions = useMemo(() => {
     const items = autocompleteQuery.data ?? [];
@@ -137,17 +148,17 @@ export function CertificateFormPage() {
                             key={field.path}
                             field={field}
                             label={fieldLabel(field, Boolean(group.label))}
-                            value={getByPath(form.values, field.path)}
+                            value={fieldValue(field.path)}
+                            error={fieldError(field.path)}
                             onChange={(val) => {
-                              const nextValues = setByPath(form.values, field.path, val);
-                              form.setValues(nextValues);
+                              form.setFieldValue(field.path, val as never);
                               if (isPersonNamePath(field.path)) {
                                 setPersonQuery(normalizeText(val));
                               }
                             }}
                             onFocus={() => {
                               setActivePersonFieldPath(field.path);
-                              setPersonQuery(normalizeText(getByPath(form.values, field.path)));
+                              setPersonQuery(normalizeText(fieldValue(field.path)));
                             }}
                             data={activePersonFieldPath === field.path ? personSuggestions : []}
                             loading={activePersonFieldPath === field.path && autocompleteQuery.isFetching}
@@ -159,11 +170,11 @@ export function CertificateFormPage() {
                         key={group.fields[0].path}
                         field={group.fields[0]}
                         label={fieldLabel(group.fields[0], Boolean(group.label))}
-                        value={getByPath(form.values, group.fields[0].path)}
+                        value={fieldValue(group.fields[0].path)}
+                        error={fieldError(group.fields[0].path)}
                         onChange={(val) => {
                           const target = group.fields[0];
-                          const nextValues = setByPath(form.values, target.path, val);
-                          form.setValues(nextValues);
+                          form.setFieldValue(target.path, val as never);
                           if (isPersonNamePath(target.path)) {
                             setPersonQuery(normalizeText(val));
                           }
@@ -171,7 +182,7 @@ export function CertificateFormPage() {
                         onFocus={() => {
                           const target = group.fields[0];
                           setActivePersonFieldPath(target.path);
-                          setPersonQuery(normalizeText(getByPath(form.values, target.path)));
+                          setPersonQuery(normalizeText(fieldValue(target.path)));
                         }}
                         data={activePersonFieldPath === group.fields[0].path ? personSuggestions : []}
                         loading={activePersonFieldPath === group.fields[0].path && autocompleteQuery.isFetching}
