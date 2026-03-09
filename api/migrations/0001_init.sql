@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS settings (
   id INTEGER PRIMARY KEY CHECK (id = 1),
-  parish_name TEXT NOT NULL DEFAULT 'Our Lady of the Sacred Heart',
+  parish_name TEXT NOT NULL,
   header_line_1 TEXT NOT NULL,
   header_line_2 TEXT NOT NULL,
   header_line_3 TEXT NOT NULL,
@@ -20,8 +20,15 @@ CREATE TABLE IF NOT EXISTS settings (
   current_priest TEXT NOT NULL,
   current_priest_signature TEXT NOT NULL,
   logo TEXT NOT NULL,
-  pdf_image_left TEXT NOT NULL DEFAULT '',
-  pdf_image_right TEXT NOT NULL DEFAULT '',
+  pdf_image_left TEXT NOT NULL,
+  pdf_image_right TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS system_settings (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL
 );
