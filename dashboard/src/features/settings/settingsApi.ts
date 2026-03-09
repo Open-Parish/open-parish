@@ -7,6 +7,7 @@ export function getSettings() {
 
 export function updateSettings(values: SettingsPayload) {
   const formData = new FormData();
+  formData.append('parishName', values.parishName);
   formData.append('headerLine1', values.headerLine1);
   formData.append('headerLine2', values.headerLine2);
   formData.append('headerLine3', values.headerLine3);

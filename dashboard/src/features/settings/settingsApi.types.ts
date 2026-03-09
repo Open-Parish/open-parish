@@ -1,4 +1,5 @@
 export type SettingsPayload = {
+  parishName: string;
   headerLine1: string;
   headerLine2: string;
   headerLine3: string;

@@ -29,6 +29,7 @@ export async function ensureSettings(db: D1Database): Promise<SettingsRecord> {
   const existing = await db
     .prepare(
       `SELECT
+        parish_name,
         header_line_1,
         header_line_2,
         header_line_3,
@@ -43,6 +44,7 @@ export async function ensureSettings(db: D1Database): Promise<SettingsRecord> {
       FROM settings WHERE id = 1`,
     )
     .first<{
+      parish_name: string;
       header_line_1: string;
       header_line_2: string;
       header_line_3: string;
@@ -61,6 +63,7 @@ export async function ensureSettings(db: D1Database): Promise<SettingsRecord> {
       .prepare(
         `INSERT INTO settings (
           id,
+          parish_name,
           header_line_1,
           header_line_2,
           header_line_3,
@@ -74,10 +77,11 @@ export async function ensureSettings(db: D1Database): Promise<SettingsRecord> {
           pdf_image_right,
           created_at,
           updated_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))`,
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))`,
       )
       .bind(
         1,
+        DEFAULT_SETTINGS.parishName,
         DEFAULT_SETTINGS.headerLine1,
         DEFAULT_SETTINGS.headerLine2,
         DEFAULT_SETTINGS.headerLine3,
@@ -126,6 +130,8 @@ export async function ensureSettings(db: D1Database): Promise<SettingsRecord> {
   }
 
   return {
+    parishName:
+      asTrimmedString(existing.parish_name) || DEFAULT_SETTINGS.parishName,
     headerLine1: existing.header_line_1,
     headerLine2: existing.header_line_2,
     headerLine3: existing.header_line_3,
@@ -147,6 +153,7 @@ export async function upsertSettings(
     .prepare(
       `INSERT INTO settings (
         id,
+        parish_name,
         header_line_1,
         header_line_2,
         header_line_3,
@@ -160,8 +167,9 @@ export async function upsertSettings(
         pdf_image_right,
         created_at,
         updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
       ON CONFLICT(id) DO UPDATE SET
+        parish_name = excluded.parish_name,
         header_line_1 = excluded.header_line_1,
         header_line_2 = excluded.header_line_2,
         header_line_3 = excluded.header_line_3,
@@ -177,6 +185,7 @@ export async function upsertSettings(
     )
     .bind(
       1,
+      next.parishName,
       next.headerLine1,
       next.headerLine2,
       next.headerLine3,

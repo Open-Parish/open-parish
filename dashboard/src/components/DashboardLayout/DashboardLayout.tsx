@@ -1,5 +1,6 @@
-import { Outlet, useLocation, NavLink } from 'react-router-dom';
+import { Outlet, NavLink } from 'react-router-dom';
 import { ActionIcon, Tooltip } from '@mantine/core';
+import { useQuery } from '@tanstack/react-query';
 import {
   IconLayoutDashboard,
   IconSettings,
@@ -15,8 +16,8 @@ import {
 } from '@tabler/icons-react';
 import { OpenParishMark } from '@/components/OpenParishMark/OpenParishMark';
 import { useUi } from '@/context/UiContext';
-import { appRoutes } from '@/app/routes';
 import { useAuth } from '@/context/AuthContext';
+import { getSettings } from '@/features/settings/settingsApi';
 import styles from './DashboardLayout.module.css';
 
 const NAV_ITEMS = [
@@ -30,11 +31,10 @@ const NAV_ITEMS = [
 
 export function DashboardLayout() {
   const { sidebarOpen, toggleSidebar, colorScheme, toggleColorScheme } = useUi();
-  const location = useLocation();
   const { email, logout } = useAuth();
+  const settingsQuery = useQuery({ queryKey: ['settings'], queryFn: getSettings });
 
-  const currentRoute = appRoutes.find((r) => r.path === location.pathname);
-  const pageTitle = currentRoute?.label ?? 'Dashboard';
+  const parishName = settingsQuery.data?.parishName || 'Our Lady of the Sacred Heart';
   return (
     <div className={`${styles.shell} ${sidebarOpen ? '' : styles.collapsed}`}>
       <aside className={styles.sidebar}>
@@ -82,7 +82,7 @@ export function DashboardLayout() {
       <div className={styles.main}>
         <header className={styles.header}>
           <div className={styles.headerLeft}>
-            <h1 className={styles.pageTitle}>{pageTitle}</h1>
+            <span className={styles.parishName}>{parishName}</span>
           </div>
 
           <div className={styles.headerRight}>

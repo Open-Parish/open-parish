@@ -23,6 +23,7 @@ export type PaginatedResponse<T> = {
 };
 
 export type SettingsRecord = {
+  parishName: string;
   headerLine1: string;
   headerLine2: string;
   headerLine3: string;

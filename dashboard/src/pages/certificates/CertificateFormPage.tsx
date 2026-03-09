@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Group, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { PageShell } from '@/components/PageShell/PageShell';
@@ -14,6 +14,7 @@ import { isPersonNamePath } from './helpers/isPersonNamePath';
 import { normalizeText } from '@/utils/normalizeText';
 
 export function CertificateFormPage() {
+  const queryClient = useQueryClient();
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
@@ -75,8 +76,9 @@ export function CertificateFormPage() {
       if (!config) throw new Error('Missing certificate config');
       return createCertificate(config, values);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       if (!config) return;
+      await queryClient.invalidateQueries({ queryKey: ['cert-list', config.key] });
       navigate(config.routePath);
     },
   });
@@ -86,8 +88,10 @@ export function CertificateFormPage() {
       if (!config || !id) throw new Error('Missing certificate config or id');
       return updateCertificate(config, id, values);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       if (!config) return;
+      await queryClient.invalidateQueries({ queryKey: ['cert-list', config.key] });
+      await queryClient.invalidateQueries({ queryKey: ['cert-detail', config.key, id] });
       navigate(config.routePath);
     },
   });

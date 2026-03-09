@@ -12,7 +12,7 @@ import {
   TextInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef } from 'react';
 import { PageShell } from '@/components/PageShell/PageShell';
 import { getSettings, updateSettings } from '@/features/settings/settingsApi';
@@ -24,6 +24,7 @@ import type { SettingsForm } from './Settings.types';
 import { resolveAssetPreview } from './utils/resolveAssetPreview';
 
 const INITIAL_SETTINGS_VALUES: SettingsForm = {
+  parishName: '',
   headerLine1: '',
   headerLine2: '',
   headerLine3: '',
@@ -37,6 +38,7 @@ const INITIAL_SETTINGS_VALUES: SettingsForm = {
 };
 
 export function Settings() {
+  const queryClient = useQueryClient();
   const authToken = getToken();
   const query = useQuery({ queryKey: ['settings'], queryFn: getSettings });
   const hasHydratedFromQuery = useRef(false);
@@ -44,6 +46,7 @@ export function Settings() {
   const form = useForm<SettingsForm>({
     initialValues: INITIAL_SETTINGS_VALUES,
     validate: {
+      parishName: (value) => (value.length === 0 ? 'Required' : null),
       headerLine1: (value) => (value.length === 0 ? 'Required' : null),
       headerLine2: (value) => (value.length === 0 ? 'Required' : null),
       currentPriest: (value) => (value.length === 0 ? 'Required' : null),
@@ -59,8 +62,9 @@ export function Settings() {
 
   const mutation = useMutation({
     mutationFn: updateSettings,
-    onSuccess: (nextSettings) => {
+    onSuccess: async (nextSettings) => {
       form.setValues(nextSettings);
+      await queryClient.invalidateQueries({ queryKey: ['settings'] });
     },
   });
 
@@ -124,6 +128,18 @@ export function Settings() {
         <Paper withBorder shadow="xs" p={{ base: 'md', sm: 'xl' }}>
           <form onSubmit={form.onSubmit((values) => mutation.mutate(values))}>
             <Stack gap="lg">
+              <Stack gap="xs">
+                <Text size="xs" fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.06em' }}>
+                  Parish Profile
+                </Text>
+                <Text size="xs" c="dimmed">
+                  Name used in the sidebar header.
+                </Text>
+                <TextInput label="Parish Name" {...form.getInputProps('parishName')} />
+              </Stack>
+
+              <Divider />
+
               <Stack gap="xs">
                 <Text size="xs" fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.06em' }}>
                   Certificate Header

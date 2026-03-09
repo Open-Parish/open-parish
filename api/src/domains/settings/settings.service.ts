@@ -43,6 +43,7 @@ export async function updateSettings(
   }
 
   const nextSettings: SettingsRecord = {
+    parishName: asString(body.parishName, existing.parishName),
     headerLine1: asString(body.headerLine1, existing.headerLine1),
     headerLine2: asString(body.headerLine2, existing.headerLine2),
     headerLine3: asString(body.headerLine3, existing.headerLine3),

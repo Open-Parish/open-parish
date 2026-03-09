@@ -10,6 +10,7 @@ const optionalFileField = z
   .optional();
 
 export const settingsFormSchema = z.object({
+  parishName: z.string().optional(),
   headerLine1: z.string().optional(),
   headerLine2: z.string().optional(),
   headerLine3: z.string().optional(),

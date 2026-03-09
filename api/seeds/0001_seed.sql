@@ -1,5 +1,6 @@
 INSERT OR IGNORE INTO settings (
   id,
+  parish_name,
   header_line_1,
   header_line_2,
   header_line_3,
@@ -15,6 +16,7 @@ INSERT OR IGNORE INTO settings (
   updated_at
 ) VALUES (
   1,
+  'Our Lady of the Sacred Heart',
   'Archdiocese of Cebu',
   'Our Lady of the Sacred Heart Parish',
   'Marigondon, Lapu-Lapu City',

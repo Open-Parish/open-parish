@@ -49,7 +49,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 20px 16px 18px;
+  height: var(--hdr-height);
+  padding: 0 16px;
   border-bottom: 1px solid var(--sl-border);
   flex-shrink: 0;
   overflow: hidden;
@@ -63,20 +64,17 @@
   flex-shrink: 0;
 }
 
-.logoSvg {
-  width: 100%;
-  height: 100%;
-}
-
 .logoName {
   font-family: 'Sora', sans-serif;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 800;
   color: #ffffff;
   letter-spacing: -0.04em;
   opacity: 1;
   transition: opacity var(--tx);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .shell.collapsed .logoName {
@@ -244,6 +242,23 @@
   align-items: center;
   gap: 10px;
   min-width: 0;
+}
+
+.parishName {
+  font-family: 'Sora', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0b0b12;
+  letter-spacing: -0.025em;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+[data-mantine-color-scheme='dark'] .parishName {
+  color: #f0f0ee;
 }
 
 .breadcrumbSep {
