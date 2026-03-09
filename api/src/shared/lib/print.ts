@@ -206,7 +206,7 @@ export function buildCertificateHtml(input: {
       #seal { font-size: 11px; color: #7f7f7f; text-align: left; }
       #currentPriest { font-size: 80%; }
       @media print {
-        @page { margin: -0.5in 0.5in; }
+        @page { margin: 0.5in; }
         body { margin: 0; }
         #print-wrapper, #print-wrapper button, #print-wrapper a { display: none; }
       }
