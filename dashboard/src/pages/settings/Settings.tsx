@@ -23,24 +23,26 @@ import { pickNormalizedString } from '@/utils/pickNormalizedString';
 import type { SettingsForm } from './Settings.types';
 import { resolveAssetPreview } from './utils/resolveAssetPreview';
 
+const INITIAL_SETTINGS_VALUES: SettingsForm = {
+  headerLine1: '',
+  headerLine2: '',
+  headerLine3: '',
+  headerLine4: '',
+  headerLine5: '',
+  headerLine6: '',
+  currentPriest: '',
+  currentPriestSignature: '',
+  pdfImageLeft: '',
+  pdfImageRight: '',
+};
+
 export function Settings() {
   const authToken = getToken();
   const query = useQuery({ queryKey: ['settings'], queryFn: getSettings });
   const hasHydratedFromQuery = useRef(false);
 
   const form = useForm<SettingsForm>({
-    initialValues: {
-      headerLine1: '',
-      headerLine2: '',
-      headerLine3: '',
-      headerLine4: '',
-      headerLine5: '',
-      headerLine6: '',
-      currentPriest: '',
-      currentPriestSignature: '',
-      pdfImageLeft: '',
-      pdfImageRight: '',
-    },
+    initialValues: INITIAL_SETTINGS_VALUES,
     validate: {
       headerLine1: (value) => (value.length === 0 ? 'Required' : null),
       headerLine2: (value) => (value.length === 0 ? 'Required' : null),
@@ -61,6 +63,10 @@ export function Settings() {
       form.setValues(nextSettings);
     },
   });
+
+  const updateFileField = (field: 'currentPriestSignature' | 'pdfImageLeft' | 'pdfImageRight', file: File | null) => {
+    form.setFieldValue(field, file ?? query.data?.[field] ?? '');
+  };
 
   const leftImageObjectUrl = useMemo(() => createObjectUrlIfFile(form.values.pdfImageLeft), [form.values.pdfImageLeft]);
   const rightImageObjectUrl = useMemo(
@@ -152,9 +158,7 @@ export function Settings() {
                     accept="image/*"
                     clearable
                     value={fileValueOrNull(form.values.currentPriestSignature)}
-                    onChange={(file) =>
-                      form.setFieldValue('currentPriestSignature', file ?? query.data?.currentPriestSignature ?? '')
-                    }
+                    onChange={(file) => updateFileField('currentPriestSignature', file)}
                   />
                   <Group>
                     {signaturePreview ? (
@@ -184,7 +188,7 @@ export function Settings() {
                       accept="image/*"
                       clearable
                       value={fileValueOrNull(form.values.pdfImageLeft)}
-                      onChange={(file) => form.setFieldValue('pdfImageLeft', file ?? query.data?.pdfImageLeft ?? '')}
+                      onChange={(file) => updateFileField('pdfImageLeft', file)}
                     />
                     <FileInput
                       label="PDF Header Image (Right)"
@@ -192,7 +196,7 @@ export function Settings() {
                       accept="image/*"
                       clearable
                       value={fileValueOrNull(form.values.pdfImageRight)}
-                      onChange={(file) => form.setFieldValue('pdfImageRight', file ?? query.data?.pdfImageRight ?? '')}
+                      onChange={(file) => updateFileField('pdfImageRight', file)}
                     />
                   </SimpleGrid>
                   <SimpleGrid cols={{ base: 1, xs: 2 }} spacing="md">
