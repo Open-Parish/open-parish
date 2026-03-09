@@ -15,12 +15,3 @@ export const queryClient = new QueryClient({
 
 export const QUERY_PERSIST_MAX_AGE = 1000 * 60 * 60 * 24 * 7;
 export const QUERY_PERSIST_STORAGE_KEY = 'saas-app-react-query-cache';
-const LEGACY_QUERY_PERSIST_STORAGE_KEY = 'REACT_QUERY_OFFLINE_CACHE';
-
-export function clearPersistedQueryCache() {
-  queryClient.clear();
-  if (typeof window === 'undefined') return;
-
-  window.localStorage.removeItem(QUERY_PERSIST_STORAGE_KEY);
-  window.localStorage.removeItem(LEGACY_QUERY_PERSIST_STORAGE_KEY);
-}
