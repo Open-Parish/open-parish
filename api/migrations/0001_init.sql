@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS settings (
 
 CREATE TABLE IF NOT EXISTS certificates (
   id TEXT PRIMARY KEY,
-  kind TEXT NOT NULL CHECK (kind IN ('birth', 'death', 'marriage')),
+  kind TEXT NOT NULL CHECK (kind IN ('baptismal', 'confirmation', 'death', 'marriage')),
   certificate_type TEXT,
   first_name TEXT,
   last_name TEXT,

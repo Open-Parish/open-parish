@@ -1,4 +1,4 @@
-export type CertificateKind = 'birth' | 'death' | 'marriage';
+export type CertificateKind = 'baptismal' | 'confirmation' | 'death' | 'marriage';
 
 export type FilterInput = {
   key: string;

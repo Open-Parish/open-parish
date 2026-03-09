@@ -1,175 +1,124 @@
-# ArchThemis
+# Open Parish — Dashboard
 
-**ArchThemis** is an **open-source, audit-safe compliance training authoring tool** designed for teams that need to create, version, and prove employee compliance training, without bloated LMS platforms or spreadsheets.
-
-It is UI-first, self-hostable, and built around **immutability, versioning, and evidence**.
+**Open Parish** is an open-source parish certificate management system for Catholic parishes. It provides a clean admin dashboard to create, manage, and print sacramental certificates — baptismal, confirmation, marriage, and death.
 
 ---
 
-## What ArchThemis Is
+## Features
 
-ArchThemis helps organizations:
-
-- Author compliance trainings using a block-based editor
-- Publish immutable training versions
-- Collect user acknowledgements
-- Preserve audit-safe evidence over time
-
----
-
-## What ArchThemis Is Not
-
-- ❌ Not a full GRC platform
-- ❌ Not a phishing simulator
-- ❌ Not an LMS replacement
-- ❌ Not SOC2 automation like Vanta or Drata
-
-ArchThemis solves one problem **correctly**:
-
-> _Create compliance training and prove it was acknowledged._
+- **Baptismal Certificates** — Record and manage baptismal sacrament details including parents, sponsors, and officiating priest
+- **Confirmation Certificates** — Track confirmation records with sponsor and priest information
+- **Marriage Certificates** — Manage matrimonial records for bride, groom, sponsors, and license details
+- **Death Certificates** — Maintain death and burial records including survivors and sacraments
+- **Print Support** — Generate and print certificates directly from the dashboard
+- **Parish Settings** — Configure parish header lines, priest name, signature, and logo used on all certificates
+- **Search & Pagination** — Search records by name with paginated results
+- **Dark Mode** — Full light/dark theme support
 
 ---
 
-## Core Principles
+## Tech Stack
 
-- **Audit-safe by design**  
-  Published trainings are immutable. Editing creates a new version.
-
-- **Evidence-first**  
-  Acknowledgements are permanently tied to a specific training version.
-
-- **UI-first authoring**  
-  Built for non-developers using a visual, block-based editor.
-
-- **Self-hostable**  
-  Run it on your own infrastructure with full data ownership.
-
-- **Extensible**  
-  Designed to support plugins and external integrations.
+| Layer | Library |
+|---|---|
+| Framework | React 18 + Vite |
+| UI | Mantine v7 |
+| Routing | React Router v6 |
+| State | Zustand |
+| Server state | TanStack Query v5 |
+| Forms | Mantine Form |
+| Icons | Tabler Icons |
+| Auth | Better Auth |
+| Rich text | Tiptap |
 
 ---
 
-## Key Features
+## Getting Started
 
-### Training Authoring
+### Prerequisites
 
-- Block-based editor
-- Draft and publish workflow
-- Immutable published versions
-- Version history (v1, v2, v3…)
+- Node.js 18+
+- The [Open Parish API](../api) running locally
 
-### Training Delivery
+### Install & run
 
-- Assign trainings to users or organizations
-- Track progress:
-  - Not started
-  - In progress
-  - Completed
+```bash
+npm install
+npm run dev
+```
 
-### Acknowledgements
+The dashboard runs at `http://localhost:5173` by default.
 
-- Explicit “I acknowledge” attestations
-- Stored with:
-  - User
-  - Training version
-  - Timestamp
+### Build
 
-### Reporting
+```bash
+npm run build
+```
 
-- Per-training completion lists
-- Per-user training status
-- CSV export for audits
+### Preview production build
 
-### Multi-Organization Support
-
-- Users can belong to multiple organizations
-- Organization-scoped data isolation
+```bash
+npm run preview
+```
 
 ---
 
-## Cloud (Planned)
+## Scripts
 
-- Managed upgrades
-- Backups
-- Email delivery
-- Audit-ready exports
-- Reduced operational overhead
-
----
-
-## Plugin System (Planned)
-
-ArchThemis is designed to be extended via plugins, including:
-
-- SSO providers
-- External user flows
-- Advanced reporting
-- Webhooks and integrations
-- Scheduled reminders
+| Script | Description |
+|---|---|
+| `dev` | Start development server |
+| `build` | Production build |
+| `preview` | Preview production build |
+| `lint` | Run ESLint |
+| `lint:fix` | Auto-fix lint issues |
+| `format` | Format with Prettier |
+| `typecheck` | Run TypeScript compiler check |
+| `check` | Lint + format + typecheck |
+| `test` | Run unit tests |
+| `test:e2e` | Run Cypress end-to-end tests |
+| `cypress:open` | Open Cypress test runner |
 
 ---
 
-## Marketplace (Planned)
+## Project Structure
 
-A curated marketplace will provide:
-
-- Compliance training templates (SOC2, ISO 27001, etc.)
-- Industry-specific content packs
-- Policy + training bundles
+```
+src/
+├── app/              # App entry, routes
+├── components/       # Shared UI components
+│   ├── DashboardLayout/
+│   ├── PageShell/
+│   ├── Breadcrumbs/
+│   └── ...
+├── features/
+│   ├── certificates/ # Certificate configs, API, utils, types
+│   └── settings/     # Settings API
+├── pages/
+│   ├── auth/         # Login
+│   ├── dashboard/    # Dashboard home
+│   ├── certificates/ # List + form pages (shared for all certificate types)
+│   └── settings/     # Parish settings
+├── store/            # Zustand UI store (sidebar, color scheme)
+├── styles/           # Global CSS, Mantine theme
+└── context/          # Auth context
+```
 
 ---
 
-## Themes (Planned)
+## Certificate Types
 
-- End-user content themes for trainings
-- Visual presentation styles for learners
-- Customizable layouts, colors, and typography
-- Organization-specific branding
+Certificate behaviour is driven by config objects in `src/features/certificates/config.ts`. Each config defines:
 
----
+- API module and certificate type
+- Form fields (with type: `text`, `date`, or `number`)
+- Default values
+- How to derive a display name from a record
 
-## Who Should Use ArchThemis?
-
-- Startups preparing for compliance audits
-- SMBs needing structured training evidence
-- Security and compliance teams
-- Organizations that want compliance without enterprise bloat
+Adding a new certificate type requires only a new config entry — no new pages needed.
 
 ---
 
 ## License
 
-ArchThemis is open source.  
-License details will be provided in the repository.
-
----
-
-## Status
-
-ArchThemis is under active development.
-
----
-
-## Philosophy
-
-> Compliance should be boring, explicit, and defensible.
-
-## Usage Limitations
-
-ArchThemis is open source and free to self-host for internal use.
-
-To protect the sustainability of the project, the following limitations apply:
-
-### Allowed
-
-- Self-hosting for internal organizational use
-- Modifying the source code for internal needs
-- Building internal plugins or extensions
-- Using ArchThemis to manage your own compliance training
-
-### Not Allowed
-
-- Offering ArchThemis as a hosted or managed service to third parties
-- Reselling ArchThemis or providing it as part of a competing SaaS product
-- White-labeling ArchThemis as a compliance or training platform
-- Commercially hosting ArchThemis “as-is” for customers
+Open source. See repository root for license details.

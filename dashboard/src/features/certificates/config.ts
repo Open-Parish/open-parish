@@ -9,7 +9,7 @@ export const certificateConfigs: CertificateConfig[] = [
   {
     key: 'baptismal',
     routePath: '/baptismal',
-    apiModule: 'birth',
+    apiModule: 'baptismal',
     certificateType: 'baptismal',
     title: 'Baptismal Certificates',
     subtitle: 'Manage baptismal certificate records.',
@@ -50,7 +50,7 @@ export const certificateConfigs: CertificateConfig[] = [
   {
     key: 'confirmation',
     routePath: '/confirmation',
-    apiModule: 'birth',
+    apiModule: 'confirmation',
     certificateType: 'confirmation',
     title: 'Confirmation Certificates',
     subtitle: 'Manage confirmation certificate records.',

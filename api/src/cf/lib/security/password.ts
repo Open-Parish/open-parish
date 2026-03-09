@@ -1,8 +1,3 @@
-import { createMiddleware } from 'hono/factory';
-import { HTTPException } from 'hono/http-exception';
-import { sign, verify } from 'hono/jwt';
-import type { Env } from '../../index';
-
 const encoder = new TextEncoder();
 
 function toBase64(bytes: Uint8Array): string {
@@ -82,34 +77,3 @@ export async function verifyPassword(password: string, storedHash: string): Prom
 
   return mismatch === 0;
 }
-
-export async function createJwt(secret: string, user: { id: string; email: string }): Promise<string> {
-  return sign(
-    {
-      sub: user.id,
-      email: user.email,
-      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 14,
-    },
-    secret
-  );
-}
-
-export const requireAuth = createMiddleware<Env>(async (c, next) => {
-  const authorization = c.req.header('Authorization');
-  const authTokenQuery = c.req.query('auth_token');
-  const token = authorization?.startsWith('Bearer ') ? authorization.slice(7) : authTokenQuery;
-  if (!token) {
-    throw new HTTPException(401, { message: 'Unauthorized' });
-  }
-
-  const payload = await verify(token, c.env.JWT_SECRET, 'HS256');
-
-  if (!payload?.sub || typeof payload.sub !== 'string') {
-    throw new HTTPException(401, { message: 'Unauthorized' });
-  }
-
-  c.set('userId', payload.sub);
-  c.set('userEmail', typeof payload.email === 'string' ? payload.email : '');
-
-  await next();
-});

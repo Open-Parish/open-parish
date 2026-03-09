@@ -1,5 +1,6 @@
 import type { FilterInput, PaginatedResponse, SettingsRecord } from './types';
 import { DEFAULT_PAGE_SIZE, DEFAULT_SETTINGS } from './constants';
+import { asPositiveInt, asString, asTrimmedString } from '../utils/normalize';
 
 const LEGACY_ASSET_PATHS = new Set(['/logo.png', '/signature.png']);
 
@@ -202,7 +203,7 @@ export async function paginatedCertificates(
   pageInput: unknown,
   filters: FilterInput[] | undefined
 ): Promise<PaginatedResponse<Record<string, unknown>>> {
-  const page = Number(pageInput && Number(pageInput) > 0 ? pageInput : 1);
+  const page = asPositiveInt(pageInput, 1);
   const limit = DEFAULT_PAGE_SIZE;
   const offset = (page - 1) * limit;
 
@@ -213,8 +214,8 @@ export async function paginatedCertificates(
     const likeParts: string[] = [];
 
     for (const filter of filters) {
-      const key = filter.key;
-      const value = `%${String(filter.value ?? '').trim()}%`;
+      const key = asString(filter.key);
+      const value = `%${asTrimmedString(filter.value)}%`;
       if (!value || (key !== 'firstName' && key !== 'lastName')) {
         continue;
       }

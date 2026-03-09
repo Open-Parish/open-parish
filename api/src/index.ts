@@ -16,6 +16,8 @@ export type Env = {
   Variables: {
     userId: string;
     userEmail: string;
+    validatedJson: unknown;
+    validatedForm: Record<string, unknown>;
   };
 };
 

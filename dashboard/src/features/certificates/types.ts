@@ -35,7 +35,7 @@ export type FormField = {
 export type CertificateConfig = {
   key: 'baptismal' | 'confirmation' | 'death' | 'marriage';
   routePath: string;
-  apiModule: 'birth' | 'death' | 'marriage';
+  apiModule: 'baptismal' | 'confirmation' | 'death' | 'marriage';
   certificateType?: 'baptismal' | 'confirmation' | 'death' | 'marriage';
   title: string;
   subtitle: string;
