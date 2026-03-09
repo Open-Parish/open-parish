@@ -8,8 +8,9 @@ Hono API running on Cloudflare Workers with:
 ## Runtime
 
 - Worker entry: `src/index.ts`
-- Hono modules: `src/cf/**`
+- Hono modules: `src/domains/**`, `src/shared/**`
 - D1 migrations: `migrations/**`
+- D1 seeds: `seeds/**`
 - Wrangler config: `wrangler.toml`
 
 ## Setup

@@ -9,7 +9,7 @@
     "cf-typegen": "wrangler types",
     "d1:migrate:local": "wrangler d1 migrations apply olshp --local",
     "d1:migrate:remote": "wrangler d1 migrations apply olshp --remote",
-    "d1:seed:local": "wrangler d1 execute olshp --local --file ./migrations/0002_seed.sql",
+    "d1:seed:local": "wrangler d1 execute olshp --local --file ./seeds/0001_seed.sql",
     "lint": "eslint \"src/**/*.ts\"",
     "format": "prettier --write \"src/**/*.ts\"",
     "typecheck": "tsc --noEmit",
