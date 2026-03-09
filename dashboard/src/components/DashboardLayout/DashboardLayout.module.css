@@ -113,7 +113,6 @@
   gap: 11px;
   padding: 9px 10px;
   border-radius: 8px;
-  color: var(--sl-text);
   text-decoration: none;
   font-size: 13.5px;
   font-weight: 500;
@@ -131,33 +130,42 @@
 
 .navLink:hover {
   background: var(--sl-hover-bg);
-  color: var(--sl-text-hover);
+  text-decoration: none;
 }
 
 .navLinkActive {
   background: var(--sl-active-bg);
-  color: var(--sl-accent) !important;
 }
 
 .navLinkActive:hover {
-  background: rgba(94, 234, 212, 0.15);
-}
-
-.navLinkActive .navIcon {
-  position: relative;
+  background: var(--sl-active-bg);
 }
 
 .navIcon {
   flex-shrink: 0;
   width: 18px;
   height: 18px;
+  color: var(--sl-text);
+  transition: color 0.13s;
 }
 
 .navLabel {
+  color: var(--sl-text);
+  text-decoration: none;
   opacity: 1;
   transition: opacity var(--tx);
   overflow: hidden;
   white-space: nowrap;
+}
+
+.navLink:hover .navLabel,
+.navLink:hover .navIcon {
+  color: var(--sl-text-hover);
+}
+
+.navLinkActive .navLabel,
+.navLinkActive .navIcon {
+  color: var(--sl-accent);
 }
 
 .shell.collapsed .navLabel {

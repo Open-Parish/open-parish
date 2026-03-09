@@ -1,4 +1,4 @@
-import { Outlet, NavLink } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -30,6 +30,8 @@ const NAV_ITEMS = [
 ];
 
 export function DashboardLayout() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const { sidebarOpen, toggleSidebar, colorScheme, toggleColorScheme } = useUi();
   const { email, logout } = useAuth();
   const settingsQuery = useQuery({ queryKey: ['settings'], queryFn: getSettings });
@@ -48,13 +50,15 @@ export function DashboardLayout() {
 
           {NAV_ITEMS.map(({ path, label, icon: Icon }) => (
             <Tooltip key={path} label={label} position="right" disabled={sidebarOpen} withArrow offset={12}>
-              <NavLink
-                to={path}
-                className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}
+              <button
+                type="button"
+                onClick={() => navigate(path)}
+                className={`${styles.navLink} ${location.pathname.startsWith(path) ? styles.navLinkActive : ''}`}
+                aria-current={location.pathname.startsWith(path) ? 'page' : undefined}
               >
                 <Icon size={18} className={styles.navIcon} />
                 <span className={styles.navLabel}>{label}</span>
-              </NavLink>
+              </button>
             </Tooltip>
           ))}
         </nav>
