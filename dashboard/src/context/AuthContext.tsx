@@ -2,17 +2,7 @@ import { createContext, useCallback, useContext, useMemo, useState } from 'react
 import type { ReactNode } from 'react';
 import { postJson } from '@/api/client';
 import { clearSession, getSessionEmail, getToken, isAuthenticated, setSession } from '@/lib/session';
-
-type LoginPayload = { email: string; password: string };
-type LoginResponse = { token: string; user?: { email?: string } };
-
-type AuthContextValue = {
-  token: string | null;
-  email: string;
-  authenticated: boolean;
-  login: (payload: LoginPayload) => Promise<void>;
-  logout: () => void;
-};
+import type { AuthContextValue, LoginPayload, LoginResponse } from './AuthContext.types';
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
@@ -36,7 +26,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo(
     () => ({ token, email, authenticated: isAuthenticated(), login, logout }),
-    [email, login, logout, token]
+    [email, login, logout, token],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

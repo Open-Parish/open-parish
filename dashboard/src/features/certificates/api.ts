@@ -1,5 +1,5 @@
 import { deleteJson, getJson, postJson, putJson } from '@/api/client';
-import type { CertificateConfig, CertificatePageResponse, CertificateRecord } from './types';
+import type { CertificateConfig, CertificatePageResponse, CertificateRecord } from './certificates.types';
 
 function buildFilters(search: string) {
   const terms = search

@@ -1,4 +1,4 @@
-import type { CertificateConfig } from './types';
+import type { CertificateConfig } from './certificates.types';
 
 const person = (name: string) => [
   { path: `${name}.firstName`, label: `${name} First Name` },
@@ -168,7 +168,9 @@ export const certificateConfigs: CertificateConfig[] = [
 ];
 
 export function getCertificateConfigByPath(pathname: string): CertificateConfig | undefined {
-  return certificateConfigs.find((config) => pathname === config.routePath || pathname.startsWith(`${config.routePath}/`));
+  return certificateConfigs.find(
+    (config) => pathname === config.routePath || pathname.startsWith(`${config.routePath}/`),
+  );
 }
 
 export function getCertificateConfigByKey(key: string): CertificateConfig | undefined {

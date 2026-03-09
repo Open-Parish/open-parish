@@ -58,15 +58,22 @@ function ErrorFallback() {
             margin: '0 auto 20px',
           }}
         >
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e8590c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#e8590c"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
             <line x1="12" y1="9" x2="12" y2="13" />
             <line x1="12" y1="17" x2="12.01" y2="17" />
           </svg>
         </div>
-        <h2 style={{ margin: '0 0 8px', fontSize: 20, fontWeight: 600, color: '#212529' }}>
-          Something went wrong
-        </h2>
+        <h2 style={{ margin: '0 0 8px', fontSize: 20, fontWeight: 600, color: '#212529' }}>Something went wrong</h2>
         <p style={{ margin: '0 0 24px', fontSize: 14, color: '#868e96', lineHeight: 1.6 }}>
           The application encountered an unexpected error. This may be due to a temporary issue or an invalid URL.
         </p>
@@ -90,7 +97,9 @@ function ErrorFallback() {
           </button>
           <button
             type="button"
-            onClick={() => { window.location.href = '/'; }}
+            onClick={() => {
+              window.location.href = '/';
+            }}
             style={{
               padding: '10px 20px',
               fontSize: 14,

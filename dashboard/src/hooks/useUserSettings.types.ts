@@ -7,4 +7,3 @@ export type UserSetting = {
   createdAt: string;
   updatedAt: string;
 };
-

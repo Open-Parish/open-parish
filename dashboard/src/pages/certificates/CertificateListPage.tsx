@@ -31,12 +31,24 @@ function TableSkeleton() {
     <>
       {Array.from({ length: SKELETON_ROWS }).map((_, i) => (
         <Table.Tr key={i}>
-          <Table.Td><Skeleton height={14} radius="sm" w="60%" /></Table.Td>
-          <Table.Td><Skeleton height={14} radius="sm" w="80px" /></Table.Td>
-          <Table.Td><Skeleton height={14} radius="sm" w="90px" /></Table.Td>
-          <Table.Td><Skeleton height={14} radius="sm" w="90px" /></Table.Td>
-          <Table.Td><Skeleton height={14} radius="sm" w={20} /></Table.Td>
-          <Table.Td><Skeleton height={14} radius="sm" w={20} /></Table.Td>
+          <Table.Td>
+            <Skeleton height={14} radius="sm" w="60%" />
+          </Table.Td>
+          <Table.Td>
+            <Skeleton height={14} radius="sm" w="80px" />
+          </Table.Td>
+          <Table.Td>
+            <Skeleton height={14} radius="sm" w="90px" />
+          </Table.Td>
+          <Table.Td>
+            <Skeleton height={14} radius="sm" w="90px" />
+          </Table.Td>
+          <Table.Td>
+            <Skeleton height={14} radius="sm" w={20} />
+          </Table.Td>
+          <Table.Td>
+            <Skeleton height={14} radius="sm" w={20} />
+          </Table.Td>
         </Table.Tr>
       ))}
     </>
@@ -56,9 +68,7 @@ function EmptyState({ search }: { search: string }) {
               {search ? `No results for "${search}"` : 'No records yet'}
             </Text>
             <Text size="xs" c="dimmed" maw={260} ta="center">
-              {search
-                ? 'Try a different name or clear the search.'
-                : 'Add your first record using the button above.'}
+              {search ? 'Try a different name or clear the search.' : 'Add your first record using the button above.'}
             </Text>
           </Stack>
         </Center>
@@ -76,27 +86,50 @@ export function CertificateListPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
 
+  const key = useMemo(() => ['cert-list', config?.key ?? 'unknown', page, search], [config?.key, page, search]);
+
+  const listQuery = useQuery({
+    queryKey: key,
+    queryFn: () => {
+      if (!config) {
+        return Promise.resolve({
+          docs: [],
+          totalDocs: 0,
+          limit: 10,
+          totalPages: 1,
+          page,
+          hasPrevPage: false,
+          hasNextPage: false,
+          prevPage: null,
+          nextPage: null,
+        });
+      }
+      return listCertificates(config, page, search);
+    },
+    enabled: Boolean(config),
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => {
+      if (!config) {
+        throw new Error('Certificate config is missing');
+      }
+      return removeCertificate(config, id);
+    },
+    onSuccess: async () => {
+      if (config) {
+        await queryClient.invalidateQueries({ queryKey: ['cert-list', config.key] });
+      }
+    },
+  });
+
   if (!config) {
     return null;
   }
 
-  const key = useMemo(() => ['cert-list', config.key, page, search], [config.key, page, search]);
-
-  const listQuery = useQuery({
-    queryKey: key,
-    queryFn: () => listCertificates(config, page, search),
-  });
-
-  const deleteMutation = useMutation({
-    mutationFn: (id: string) => removeCertificate(config, id),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['cert-list', config.key] });
-    },
-  });
-
-  const docs = listQuery.data?.docs ?? [];
+  const { data, isLoading } = listQuery;
+  const docs = data?.docs ?? [];
   const token = getToken();
-  const isLoading = listQuery.isLoading;
   const isEmpty = !isLoading && docs.length === 0;
 
   return (
@@ -134,7 +167,8 @@ export function CertificateListPage() {
               <EmptyState search={search} />
             ) : (
               docs.map((row) => {
-                const id = String(row.id ?? '');
+                const { id: rawId, occasionDate, createdAt, updatedAt } = row;
+                const id = String(rawId ?? '');
                 const printType = config.certificateType ?? config.apiModule;
                 const printLink = `${API_BASE_URL}/certificates/${config.apiModule}/print/${id}/${printType}?auth_token=${token ?? ''}`;
 
@@ -145,9 +179,9 @@ export function CertificateListPage() {
                         {config.nameFromRecord(row)}
                       </Anchor>
                     </Table.Td>
-                    <Table.Td>{friendlyDate(config.secondaryFromRecord?.(row) ?? row.occasionDate)}</Table.Td>
-                    <Table.Td>{friendlyDate(row.createdAt)}</Table.Td>
-                    <Table.Td>{friendlyDate(row.updatedAt)}</Table.Td>
+                    <Table.Td>{friendlyDate(config.secondaryFromRecord?.(row) ?? occasionDate)}</Table.Td>
+                    <Table.Td>{friendlyDate(createdAt)}</Table.Td>
+                    <Table.Td>{friendlyDate(updatedAt)}</Table.Td>
                     <Table.Td>
                       <Anchor href={printLink} target="_blank">
                         <IconPrinter size={16} />
@@ -173,9 +207,7 @@ export function CertificateListPage() {
         </Table>
       </Paper>
 
-      {!isLoading && !isEmpty && (
-        <Pagination value={page} onChange={setPage} total={listQuery.data?.totalPages ?? 1} />
-      )}
+      {!isLoading && !isEmpty && <Pagination value={page} onChange={setPage} total={data?.totalPages ?? 1} />}
     </PageShell>
   );
 }

@@ -64,19 +64,10 @@ export function DashboardLayout() {
           <div className={styles.sectionLabel}>Menu</div>
 
           {NAV_ITEMS.map(({ path, label, icon: Icon }) => (
-            <Tooltip
-              key={path}
-              label={label}
-              position="right"
-              disabled={sidebarOpen}
-              withArrow
-              offset={12}
-            >
+            <Tooltip key={path} label={label} position="right" disabled={sidebarOpen} withArrow offset={12}>
               <NavLink
                 to={path}
-                className={({ isActive }) =>
-                  `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
-                }
+                className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}
               >
                 <Icon size={18} className={styles.navIcon} />
                 <span className={styles.navLabel}>{label}</span>
@@ -127,18 +118,16 @@ export function DashboardLayout() {
 
             {/* Dark mode toggle */}
             <Tooltip label={colorScheme === 'dark' ? 'Light mode' : 'Dark mode'} withArrow>
-              <ActionIcon
-                variant="subtle"
-                className={styles.headerIconBtn}
-                onClick={toggleColorScheme}
-              >
+              <ActionIcon variant="subtle" className={styles.headerIconBtn} onClick={toggleColorScheme}>
                 {colorScheme === 'dark' ? <IconSun size={17} /> : <IconMoon size={17} />}
               </ActionIcon>
             </Tooltip>
 
             {/* User chip */}
             <div className={styles.userChip}>
-              <Avatar className={styles.userAvatar} radius="xl">AD</Avatar>
+              <Avatar className={styles.userAvatar} radius="xl">
+                AD
+              </Avatar>
               <span className={styles.userName}>{email}</span>
               <ActionIcon variant="subtle" className={styles.headerIconBtn} onClick={logout} aria-label="Logout">
                 <IconLogout size={16} />

@@ -4,6 +4,7 @@ import { useForm } from '@mantine/form';
 import { useNavigate } from 'react-router-dom';
 import { DEV_DEFAULT_OWNER_EMAIL, DEV_DEFAULT_OWNER_PASSWORD } from '@/config';
 import { useAuth } from '@/context/AuthContext';
+import type { LoginForm } from './Login.types';
 import styles from './Login.module.css';
 
 function OpenParishMark({ className }: { className?: string }) {
@@ -16,11 +17,6 @@ function OpenParishMark({ className }: { className?: string }) {
     </svg>
   );
 }
-
-type LoginForm = {
-  email: string;
-  password: string;
-};
 
 export function Login() {
   const navigate = useNavigate();

@@ -1,12 +1,5 @@
 import { Card, Grid, Group, Stack, Text, ThemeIcon } from '@mantine/core';
-import {
-  IconArrowUpRight,
-  IconCross,
-  IconDroplet,
-  IconFlame,
-  IconHearts,
-  IconSettings,
-} from '@tabler/icons-react';
+import { IconArrowUpRight, IconCross, IconDroplet, IconFlame, IconHearts, IconSettings } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { PageShell } from '@/components/PageShell/PageShell';
 import styles from './Dashboard.module.css';
@@ -73,9 +66,7 @@ export function Dashboard() {
         <Stack gap={4}>
           <p className={styles.bannerEyebrow}>{dateStr}</p>
           <h2 className={styles.bannerTitle}>{getGreeting()}, Admin</h2>
-          <p className={styles.bannerSub}>
-            Select a module below to manage parish records and generate certificates.
-          </p>
+          <p className={styles.bannerSub}>Select a module below to manage parish records and generate certificates.</p>
         </Stack>
       </div>
 
@@ -83,14 +74,7 @@ export function Dashboard() {
       <Grid gutter="md">
         {MODULES.map(({ path, title, subtitle, icon: Icon, color }) => (
           <Grid.Col key={path} span={{ base: 12, sm: 6, lg: 4 }}>
-            <Card
-              component={Link}
-              to={path}
-              withBorder
-              radius="md"
-              padding="lg"
-              className={styles.moduleCard}
-            >
+            <Card component={Link} to={path} withBorder radius="md" padding="lg" className={styles.moduleCard}>
               <Group justify="space-between" mb="md" align="flex-start">
                 <ThemeIcon variant="light" color={color} size={40} radius="md">
                   <Icon size={20} />

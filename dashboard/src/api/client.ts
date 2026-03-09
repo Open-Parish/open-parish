@@ -65,10 +65,7 @@ async function parseResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const payloadMessage =
       isObjectLike(payload) && has(payload, 'message') ? (payload as { message?: unknown }).message : null;
-    const message =
-      (isString(payloadMessage) ? payloadMessage : null) ??
-      response.statusText ??
-      'Request failed';
+    const message = (isString(payloadMessage) ? payloadMessage : null) ?? response.statusText ?? 'Request failed';
 
     showGlobalErrorNotification(response.status, message);
     throw new ApiError(message, response.status);

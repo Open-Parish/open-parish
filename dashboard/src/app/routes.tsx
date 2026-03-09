@@ -6,10 +6,10 @@ const Login = lazy(() => import('@/pages/auth/Login').then((module) => ({ defaul
 const Dashboard = lazy(() => import('@/pages/dashboard/Dashboard').then((module) => ({ default: module.Dashboard })));
 const Settings = lazy(() => import('@/pages/settings/Settings').then((module) => ({ default: module.Settings })));
 const CertificateListPage = lazy(() =>
-  import('@/pages/certificates/CertificateListPage').then((module) => ({ default: module.CertificateListPage }))
+  import('@/pages/certificates/CertificateListPage').then((module) => ({ default: module.CertificateListPage })),
 );
 const CertificateFormPage = lazy(() =>
-  import('@/pages/certificates/CertificateFormPage').then((module) => ({ default: module.CertificateFormPage }))
+  import('@/pages/certificates/CertificateFormPage').then((module) => ({ default: module.CertificateFormPage })),
 );
 
 function suspenseElement(element: JSX.Element): JSX.Element {

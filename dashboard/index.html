@@ -6,25 +6,52 @@
     <title>Open Parish</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="root">
       <style>
         @keyframes oc-stroke {
-          0%   { stroke-dashoffset: 150; }
-          50%  { stroke-dashoffset: 0; }
-          100% { stroke-dashoffset: -150; }
+          0% {
+            stroke-dashoffset: 150;
+          }
+          50% {
+            stroke-dashoffset: 0;
+          }
+          100% {
+            stroke-dashoffset: -150;
+          }
         }
         @keyframes oc-check {
-          0%, 40%  { stroke-dashoffset: 30; opacity: 0; }
-          60%      { stroke-dashoffset: 0;  opacity: 1; }
-          80%      { stroke-dashoffset: 0;  opacity: 1; }
-          100%     { stroke-dashoffset: 30; opacity: 0; }
+          0%,
+          40% {
+            stroke-dashoffset: 30;
+            opacity: 0;
+          }
+          60% {
+            stroke-dashoffset: 0;
+            opacity: 1;
+          }
+          80% {
+            stroke-dashoffset: 0;
+            opacity: 1;
+          }
+          100% {
+            stroke-dashoffset: 30;
+            opacity: 0;
+          }
         }
         @keyframes oc-fade {
-          0%, 100% { opacity: .4; }
-          50%      { opacity: 1; }
+          0%,
+          100% {
+            opacity: 0.4;
+          }
+          50% {
+            opacity: 1;
+          }
         }
         .oc-loader {
           display: flex;
@@ -68,8 +95,8 @@
       </style>
       <div class="oc-loader">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path class="oc-shield" d="M12 2l7 3.5v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10v-5L12 2z"/>
-          <path class="oc-check" d="M8.5 12.5l2.5 2.5 4.5-5"/>
+          <path class="oc-shield" d="M12 2l7 3.5v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10v-5L12 2z" />
+          <path class="oc-check" d="M8.5 12.5l2.5 2.5 4.5-5" />
         </svg>
         <span class="oc-loader-text">Loading&hellip;</span>
       </div>

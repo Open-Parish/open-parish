@@ -1,12 +1,23 @@
-import { Box, Button, Divider, FileInput, Group, Image, Paper, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
+import {
+  Box,
+  Button,
+  Divider,
+  FileInput,
+  Group,
+  Image,
+  Paper,
+  SimpleGrid,
+  Stack,
+  Text,
+  TextInput,
+} from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef } from 'react';
 import { resolveApiUrl } from '@/api/client';
 import { PageShell } from '@/components/PageShell/PageShell';
-import { getSettings, type SettingsPayload, updateSettings } from '@/features/settings/settingsApi';
-
-type SettingsForm = SettingsPayload;
+import { getSettings, updateSettings } from '@/features/settings/settingsApi';
+import type { SettingsForm } from './Settings.types';
 
 function resolveAssetPreview(value: string): string {
   const trimmed = String(value ?? '').trim();
@@ -54,7 +65,7 @@ export function Settings() {
       form.setValues(query.data);
       hasHydratedFromQuery.current = true;
     }
-  }, [query.data]);
+  }, [form, query.data]);
 
   const mutation = useMutation({
     mutationFn: updateSettings,
@@ -65,46 +76,56 @@ export function Settings() {
 
   const leftImageObjectUrl = useMemo(
     () => (form.values.pdfImageLeft instanceof File ? URL.createObjectURL(form.values.pdfImageLeft) : ''),
-    [form.values.pdfImageLeft]
+    [form.values.pdfImageLeft],
   );
   const rightImageObjectUrl = useMemo(
     () => (form.values.pdfImageRight instanceof File ? URL.createObjectURL(form.values.pdfImageRight) : ''),
-    [form.values.pdfImageRight]
+    [form.values.pdfImageRight],
   );
   const signatureObjectUrl = useMemo(
     () =>
-      form.values.currentPriestSignature instanceof File
-        ? URL.createObjectURL(form.values.currentPriestSignature)
-        : '',
-    [form.values.currentPriestSignature]
+      form.values.currentPriestSignature instanceof File ? URL.createObjectURL(form.values.currentPriestSignature) : '',
+    [form.values.currentPriestSignature],
   );
 
   const leftImagePreview = useMemo(
     () => resolveAssetPreview(leftImageObjectUrl || String(form.values.pdfImageLeft || '')),
-    [form.values.pdfImageLeft, leftImageObjectUrl]
+    [form.values.pdfImageLeft, leftImageObjectUrl],
   );
   const rightImagePreview = useMemo(
     () => resolveAssetPreview(rightImageObjectUrl || String(form.values.pdfImageRight || '')),
-    [form.values.pdfImageRight, rightImageObjectUrl]
+    [form.values.pdfImageRight, rightImageObjectUrl],
   );
   const signaturePreview = useMemo(
     () => resolveAssetPreview(signatureObjectUrl || String(form.values.currentPriestSignature || '')),
-    [form.values.currentPriestSignature, signatureObjectUrl]
+    [form.values.currentPriestSignature, signatureObjectUrl],
   );
 
   useEffect(() => {
-    if (!leftImageObjectUrl) return;
-    return () => URL.revokeObjectURL(leftImageObjectUrl);
+    if (leftImageObjectUrl) {
+      return () => {
+        URL.revokeObjectURL(leftImageObjectUrl);
+      };
+    }
+    return undefined;
   }, [leftImageObjectUrl]);
 
   useEffect(() => {
-    if (!rightImageObjectUrl) return;
-    return () => URL.revokeObjectURL(rightImageObjectUrl);
+    if (rightImageObjectUrl) {
+      return () => {
+        URL.revokeObjectURL(rightImageObjectUrl);
+      };
+    }
+    return undefined;
   }, [rightImageObjectUrl]);
 
   useEffect(() => {
-    if (!signatureObjectUrl) return;
-    return () => URL.revokeObjectURL(signatureObjectUrl);
+    if (signatureObjectUrl) {
+      return () => {
+        URL.revokeObjectURL(signatureObjectUrl);
+      };
+    }
+    return undefined;
   }, [signatureObjectUrl]);
 
   return (
@@ -113,7 +134,6 @@ export function Settings() {
         <Paper withBorder shadow="xs" p={{ base: 'md', sm: 'xl' }}>
           <form onSubmit={form.onSubmit((values) => mutation.mutate(values))}>
             <Stack gap="lg">
-
               {/* Certificate header lines */}
               <Stack gap="xs">
                 <Text size="xs" fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.06em' }}>
@@ -150,12 +170,11 @@ export function Settings() {
                       placeholder="Upload signature image"
                       accept="image/*"
                       clearable
-                      value={form.values.currentPriestSignature instanceof File ? form.values.currentPriestSignature : null}
+                      value={
+                        form.values.currentPriestSignature instanceof File ? form.values.currentPriestSignature : null
+                      }
                       onChange={(file) =>
-                        form.setFieldValue(
-                          'currentPriestSignature',
-                          file ?? query.data?.currentPriestSignature ?? '',
-                        )
+                        form.setFieldValue('currentPriestSignature', file ?? query.data?.currentPriestSignature ?? '')
                       }
                     />
                     <FileInput
@@ -164,9 +183,7 @@ export function Settings() {
                       accept="image/*"
                       clearable
                       value={form.values.pdfImageLeft instanceof File ? form.values.pdfImageLeft : null}
-                      onChange={(file) =>
-                        form.setFieldValue('pdfImageLeft', file ?? query.data?.pdfImageLeft ?? '')
-                      }
+                      onChange={(file) => form.setFieldValue('pdfImageLeft', file ?? query.data?.pdfImageLeft ?? '')}
                     />
                   </SimpleGrid>
                   <SimpleGrid cols={{ base: 1, xs: 2 }} spacing="md">
@@ -176,9 +193,7 @@ export function Settings() {
                       accept="image/*"
                       clearable
                       value={form.values.pdfImageRight instanceof File ? form.values.pdfImageRight : null}
-                      onChange={(file) =>
-                        form.setFieldValue('pdfImageRight', file ?? query.data?.pdfImageRight ?? '')
-                      }
+                      onChange={(file) => form.setFieldValue('pdfImageRight', file ?? query.data?.pdfImageRight ?? '')}
                     />
                   </SimpleGrid>
                   <SimpleGrid cols={{ base: 1, xs: 2 }} spacing="md">
@@ -186,13 +201,17 @@ export function Settings() {
                       {signaturePreview ? (
                         <Image src={signaturePreview} alt="Priest signature preview" mah={90} fit="contain" />
                       ) : null}
-                      <Text size="sm" c="dimmed">Signature preview</Text>
+                      <Text size="sm" c="dimmed">
+                        Signature preview
+                      </Text>
                     </Group>
                     <Group>
                       {leftImagePreview ? (
                         <Image src={leftImagePreview} alt="PDF header left image preview" mah={90} fit="contain" />
                       ) : null}
-                      <Text size="sm" c="dimmed">Left image preview</Text>
+                      <Text size="sm" c="dimmed">
+                        Left image preview
+                      </Text>
                     </Group>
                   </SimpleGrid>
                   <SimpleGrid cols={{ base: 1, xs: 2 }} spacing="md">
@@ -200,7 +219,9 @@ export function Settings() {
                       {rightImagePreview ? (
                         <Image src={rightImagePreview} alt="PDF header right image preview" mah={90} fit="contain" />
                       ) : null}
-                      <Text size="sm" c="dimmed">Right image preview</Text>
+                      <Text size="sm" c="dimmed">
+                        Right image preview
+                      </Text>
                     </Group>
                   </SimpleGrid>
                 </Stack>

@@ -5,6 +5,7 @@ import { authRoutes } from './cf/routes/auth';
 import { certificateRoutes } from './cf/routes/certificates';
 import { settingsRoutes } from './cf/routes/settings';
 import { uploadRoutes } from './cf/routes/uploads';
+import { peopleRoutes } from './cf/routes/people';
 
 export type Env = {
   Bindings: {
@@ -31,6 +32,7 @@ app.route('/', authRoutes);
 app.route('/', certificateRoutes);
 app.route('/', settingsRoutes);
 app.route('/', uploadRoutes);
+app.route('/', peopleRoutes);
 
 app.notFound((c) => c.json({ error: true, message: '404 not found' }, 404));
 

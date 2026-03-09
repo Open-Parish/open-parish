@@ -11,6 +11,7 @@ import {
   updateCertificateController,
 } from '../controllers/certificates.controller';
 import { requireAuth } from '../middlewares/requireAuth';
+import { upsertPeopleAutocomplete } from '../middlewares/upsertPeopleAutocomplete';
 import { validateJson } from '../middlewares/validate';
 import {
   certificateMutationSchema,
@@ -25,8 +26,18 @@ router.use('/certificates/*', requireAuth);
 router.post('/certificates/:type/page', validateJson(certificatesPageSchema), certificatesPageController);
 router.post('/certificates/:type/search', validateJson(certificatesSearchSchema), certificatesSearchController);
 router.get('/certificates/:type/:id', getCertificateController);
-router.post('/certificates/:type', validateJson(certificateMutationSchema), createCertificateController);
-router.put('/certificates/:type/:id', validateJson(certificateMutationSchema), updateCertificateController);
+router.post(
+  '/certificates/:type',
+  validateJson(certificateMutationSchema),
+  upsertPeopleAutocomplete(),
+  createCertificateController
+);
+router.put(
+  '/certificates/:type/:id',
+  validateJson(certificateMutationSchema),
+  upsertPeopleAutocomplete(),
+  updateCertificateController
+);
 router.delete('/certificates/:type/:id', deleteCertificateController);
 router.get('/certificates/:type/print/:id/:certificateType', printCertificateController);
 router.get('/certificates/:type/print-preview/:id/:certificateType', printPreviewController);

@@ -9,4 +9,3 @@ export interface ApiErrorBoundaryInnerProps {
   children: React.ReactNode;
   onReset: () => void;
 }
-

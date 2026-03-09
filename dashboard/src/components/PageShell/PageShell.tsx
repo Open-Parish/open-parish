@@ -35,7 +35,10 @@ export function PageShell({ title, subtitle, children, headerContent, breadcrumb
           </div>
         )}
         {subtitle && (
-          <Text size={compact ? 'sm' : undefined} className={`${styles.subtitle}${compact ? ` ${styles.subtitleCompact}` : ''}`}>
+          <Text
+            size={compact ? 'sm' : undefined}
+            className={`${styles.subtitle}${compact ? ` ${styles.subtitleCompact}` : ''}`}
+          >
             {subtitle}
           </Text>
         )}

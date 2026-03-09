@@ -19,17 +19,17 @@
 
 ## Tech Stack
 
-| Layer | Library |
-|---|---|
-| Framework | React 18 + Vite |
-| UI | Mantine v7 |
-| Routing | React Router v6 |
-| State | Zustand |
+| Layer        | Library           |
+| ------------ | ----------------- |
+| Framework    | React 18 + Vite   |
+| UI           | Mantine v7        |
+| Routing      | React Router v6   |
+| State        | Zustand           |
 | Server state | TanStack Query v5 |
-| Forms | Mantine Form |
-| Icons | Tabler Icons |
-| Auth | Better Auth |
-| Rich text | Tiptap |
+| Forms        | Mantine Form      |
+| Icons        | Tabler Icons      |
+| Auth         | Better Auth       |
+| Rich text    | Tiptap            |
 
 ---
 
@@ -65,19 +65,19 @@ npm run preview
 
 ## Scripts
 
-| Script | Description |
-|---|---|
-| `dev` | Start development server |
-| `build` | Production build |
-| `preview` | Preview production build |
-| `lint` | Run ESLint |
-| `lint:fix` | Auto-fix lint issues |
-| `format` | Format with Prettier |
-| `typecheck` | Run TypeScript compiler check |
-| `check` | Lint + format + typecheck |
-| `test` | Run unit tests |
-| `test:e2e` | Run Cypress end-to-end tests |
-| `cypress:open` | Open Cypress test runner |
+| Script         | Description                   |
+| -------------- | ----------------------------- |
+| `dev`          | Start development server      |
+| `build`        | Production build              |
+| `preview`      | Preview production build      |
+| `lint`         | Run ESLint                    |
+| `lint:fix`     | Auto-fix lint issues          |
+| `format`       | Format with Prettier          |
+| `typecheck`    | Run TypeScript compiler check |
+| `check`        | Lint + format + typecheck     |
+| `test`         | Run unit tests                |
+| `test:e2e`     | Run Cypress end-to-end tests  |
+| `cypress:open` | Open Cypress test runner      |
 
 ---
 
