@@ -74,6 +74,8 @@ By default:
 
 ## Cloudflare Deployment
 
+For automated CI/CD deployment via GitHub Actions, see [`deploy.md`](deploy.md).
+
 ### API
 
 ```bash
