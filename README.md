@@ -74,7 +74,10 @@ By default:
 
 ## Cloudflare Deployment
 
-For automated CI/CD deployment via GitHub Actions, see [`deploy.md`](deploy.md).
+Workflow templates are provided under [`.github_example/`](.github_example) and are disabled by default.
+If you want GitHub Actions, rename `.github_example` to `.github`.
+
+For deployment guidance, see [`deploy.md`](deploy.md).
 
 ### API
 
