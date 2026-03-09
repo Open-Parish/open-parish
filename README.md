@@ -37,9 +37,9 @@ It includes:
 
 ## Repository Structure
 
-- [`dashboard/`](/Users/keithics/Documents/Code-new/olshp/dashboard): frontend app
-- [`api/`](/Users/keithics/Documents/Code-new/olshp/api): Worker API
-- [`terraform/`](/Users/keithics/Documents/Code-new/olshp/terraform): IaC for Cloudflare resources
+- [`dashboard/`](dashboard): frontend app
+- [`api/`](api): Worker API
+- [`terraform/`](terraform): IaC for Cloudflare resources
 
 ## Prerequisites
 
@@ -113,7 +113,7 @@ npm run check
 ## Sonar
 
 This repo includes Sonar exclusions for migrations in:
-- [`sonar-project.properties`](/Users/keithics/Documents/Code-new/olshp/sonar-project.properties)
+- [`sonar-project.properties`](sonar-project.properties)
 
 ## Contributing
 
@@ -133,4 +133,4 @@ This repo includes Sonar exclusions for migrations in:
 Free for parishes/nonprofits and self-hosted use.  
 No resale and no hosted SaaS offering without a separate commercial license.  
 Business Source License 1.1 (BSL 1.1) with a custom Additional Use Grant.  
-See [`LICENSE`](/Users/keithics/Documents/Code-new/olshp/LICENSE).
+See [`LICENSE`](LICENSE).
