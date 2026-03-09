@@ -16,6 +16,7 @@
     "check": "npm run typecheck && npm run lint && npm run format"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "hono": "^4.7.2",
     "jose": "^6.2.0",
     "zod": "^4.3.6"
