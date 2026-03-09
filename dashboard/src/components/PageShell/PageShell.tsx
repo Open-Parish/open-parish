@@ -19,13 +19,15 @@ export function PageShell({ title, subtitle, children, headerContent, breadcrumb
 
   const outerGap = compact ? 'sm' : 'md';
   const titleOrder = compact ? 3 : 2;
+  const headerRowClassName = compact ? `${styles.headerRow} ${styles.headerRowCompact}` : styles.headerRow;
+  const subtitleClassName = compact ? `${styles.subtitle} ${styles.subtitleCompact}` : styles.subtitle;
 
   return (
     <Stack gap={outerGap}>
       <div style={styleVars}>
         {Array.isArray(breadcrumbs) && !isEmpty(breadcrumbs) && <Breadcrumbs items={breadcrumbs} />}
         {(title || headerContent) && (
-          <div className={`${styles.headerRow}${compact ? ` ${styles.headerRowCompact}` : ''}`}>
+          <div className={headerRowClassName}>
             {title && (
               <Title order={titleOrder} className={styles.title}>
                 {title}
@@ -35,10 +37,7 @@ export function PageShell({ title, subtitle, children, headerContent, breadcrumb
           </div>
         )}
         {subtitle && (
-          <Text
-            size={compact ? 'sm' : undefined}
-            className={`${styles.subtitle}${compact ? ` ${styles.subtitleCompact}` : ''}`}
-          >
+          <Text size={compact ? 'sm' : undefined} className={subtitleClassName}>
             {subtitle}
           </Text>
         )}

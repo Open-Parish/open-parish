@@ -11,5 +11,3 @@ export type UiPreferencesState = {
   setPrimaryColor: (color: string) => void;
   setCompactMode: (compact: boolean) => void;
 };
-
-export type UiState = UiPreferencesState;

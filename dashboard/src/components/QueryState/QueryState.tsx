@@ -1,6 +1,6 @@
 import { Text } from '@mantine/core';
-import isFunction from 'lodash/isFunction';
 import type { QueryStateProps } from './QueryState.types';
+import { renderQueryStateContent } from './renderQueryStateContent';
 
 export function QueryState<TData>({
   query,
@@ -16,25 +16,26 @@ export function QueryState<TData>({
   children,
 }: QueryStateProps<TData>) {
   if (query.isError) {
-    if (errorContent) {
-      return isFunction(errorContent) ? errorContent() : errorContent;
-    }
+    const content = renderQueryStateContent(errorContent);
+    if (content) return content;
     return <Text c="red">{errorMessage}</Text>;
   }
+
   if (isNotFound) {
     return <Text c="dimmed">{notFoundMessage}</Text>;
   }
+
   if (query.isLoading) {
-    if (loadingContent) {
-      return isFunction(loadingContent) ? loadingContent() : loadingContent;
-    }
+    const content = renderQueryStateContent(loadingContent);
+    if (content) return content;
     return <Text c="dimmed">{loadingMessage}</Text>;
   }
+
   if (isEmpty) {
-    if (emptyContent) {
-      return isFunction(emptyContent) ? emptyContent() : emptyContent;
-    }
+    const content = renderQueryStateContent(emptyContent);
+    if (content) return content;
     return <Text c="dimmed">{emptyMessage}</Text>;
   }
+
   return children;
 }

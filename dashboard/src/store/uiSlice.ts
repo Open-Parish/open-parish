@@ -1,7 +1,7 @@
 import type { StateCreator } from 'zustand';
-import type { UiPreferencesState, UiState } from './ui.types';
+import type { UiPreferencesState } from './ui.types';
 
-export const createUiSlice: StateCreator<UiState, [], [], UiPreferencesState> = (set) => ({
+export const createUiSlice: StateCreator<UiPreferencesState, [], [], UiPreferencesState> = (set) => ({
   sidebarOpen: true,
   colorScheme: 'light',
   sidebarColor: '',

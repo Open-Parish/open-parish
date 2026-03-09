@@ -95,9 +95,10 @@ export function CertificateFormPage() {
             <Stack gap="lg">
               {groups.map((group, gi) => {
                 const isPair = group.fields.length === 2;
+                const groupKey = `${group.label ?? 'group'}-${group.fields.map((field) => field.path).join('-')}`;
 
                 return (
-                  <Stack key={gi} gap="xs">
+                  <Stack key={groupKey} gap="xs">
                     {group.label && (
                       <>
                         {gi > 0 && <Divider mt="xs" />}
