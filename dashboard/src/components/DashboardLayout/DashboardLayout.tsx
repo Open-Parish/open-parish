@@ -15,7 +15,7 @@ import {
   IconChevronsRight,
 } from '@tabler/icons-react';
 import { OpenParishMark } from '@/components/OpenParishMark/OpenParishMark';
-import { useUiStore } from '@/store/useUiStore';
+import { useUi } from '@/context/UiContext';
 import { appRoutes } from '@/app/routes';
 import { useAuth } from '@/context/AuthContext';
 import styles from './DashboardLayout.module.css';
@@ -30,10 +30,7 @@ const NAV_ITEMS = [
 ];
 
 export function DashboardLayout() {
-  const sidebarOpen = useUiStore((s) => s.sidebarOpen);
-  const toggleSidebar = useUiStore((s) => s.toggleSidebar);
-  const colorScheme = useUiStore((s) => s.colorScheme);
-  const toggleColorScheme = useUiStore((s) => s.toggleColorScheme);
+  const { sidebarOpen, toggleSidebar, colorScheme, toggleColorScheme } = useUi();
   const location = useLocation();
   const { email, logout } = useAuth();
 

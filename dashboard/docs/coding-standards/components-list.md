@@ -208,36 +208,28 @@ export function ListCreateModal() {
 
 ```ts
 // useListForm.ts
-import { create } from 'zustand';
-
-type ListFormState = {
-  name: string;
-  createOpen: boolean;
-  setName: (name: string) => void;
-  openCreate: () => void;
-  closeCreate: () => void;
-};
-
-const useListFormStore = create<ListFormState>((set) => ({
-  name: '',
-  createOpen: false,
-  setName: (name) => set({ name }),
-  openCreate: () => set({ createOpen: true }),
-  closeCreate: () => set({ createOpen: false }),
-}));
+import { useMemo, useState } from 'react';
 
 export const useListForm = () => {
-  const { name, createOpen, setName, openCreate, closeCreate } = useListFormStore();
+  const [name, setName] = useState('');
+  const [createOpen, setCreateOpen] = useState(false);
+  const openCreate = () => setCreateOpen(true);
+  const closeCreate = () => setCreateOpen(false);
   const canCreate = name.trim().length > 0;
 
-  return {
-    name,
-    setName,
-    createOpen,
-    openCreate,
-    closeCreate,
-    canCreate,
-  };
+  const values = useMemo(
+    () => ({
+      name,
+      createOpen,
+      canCreate,
+      setName,
+      openCreate,
+      closeCreate,
+    }),
+    [name, createOpen, canCreate],
+  );
+
+  return values;
 };
 ```
 

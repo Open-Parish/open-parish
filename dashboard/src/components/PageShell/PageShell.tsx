@@ -1,6 +1,6 @@
 import { Stack, Text, Title, useMantineTheme } from '@mantine/core';
 import isEmpty from 'lodash/isEmpty';
-import { useUiStore } from '@/store/useUiStore';
+import { useUi } from '@/context/UiContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs/Breadcrumbs';
 import type { PageShellProps } from './PageShell.types';
 import { getPageShellStyleVars } from './PageShell.styles';
@@ -8,8 +8,7 @@ import styles from './PageShell.module.css';
 
 export function PageShell({ title, subtitle, children, headerContent, breadcrumbs }: PageShellProps) {
   const theme = useMantineTheme();
-  const colorScheme = useUiStore((state) => state.colorScheme);
-  const compact = useUiStore((state) => state.compactMode);
+  const { colorScheme, compactMode: compact } = useUi();
   const isDark = colorScheme === 'dark';
   const styleVars = getPageShellStyleVars({
     hasHeaderContent: Boolean(headerContent),

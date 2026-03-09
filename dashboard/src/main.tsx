@@ -14,11 +14,11 @@ import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persist
 import { BrowserRouter } from 'react-router-dom';
 import { generateColors } from '@mantine/colors-generator';
 import { App } from './app/App';
-import { useUiStore } from './store/useUiStore';
 import { theme } from './styles/theme';
 import { queryClient, QUERY_PERSIST_MAX_AGE, QUERY_PERSIST_STORAGE_KEY } from './queryClient';
 import { AppBoundary } from './AppBoundary';
 import { AuthProvider } from './context/AuthContext';
+import { UiProvider, useUi } from './context/UiContext';
 
 const persister = createSyncStoragePersister({
   storage: window.localStorage,
@@ -26,8 +26,7 @@ const persister = createSyncStoragePersister({
 });
 
 function Providers() {
-  const colorScheme = useUiStore((state) => state.colorScheme);
-  const primaryColor = useUiStore((state) => state.primaryColor);
+  const { colorScheme, primaryColor } = useUi();
 
   const dynamicTheme = useMemo(() => {
     if (!primaryColor) return theme;
@@ -59,6 +58,8 @@ function Providers() {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Providers />
+    <UiProvider>
+      <Providers />
+    </UiProvider>
   </React.StrictMode>,
 );
