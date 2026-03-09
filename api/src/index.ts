@@ -5,6 +5,7 @@ import { certificateRoutes } from "./domains/certificates/certificates.routes";
 import { settingsRoutes } from "./domains/settings/settings.routes";
 import { uploadRoutes } from "./domains/uploads/uploads.routes";
 import { peopleRoutes } from "./domains/people/people.routes";
+import { installRoutes } from "./domains/install/install.routes";
 import type { Env } from "./index.types";
 import { errorMessageFromUnknown } from "./shared/utils/errorMessageFromUnknown";
 import { isHttpException } from "./shared/utils/typeGuards";
@@ -23,6 +24,7 @@ app.route("/", certificateRoutes);
 app.route("/", settingsRoutes);
 app.route("/", uploadRoutes);
 app.route("/", peopleRoutes);
+app.route("/", installRoutes);
 
 app.notFound((c) => c.json({ error: true, message: "404 not found" }, 404));
 
