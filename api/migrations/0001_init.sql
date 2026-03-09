@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS settings (
   id INTEGER PRIMARY KEY CHECK (id = 1),
+  parish_name TEXT NOT NULL DEFAULT 'Our Lady of the Sacred Heart',
   header_line_1 TEXT NOT NULL,
   header_line_2 TEXT NOT NULL,
   header_line_3 TEXT NOT NULL,
