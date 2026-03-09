@@ -90,7 +90,7 @@
   border-radius: 100px;
   font-size: 12px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.92);
   letter-spacing: 0.01em;
 }
 
@@ -209,9 +209,9 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #7a5607;
-  background: rgba(201, 161, 87, 0.1);
-  border: 1px solid rgba(201, 161, 87, 0.2);
+  color: #5b3b00;
+  background: #f2e5c8;
+  border: 1px solid #d3b57a;
   border-radius: 100px;
   padding: 4px 10px;
   margin-bottom: 16px;

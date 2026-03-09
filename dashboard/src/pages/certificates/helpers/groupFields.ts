@@ -12,7 +12,7 @@ function parentPath(field: FormField): string {
 }
 
 function canPairNumberFields(current: FormField, next: FormField | undefined): next is FormField {
-  return Boolean(next && next.type === 'number' && !next.path.includes('.')) && current.type === 'number';
+  return Boolean(next?.type === 'number' && !next.path.includes('.')) && current.type === 'number';
 }
 
 function canPairRootNames(current: FormField, next: FormField | undefined): next is FormField {

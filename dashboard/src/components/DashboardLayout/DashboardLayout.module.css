@@ -292,7 +292,7 @@
 }
 
 [data-mantine-color-scheme='dark'] .headerIconBtn:hover {
-  background: rgba(255, 255, 255, 0.16) !important;
+  background: #3b3d45 !important;
   color: #ffffff !important;
 }
 
