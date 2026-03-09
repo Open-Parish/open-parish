@@ -44,7 +44,7 @@ function Providers() {
         <Notifications position="top-right" />
         <ModalsProvider>
           <AuthProvider>
-            <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
+            <BrowserRouter>
               <AppBoundary>
                 <App />
               </AppBoundary>

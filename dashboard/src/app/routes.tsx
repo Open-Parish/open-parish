@@ -1,4 +1,5 @@
 import { Suspense, lazy } from 'react';
+import type { ReactElement } from 'react';
 import { SuspenseProgress } from '@/components/SuspenseProgress/SuspenseProgress';
 import type { AppRoute } from './routes.types';
 
@@ -12,7 +13,7 @@ const CertificateFormPage = lazy(() =>
   import('@/pages/certificates/CertificateFormPage').then((module) => ({ default: module.CertificateFormPage })),
 );
 
-function suspenseElement(element: JSX.Element): JSX.Element {
+function suspenseElement(element: ReactElement): ReactElement {
   return <Suspense fallback={<SuspenseProgress />}>{element}</Suspense>;
 }
 
