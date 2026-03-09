@@ -29,6 +29,10 @@ It includes:
 - Parish settings with image uploads (signature + PDF header images)
 - People autocomplete from previously used names
 
+## TODO
+
+- Implement true PDF generation/export (server-side) instead of relying on browser print preview.
+
 ## Tech Stack
 
 - Frontend: React, Vite, TypeScript, Mantine, TanStack Query, React Context

@@ -96,12 +96,16 @@ export function DashboardLayout() {
               </ActionIcon>
             </Tooltip>
 
-            <div className={styles.userChip}>
-              <span className={styles.userName}>{email}</span>
+            <Tooltip label="Account settings" withArrow>
+              <div className={styles.userChip} onClick={() => navigate('/account')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && navigate('/account')}>
+                <span className={styles.userName}>{email}</span>
+              </div>
+            </Tooltip>
+            <Tooltip label="Sign out" withArrow>
               <ActionIcon variant="subtle" className={styles.headerIconBtn} onClick={logout} aria-label="Logout">
                 <IconLogout size={16} />
               </ActionIcon>
-            </div>
+            </Tooltip>
           </div>
         </header>
 

@@ -1,6 +1,6 @@
 import { HTTPException } from "hono/http-exception";
 import { createJwt } from "../../shared/lib/security/jwt";
-import { verifyPassword } from "../../shared/lib/security/password";
+import { hashPassword, verifyPassword } from "../../shared/lib/security/password";
 import { asTrimmedLowercase } from "../../shared/utils/normalize";
 
 export async function loginUser(
@@ -31,4 +31,31 @@ export async function loginUser(
   });
 
   return { token, user: { id: user.id, email: user.email } };
+}
+
+export async function changeUserPassword(
+  db: D1Database,
+  userId: string,
+  currentPassword: string,
+  newPassword: string,
+) {
+  const user = await db
+    .prepare("SELECT id, password_hash FROM users WHERE id = ?")
+    .bind(userId)
+    .first<{ id: string; password_hash: string }>();
+
+  if (!user) {
+    throw new HTTPException(404, { message: "User not found" });
+  }
+
+  const valid = await verifyPassword(currentPassword, user.password_hash);
+  if (!valid) {
+    throw new HTTPException(422, { message: "Current password is incorrect" });
+  }
+
+  const newHash = await hashPassword(newPassword);
+  await db
+    .prepare("UPDATE users SET password_hash = ? WHERE id = ?")
+    .bind(newHash, userId)
+    .run();
 }

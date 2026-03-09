@@ -12,6 +12,9 @@ const CertificateListPage = lazy(() =>
 const CertificateFormPage = lazy(() =>
   import('@/pages/certificates/CertificateFormPage').then((module) => ({ default: module.CertificateFormPage })),
 );
+const AccountPage = lazy(() =>
+  import('@/pages/account/AccountPage').then((module) => ({ default: module.AccountPage })),
+);
 
 function suspenseElement(element: ReactElement): ReactElement {
   return <Suspense fallback={<SuspenseProgress />}>{element}</Suspense>;
@@ -87,6 +90,11 @@ export const appRoutes: AppRoute[] = [
     path: '/settings',
     element: suspenseElement(<Settings />),
     label: 'Settings',
+  },
+  {
+    path: '/account',
+    element: suspenseElement(<AccountPage />),
+    label: 'Account',
   },
 ];
 
