@@ -4,7 +4,6 @@ export type Person = {
 };
 
 export type CertificateRecord = {
-  _id?: string;
   id?: string;
   firstName?: string;
   lastName?: string;

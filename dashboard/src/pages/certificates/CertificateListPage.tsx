@@ -134,7 +134,7 @@ export function CertificateListPage() {
               <EmptyState search={search} />
             ) : (
               docs.map((row) => {
-                const id = String(row._id ?? row.id ?? '');
+                const id = String(row.id ?? '');
                 const printType = config.certificateType ?? config.apiModule;
                 const printLink = `${API_BASE_URL}/certificates/${config.apiModule}/print/${id}/${printType}?auth_token=${token ?? ''}`;
 

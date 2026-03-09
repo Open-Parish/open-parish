@@ -27,7 +27,7 @@ export async function registerController(c: Context<Env>) {
   }
 
   const token = await createJwt(c.env.JWT_SECRET, { id, email });
-  return c.json({ token, user: { _id: id, email } });
+  return c.json({ token, user: { id, email } });
 }
 
 export async function loginController(c: Context<Env>) {
@@ -51,12 +51,12 @@ export async function loginController(c: Context<Env>) {
   }
 
   const token = await createJwt(c.env.JWT_SECRET, { id: user.id, email: user.email });
-  return c.json({ token, user: { _id: user.id, email: user.email } });
+  return c.json({ token, user: { id: user.id, email: user.email } });
 }
 
 export async function profileController(c: Context<Env>) {
   return c.json({
     message: 'You made it to the secure route',
-    user: { _id: c.get('userId'), email: c.get('userEmail') },
+    user: { id: c.get('userId'), email: c.get('userEmail') },
   });
 }

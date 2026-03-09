@@ -152,10 +152,18 @@ export function CertificateFormPage() {
   const form = useForm<Record<string, unknown>>({
     initialValues: config?.defaultValues ?? {},
     validate: {
-      firstName: (value) =>
-        typeof value === 'string' && value.trim().length > 0 ? null : 'Required',
-      lastName: (value) =>
-        typeof value === 'string' && value.trim().length > 0 ? null : 'Required',
+      ...(config?.fields.some((field) => field.path === 'firstName')
+        ? {
+            firstName: (value: unknown) =>
+              typeof value === 'string' && value.trim().length > 0 ? null : 'Required',
+          }
+        : {}),
+      ...(config?.fields.some((field) => field.path === 'lastName')
+        ? {
+            lastName: (value: unknown) =>
+              typeof value === 'string' && value.trim().length > 0 ? null : 'Required',
+          }
+        : {}),
     },
   });
 
