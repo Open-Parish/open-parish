@@ -97,7 +97,13 @@ export function DashboardLayout() {
             </Tooltip>
 
             <Tooltip label="Account settings" withArrow>
-              <div className={styles.userChip} onClick={() => navigate('/account')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && navigate('/account')}>
+              <div
+                className={styles.userChip}
+                onClick={() => navigate('/account')}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && navigate('/account')}
+              >
                 <span className={styles.userName}>{email}</span>
               </div>
             </Tooltip>

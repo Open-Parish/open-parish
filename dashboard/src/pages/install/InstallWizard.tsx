@@ -26,7 +26,7 @@ export function InstallWizard() {
   const adminForm = useForm({
     initialValues: { email: '', password: '', repeatPassword: '' },
     validate: {
-      email: (v) => (!v.trim() ? 'Required' : !/\S+@\S+\.\S+/.test(v) ? 'Enter a valid email' : null),
+      email: (v) => (!v.trim() ? 'Required' : null),
       password: (v) => (v.length < 8 ? 'Password must be at least 8 characters' : null),
       repeatPassword: (v, vals) => (v !== vals.password ? 'Passwords do not match' : null),
     },

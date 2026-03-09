@@ -75,7 +75,7 @@ By default:
 - Dashboard: `http://localhost:5173`
 - API (Wrangler dev): shown by Wrangler output
 
-## Docker Compose (Fork-Friendly)
+## Docker Compose
 
 Run both API and Dashboard with Docker:
 

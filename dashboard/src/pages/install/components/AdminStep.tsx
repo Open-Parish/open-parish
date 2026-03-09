@@ -25,7 +25,12 @@ export function AdminStep({ form, onBack, onNext }: AdminStepProps) {
   return (
     <>
       <Stack gap="md">
-        <TextInput label="Email address" placeholder="admin@yourparish.org" {...form.getInputProps('email')} />
+        <TextInput
+          type="email"
+          label="Email address"
+          placeholder="admin@yourparish.org"
+          {...form.getInputProps('email')}
+        />
 
         <div>
           <div className={styles.passwordLabelRow}>

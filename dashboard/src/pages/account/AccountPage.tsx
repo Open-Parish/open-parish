@@ -35,11 +35,7 @@ export function AccountPage() {
               <Text size="xs" fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.06em' }}>
                 Profile
               </Text>
-              <TextInput
-                label="Email address"
-                value={profileQuery.data?.user.email ?? ''}
-                readOnly
-              />
+              <TextInput label="Email address" value={profileQuery.data?.user.email ?? ''} readOnly />
             </Stack>
 
             <Divider />
