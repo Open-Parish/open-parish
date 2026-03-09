@@ -8,9 +8,11 @@ export type QueryStateProps<TData> = {
   isEmpty: boolean;
   isNotFound?: boolean;
   errorMessage?: string;
+  errorContent?: ReactNode | (() => ReactNode);
   emptyMessage?: string;
   emptyContent?: ReactNode | (() => ReactNode);
   loadingMessage?: string;
+  loadingContent?: ReactNode | (() => ReactNode);
   notFoundMessage?: string;
   children: ReactNode;
 };

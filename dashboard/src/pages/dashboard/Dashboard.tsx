@@ -2,6 +2,7 @@ import { Card, Grid, Group, Stack, Text, ThemeIcon } from '@mantine/core';
 import { IconArrowUpRight, IconCross, IconDroplet, IconFlame, IconHearts, IconSettings } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { PageShell } from '@/components/PageShell/PageShell';
+import { getGreeting } from './utils/getGreeting';
 import styles from './Dashboard.module.css';
 
 const MODULES = [
@@ -42,13 +43,6 @@ const MODULES = [
   },
 ] as const;
 
-function getGreeting() {
-  const h = new Date().getHours();
-  if (h < 12) return 'Good morning';
-  if (h < 17) return 'Good afternoon';
-  return 'Good evening';
-}
-
 export function Dashboard() {
   const dateStr = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
@@ -59,7 +53,6 @@ export function Dashboard() {
 
   return (
     <PageShell title="Dashboard" subtitle="Parish certificate management system.">
-      {/* Welcome banner */}
       <div className={styles.banner}>
         <div className={styles.bannerOrb1} />
         <div className={styles.bannerOrb2} />
@@ -70,7 +63,6 @@ export function Dashboard() {
         </Stack>
       </div>
 
-      {/* Module cards */}
       <Grid gutter="md">
         {MODULES.map(({ path, title, subtitle, icon: Icon, color }) => (
           <Grid.Col key={path} span={{ base: 12, sm: 6, lg: 4 }}>

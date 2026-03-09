@@ -27,13 +27,19 @@ app.notFound((c) => c.json({ error: true, message: "404 not found" }, 404));
 
 app.onError((err, c) => {
   if (err instanceof HTTPException) {
-    return err.getResponse();
+    return c.json(
+      {
+        message: err.message || "Request failed",
+        statusCode: err.status,
+      },
+      err.status,
+    );
   }
 
   return c.json(
     {
-      error: true,
       message: "Internal server error",
+      statusCode: 500,
       details: err instanceof Error ? err.message : String(err),
     },
     500,

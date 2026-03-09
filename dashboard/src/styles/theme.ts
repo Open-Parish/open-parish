@@ -65,7 +65,6 @@ export const theme = createTheme({
       '#1e293b',
       '#0f172a',
     ],
-    // Deep liturgical wine / burgundy
     wine: [
       '#fdf2f4',
       '#f8d5de',

@@ -1,81 +1,18 @@
-import {
-  Anchor,
-  Button,
-  Center,
-  Group,
-  Pagination,
-  Paper,
-  Skeleton,
-  Stack,
-  Table,
-  Text,
-  TextInput,
-  ThemeIcon,
-} from '@mantine/core';
-import { IconFileOff, IconPrinter, IconSearch, IconTrash } from '@tabler/icons-react';
+import { Anchor, Button, Group, Pagination, Paper, Table, TextInput } from '@mantine/core';
+import { IconPrinter, IconSearch, IconTrash } from '@tabler/icons-react';
 import { useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { openConfirmDeleteModal } from '@/components/ConfirmDeleteModal/ConfirmDeleteModal';
 import { PageShell } from '@/components/PageShell/PageShell';
+import { QueryState } from '@/components/QueryState/QueryState';
 import { API_BASE_URL } from '@/config';
 import { getToken } from '@/lib/session';
 import { listCertificates, removeCertificate } from '@/features/certificates/api';
 import { getCertificateConfigByPath } from '@/features/certificates/config';
 import { friendlyDate } from '@/features/certificates/utils';
-
-const SKELETON_ROWS = 6;
-
-function TableSkeleton() {
-  return (
-    <>
-      {Array.from({ length: SKELETON_ROWS }).map((_, i) => (
-        <Table.Tr key={i}>
-          <Table.Td>
-            <Skeleton height={14} radius="sm" w="60%" />
-          </Table.Td>
-          <Table.Td>
-            <Skeleton height={14} radius="sm" w="80px" />
-          </Table.Td>
-          <Table.Td>
-            <Skeleton height={14} radius="sm" w="90px" />
-          </Table.Td>
-          <Table.Td>
-            <Skeleton height={14} radius="sm" w="90px" />
-          </Table.Td>
-          <Table.Td>
-            <Skeleton height={14} radius="sm" w={20} />
-          </Table.Td>
-          <Table.Td>
-            <Skeleton height={14} radius="sm" w={20} />
-          </Table.Td>
-        </Table.Tr>
-      ))}
-    </>
-  );
-}
-
-function EmptyState({ search }: { search: string }) {
-  return (
-    <Table.Tr>
-      <Table.Td colSpan={6}>
-        <Center py={64}>
-          <Stack align="center" gap="sm">
-            <ThemeIcon variant="light" color="gray" size={52} radius="xl">
-              <IconFileOff size={26} stroke={1.5} />
-            </ThemeIcon>
-            <Text fw={600} size="sm" c="dimmed">
-              {search ? `No results for "${search}"` : 'No records yet'}
-            </Text>
-            <Text size="xs" c="dimmed" maw={260} ta="center">
-              {search ? 'Try a different name or clear the search.' : 'Add your first record using the button above.'}
-            </Text>
-          </Stack>
-        </Center>
-      </Table.Td>
-    </Table.Tr>
-  );
-}
+import { EmptyState } from './components/EmptyState';
+import { TableSkeleton } from './components/TableSkeleton';
 
 export function CertificateListPage() {
   const location = useLocation();
@@ -127,10 +64,10 @@ export function CertificateListPage() {
     return null;
   }
 
-  const { data, isLoading } = listQuery;
+  const { data } = listQuery;
   const docs = data?.docs ?? [];
   const token = getToken();
-  const isEmpty = !isLoading && docs.length === 0;
+  const isEmpty = !listQuery.isLoading && docs.length === 0;
 
   return (
     <PageShell title={config.title} subtitle={config.subtitle}>
@@ -161,12 +98,14 @@ export function CertificateListPage() {
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {isLoading ? (
-              <TableSkeleton />
-            ) : isEmpty ? (
-              <EmptyState search={search} />
-            ) : (
-              docs.map((row) => {
+            <QueryState
+              query={listQuery}
+              isEmpty={isEmpty}
+              emptyContent={<EmptyState search={search} />}
+              loadingContent={<TableSkeleton />}
+              errorContent={<EmptyState search={search} />}
+            >
+              {docs.map((row) => {
                 const { id: rawId, occasionDate, createdAt, updatedAt } = row;
                 const id = String(rawId ?? '');
                 const printType = config.certificateType ?? config.apiModule;
@@ -201,13 +140,13 @@ export function CertificateListPage() {
                     </Table.Td>
                   </Table.Tr>
                 );
-              })
-            )}
+              })}
+            </QueryState>
           </Table.Tbody>
         </Table>
       </Paper>
 
-      {!isLoading && !isEmpty && <Pagination value={page} onChange={setPage} total={data?.totalPages ?? 1} />}
+      {!listQuery.isLoading && !isEmpty && <Pagination value={page} onChange={setPage} total={data?.totalPages ?? 1} />}
     </PageShell>
   );
 }

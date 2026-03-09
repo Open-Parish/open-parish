@@ -1,14 +1,8 @@
-/* ============================================================
-   LOGIN — Split-screen: dark brand panel | clean form panel
-   ============================================================ */
-
 .root {
   display: flex;
   min-height: 100vh;
   font-family: 'DM Sans', system-ui, sans-serif;
 }
-
-/* ── LEFT: Brand panel ─────────────────────────────────────── */
 
 .brand {
   position: relative;
@@ -30,7 +24,6 @@
   justify-content: center;
 }
 
-/* Logo */
 .logo {
   display: flex;
   align-items: center;
@@ -58,7 +51,6 @@
   letter-spacing: -0.04em;
 }
 
-/* Headline */
 .headline {
   font-family: 'Sora', sans-serif;
   font-size: 42px;
@@ -81,7 +73,6 @@
   max-width: 280px;
 }
 
-/* Pill badges */
 .pills {
   display: flex;
   flex-wrap: wrap;
@@ -111,7 +102,6 @@
   flex-shrink: 0;
 }
 
-/* Geometric background */
 .geo {
   position: absolute;
   inset: 0;
@@ -174,7 +164,6 @@
   background-size: 44px 44px;
 }
 
-/* Corner glow */
 .geoGlow {
   position: absolute;
   width: 300px;
@@ -185,7 +174,6 @@
   right: -60px;
 }
 
-/* Footer */
 .brandFooter {
   position: relative;
   z-index: 2;
@@ -194,8 +182,6 @@
   color: rgba(255, 255, 255, 0.2);
   letter-spacing: 0.02em;
 }
-
-/* ── RIGHT: Form panel ─────────────────────────────────────── */
 
 .formPanel {
   flex: 1;
@@ -255,7 +241,6 @@
   gap: 18px;
 }
 
-/* Input overrides */
 .inputLabel {
   font-size: 13px !important;
   font-weight: 600 !important;
@@ -282,7 +267,6 @@
   box-shadow: 0 0 0 3px rgba(201, 161, 87, 0.15) !important;
 }
 
-/* Error */
 .errorBox {
   display: flex;
   align-items: center;
@@ -296,7 +280,6 @@
   font-weight: 500;
 }
 
-/* Submit button */
 .submitBtn {
   height: 48px !important;
   font-size: 14px !important;
@@ -320,7 +303,6 @@
   transform: translateY(0) !important;
 }
 
-/* Keyframes */
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -339,8 +321,6 @@
     transform: translateY(-14px);
   }
 }
-
-/* ── Responsive ─────────────────────────────────────────────── */
 
 @media (max-width: 840px) {
   .root {

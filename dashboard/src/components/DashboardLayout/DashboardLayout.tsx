@@ -14,21 +14,11 @@ import {
   IconChevronsLeft,
   IconChevronsRight,
 } from '@tabler/icons-react';
+import { OpenParishMark } from '@/components/OpenParishMark/OpenParishMark';
 import { useUiStore } from '@/store/useUiStore';
 import { appRoutes } from '@/app/routes';
 import { useAuth } from '@/context/AuthContext';
 import styles from './DashboardLayout.module.css';
-
-function OpenParishMark({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 40 40" fill="none" className={className} aria-hidden="true">
-      <rect x="5" y="5" width="30" height="30" rx="8" fill="currentColor" opacity="0.15" />
-      <path d="M20 9v6M17 12h6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M11 19l9-7 9 7v12H11V19z" fill="currentColor" />
-      <rect x="17.5" y="22.5" width="5" height="8.5" rx="1" fill="white" />
-    </svg>
-  );
-}
 
 const NAV_ITEMS = [
   { path: '/dashboard', label: 'Dashboard', icon: IconLayoutDashboard },
@@ -51,15 +41,12 @@ export function DashboardLayout() {
   const pageTitle = currentRoute?.label ?? 'Dashboard';
   return (
     <div className={`${styles.shell} ${!sidebarOpen ? styles.collapsed : ''}`}>
-      {/* ── Sidebar ── */}
       <aside className={styles.sidebar}>
-        {/* Logo */}
         <div className={styles.sidebarHead}>
           <OpenParishMark className={styles.logoMark} />
           <span className={styles.logoName}>Open Parish</span>
         </div>
 
-        {/* Navigation */}
         <nav className={styles.nav}>
           <div className={styles.sectionLabel}>Menu</div>
 
@@ -76,7 +63,6 @@ export function DashboardLayout() {
           ))}
         </nav>
 
-        {/* Collapse toggle */}
         <div className={styles.sidebarFoot}>
           <Tooltip
             label={sidebarOpen ? 'Collapse' : 'Expand'}
@@ -97,16 +83,13 @@ export function DashboardLayout() {
         </div>
       </aside>
 
-      {/* ── Main ── */}
       <div className={styles.main}>
-        {/* Header */}
         <header className={styles.header}>
           <div className={styles.headerLeft}>
             <h1 className={styles.pageTitle}>{pageTitle}</h1>
           </div>
 
           <div className={styles.headerRight}>
-            {/* Notification */}
             <Tooltip label="Notifications" withArrow>
               <div className={styles.bellWrap}>
                 <ActionIcon variant="subtle" className={styles.headerIconBtn}>
@@ -116,14 +99,12 @@ export function DashboardLayout() {
               </div>
             </Tooltip>
 
-            {/* Dark mode toggle */}
             <Tooltip label={colorScheme === 'dark' ? 'Light mode' : 'Dark mode'} withArrow>
               <ActionIcon variant="subtle" className={styles.headerIconBtn} onClick={toggleColorScheme}>
                 {colorScheme === 'dark' ? <IconSun size={17} /> : <IconMoon size={17} />}
               </ActionIcon>
             </Tooltip>
 
-            {/* User chip */}
             <div className={styles.userChip}>
               <Avatar className={styles.userAvatar} radius="xl">
                 AD
@@ -136,7 +117,6 @@ export function DashboardLayout() {
           </div>
         </header>
 
-        {/* Page content */}
         <main className={styles.content}>
           <Outlet />
         </main>

@@ -7,7 +7,11 @@ import type { InferSchema } from "./validate.types";
 
 export function validateJson<TSchema extends ZodType>(schema: TSchema) {
   return createMiddleware<Env>(async (c, next) => {
-    const payload = await c.req.json().catch(() => undefined);
+    const payload = await c.req.json().catch(() => {
+      throw new HTTPException(422, {
+        message: "Invalid JSON payload",
+      });
+    });
     const parsed = schema.safeParse(payload);
 
     if (!parsed.success) {
@@ -23,7 +27,11 @@ export function validateJson<TSchema extends ZodType>(schema: TSchema) {
 
 export function validateFormData<TSchema extends ZodType>(schema: TSchema) {
   return createMiddleware<Env>(async (c, next) => {
-    const payload = await c.req.parseBody();
+    const payload = await c.req.parseBody().catch(() => {
+      throw new HTTPException(422, {
+        message: "Invalid form payload",
+      });
+    });
     const parsed = schema.safeParse(payload);
 
     if (!parsed.success) {

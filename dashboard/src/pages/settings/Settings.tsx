@@ -14,36 +14,11 @@ import {
 import { useForm } from '@mantine/form';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef } from 'react';
-import { resolveApiUrl } from '@/api/client';
 import { PageShell } from '@/components/PageShell/PageShell';
 import { getSettings, updateSettings } from '@/features/settings/settingsApi';
 import { getToken } from '@/lib/session';
 import type { SettingsForm } from './Settings.types';
-
-function resolveAssetPreview(value: string, authToken?: string | null): string {
-  const trimmed = String(value ?? '').trim();
-  if (!trimmed) return '';
-  if (
-    trimmed.startsWith('http://') ||
-    trimmed.startsWith('https://') ||
-    trimmed.startsWith('data:') ||
-    trimmed.startsWith('blob:')
-  ) {
-    return trimmed;
-  }
-  if (trimmed.startsWith('/')) {
-    return withAuthToken(resolveApiUrl(trimmed), authToken);
-  }
-  return withAuthToken(resolveApiUrl(`/${trimmed}`), authToken);
-}
-
-function withAuthToken(url: string, authToken?: string | null): string {
-  if (!authToken) return url;
-  const [path, query = ''] = url.split('?');
-  const params = new URLSearchParams(query);
-  params.set('auth_token', authToken);
-  return `${path}?${params.toString()}`;
-}
+import { resolveAssetPreview } from './utils/resolveAssetPreview';
 
 export function Settings() {
   const authToken = getToken();
@@ -144,7 +119,6 @@ export function Settings() {
         <Paper withBorder shadow="xs" p={{ base: 'md', sm: 'xl' }}>
           <form onSubmit={form.onSubmit((values) => mutation.mutate(values))}>
             <Stack gap="lg">
-              {/* Certificate header lines */}
               <Stack gap="xs">
                 <Text size="xs" fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.06em' }}>
                   Certificate Header
@@ -164,7 +138,6 @@ export function Settings() {
 
               <Divider />
 
-              {/* Parish priest */}
               <Stack gap="xs">
                 <Text size="xs" fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.06em' }}>
                   Parish Priest

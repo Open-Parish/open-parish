@@ -2,21 +2,11 @@ import { useState } from 'react';
 import { Button, PasswordInput, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useNavigate } from 'react-router-dom';
+import { OpenParishMark } from '@/components/OpenParishMark/OpenParishMark';
 import { DEV_DEFAULT_OWNER_EMAIL, DEV_DEFAULT_OWNER_PASSWORD } from '@/config';
 import { useAuth } from '@/context/AuthContext';
 import type { LoginForm } from './Login.types';
 import styles from './Login.module.css';
-
-function OpenParishMark({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 40 40" fill="none" className={className} aria-hidden="true">
-      <rect x="5" y="5" width="30" height="30" rx="8" fill="currentColor" opacity="0.15" />
-      <path d="M20 9v6M17 12h6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M11 19l9-7 9 7v12H11V19z" fill="currentColor" />
-      <rect x="17.5" y="22.5" width="5" height="8.5" rx="1" fill="white" />
-    </svg>
-  );
-}
 
 export function Login() {
   const navigate = useNavigate();
@@ -53,11 +43,13 @@ export function Login() {
           </div>
 
           <h2 className={styles.headline}>
-            The workspace
+            Made for
             <br />
-            built for <span className={styles.headlineAccent}>speed.</span>
+            <span className={styles.headlineAccent}>everyday parish work.</span>
           </h2>
-          <p className={styles.subHeadline}>Manage everything in one place — fast, flexible, and always in control.</p>
+          <p className={styles.subHeadline}>
+            Create, find, and print baptism, confirmation, marriage, and death records in one place.
+          </p>
         </div>
 
         <div className={styles.brandFooter}>© {new Date().getFullYear()} Open Parish</div>

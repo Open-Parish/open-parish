@@ -17,8 +17,6 @@ export function useUserSettings() {
           if (setting.key === 'compact-mode') setCompactMode(setting.value === 'true');
         }
       })
-      .catch(() => {
-        // Silently ignore — settings are optional.
-      });
+      .catch(() => {});
   }, [setSidebarColor, setPrimaryColor, setCompactMode]);
 }
