@@ -25,7 +25,10 @@ export function CertificateFormPage() {
 
   const detailQuery = useQuery({
     queryKey: ['cert-detail', config?.key, id],
-    queryFn: () => getCertificate(config!, id!),
+    queryFn: () => {
+      if (!config || !id) throw new Error('Missing certificate config or id');
+      return getCertificate(config, id);
+    },
     enabled: Boolean(config && id),
   });
 
@@ -62,13 +65,25 @@ export function CertificateFormPage() {
   }, [detailQuery.data, form, isEdit]);
 
   const createMutation = useMutation({
-    mutationFn: (values: Record<string, unknown>) => createCertificate(config!, values),
-    onSuccess: () => navigate(config!.routePath),
+    mutationFn: (values: Record<string, unknown>) => {
+      if (!config) throw new Error('Missing certificate config');
+      return createCertificate(config, values);
+    },
+    onSuccess: () => {
+      if (!config) return;
+      navigate(config.routePath);
+    },
   });
 
   const updateMutation = useMutation({
-    mutationFn: (values: Record<string, unknown>) => updateCertificate(config!, id!, values),
-    onSuccess: () => navigate(config!.routePath),
+    mutationFn: (values: Record<string, unknown>) => {
+      if (!config || !id) throw new Error('Missing certificate config or id');
+      return updateCertificate(config, id, values);
+    },
+    onSuccess: () => {
+      if (!config) return;
+      navigate(config.routePath);
+    },
   });
 
   const groups = useMemo(() => groupFields(config?.fields ?? []), [config?.fields]);

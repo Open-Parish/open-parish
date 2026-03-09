@@ -4,7 +4,7 @@ import type { UiPreferencesState } from './UiContext.types';
 
 const UiContext = createContext<UiPreferencesState | null>(null);
 
-export function UiProvider({ children }: { children: ReactNode }) {
+export function UiProvider({ children }: Readonly<{ children: ReactNode }>) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [colorScheme, setColorScheme] = useState<'light' | 'dark'>('light');
   const [sidebarColor, setSidebarColor] = useState('');

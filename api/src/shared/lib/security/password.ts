@@ -1,14 +1,16 @@
 const encoder = new TextEncoder();
 
 function toBase64(bytes: Uint8Array): string {
-  return btoa(String.fromCharCode(...bytes));
+  return btoa(
+    Array.from(bytes, (value) => String.fromCodePoint(value)).join(""),
+  );
 }
 
 function fromBase64(value: string): Uint8Array {
   const raw = atob(value);
   const bytes = new Uint8Array(raw.length);
   for (let i = 0; i < raw.length; i += 1) {
-    bytes[i] = raw.charCodeAt(i);
+    bytes[i] = raw.codePointAt(i) ?? 0;
   }
   return bytes;
 }

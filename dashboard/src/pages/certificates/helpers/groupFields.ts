@@ -3,7 +3,7 @@ import type { FieldGroup } from '../CertificateFormPage.types';
 import { formatGroupLabel } from './formatGroupLabel';
 
 function isNestedField(field: FormField): boolean {
-  return field.path.lastIndexOf('.') >= 0;
+  return field.path.includes('.');
 }
 
 function parentPath(field: FormField): string {

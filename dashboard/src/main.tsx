@@ -21,7 +21,7 @@ import { AuthProvider } from './context/AuthContext';
 import { UiProvider, useUi } from './context/UiContext';
 
 const persister = createSyncStoragePersister({
-  storage: window.localStorage,
+  storage: globalThis.localStorage,
   key: QUERY_PERSIST_STORAGE_KEY,
 });
 

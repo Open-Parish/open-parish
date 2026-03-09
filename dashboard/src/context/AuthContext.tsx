@@ -6,7 +6,7 @@ import type { AuthContextValue, LoginPayload, LoginResponse } from './AuthContex
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   const [token, setToken] = useState<string | null>(getToken());
   const [email, setEmail] = useState<string>(getSessionEmail());
 

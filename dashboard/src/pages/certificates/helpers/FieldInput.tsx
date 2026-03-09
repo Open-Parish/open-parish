@@ -2,7 +2,7 @@ import { Autocomplete, NumberInput, Text, TextInput } from '@mantine/core';
 import { normalizeText } from '@/utils/normalizeText';
 import type { FieldInputProps } from './FieldInput.types';
 
-export function FieldInput({ field, label, value, onChange, onFocus, data, loading }: FieldInputProps) {
+export function FieldInput({ field, label, value, onChange, onFocus, data, loading }: Readonly<FieldInputProps>) {
   if (field.type === 'date') {
     return (
       <TextInput

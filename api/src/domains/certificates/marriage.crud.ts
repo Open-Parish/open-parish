@@ -70,8 +70,10 @@ export const marriageCrud: CertificateCrud = {
     if (terms.length > 0) {
       const likeParts: string[] = [];
       for (const term of terms) {
-        likeParts.push("LOWER(bride) LIKE LOWER(?)");
-        likeParts.push("LOWER(groom) LIKE LOWER(?)");
+        likeParts.push(
+          "LOWER(bride) LIKE LOWER(?)",
+          "LOWER(groom) LIKE LOWER(?)",
+        );
         const like = `%${term}%`;
         bindValues.push(like, like);
       }

@@ -14,7 +14,7 @@ export function QueryState<TData>({
   loadingContent,
   notFoundMessage = 'Not found.',
   children,
-}: QueryStateProps<TData>) {
+}: Readonly<QueryStateProps<TData>>) {
   if (query.isError) {
     const content = renderQueryStateContent(errorContent);
     if (content) return content;

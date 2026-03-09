@@ -1,7 +1,7 @@
 import { Center, Stack, Table, Text, ThemeIcon } from '@mantine/core';
 import { IconFileOff } from '@tabler/icons-react';
 
-export function EmptyState({ search }: { search: string }) {
+export function EmptyState({ search }: Readonly<{ search: string }>) {
   return (
     <Table.Tr>
       <Table.Td colSpan={6}>

@@ -1,4 +1,4 @@
-export function OpenParishMark({ className }: { className?: string }) {
+export function OpenParishMark({ className }: Readonly<{ className?: string }>) {
   return (
     <svg viewBox="0 0 40 40" fill="none" className={className} aria-hidden="true">
       <rect x="5" y="5" width="30" height="30" rx="8" fill="currentColor" opacity="0.15" />

@@ -39,8 +39,8 @@ const showGlobalErrorNotification = (status: number, message: string) => {
 
 const handleUnauthorized = async () => {
   clearSession();
-  if (window.location.pathname === '/login') return;
-  window.location.assign('/login');
+  if (globalThis.location.pathname === '/login') return;
+  globalThis.location.assign('/login');
 };
 
 async function parseResponse<T>(response: Response): Promise<T> {
@@ -88,7 +88,7 @@ async function requestJson<T>(path: string, options: RequestOptions = {}): Promi
   const response = await fetch(buildUrl(path), {
     method,
     headers,
-    body: body !== undefined ? JSON.stringify(body) : undefined,
+    body: body === undefined ? undefined : JSON.stringify(body),
   });
 
   return parseResponse<T>(response);

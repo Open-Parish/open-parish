@@ -6,7 +6,7 @@ import type { PageShellProps } from './PageShell.types';
 import { getPageShellStyleVars } from './PageShell.styles';
 import styles from './PageShell.module.css';
 
-export function PageShell({ title, subtitle, children, headerContent, breadcrumbs }: PageShellProps) {
+export function PageShell({ title, subtitle, children, headerContent, breadcrumbs }: Readonly<PageShellProps>) {
   const theme = useMantineTheme();
   const { colorScheme, compactMode: compact } = useUi();
   const isDark = colorScheme === 'dark';

@@ -37,7 +37,7 @@ export function DashboardLayout() {
   const currentRoute = appRoutes.find((r) => r.path === location.pathname);
   const pageTitle = currentRoute?.label ?? 'Dashboard';
   return (
-    <div className={`${styles.shell} ${!sidebarOpen ? styles.collapsed : ''}`}>
+    <div className={`${styles.shell} ${sidebarOpen ? '' : styles.collapsed}`}>
       <aside className={styles.sidebar}>
         <div className={styles.sidebarHead}>
           <OpenParishMark className={styles.logoMark} />

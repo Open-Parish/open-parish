@@ -19,8 +19,8 @@ export function Login() {
       password: DEV_DEFAULT_OWNER_PASSWORD ?? '',
     },
     validate: {
-      email: (value) => (!value.trim() ? 'Email is required' : null),
-      password: (value) => (!value ? 'Password is required' : null),
+      email: (value) => (value.trim().length === 0 ? 'Email is required' : null),
+      password: (value) => (value.length === 0 ? 'Password is required' : null),
     },
   });
 

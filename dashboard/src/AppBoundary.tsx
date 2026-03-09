@@ -80,7 +80,7 @@ function ErrorFallback() {
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
           <button
             type="button"
-            onClick={() => window.location.reload()}
+            onClick={() => globalThis.location.reload()}
             style={{
               padding: '10px 20px',
               fontSize: 14,
@@ -98,7 +98,7 @@ function ErrorFallback() {
           <button
             type="button"
             onClick={() => {
-              window.location.href = '/';
+              globalThis.location.href = '/';
             }}
             style={{
               padding: '10px 20px',
@@ -120,6 +120,6 @@ function ErrorFallback() {
   );
 }
 
-export function AppBoundary({ children }: { children: React.ReactNode }) {
+export function AppBoundary({ children }: Readonly<{ children: React.ReactNode }>) {
   return <AppErrorBoundary>{children}</AppErrorBoundary>;
 }

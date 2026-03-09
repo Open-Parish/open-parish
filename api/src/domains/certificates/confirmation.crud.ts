@@ -72,8 +72,10 @@ export const confirmationCrud: CertificateCrud = {
     if (terms.length > 0) {
       const likeParts: string[] = [];
       for (const term of terms) {
-        likeParts.push("LOWER(firstName) LIKE LOWER(?)");
-        likeParts.push("LOWER(lastName) LIKE LOWER(?)");
+        likeParts.push(
+          "LOWER(firstName) LIKE LOWER(?)",
+          "LOWER(lastName) LIKE LOWER(?)",
+        );
         const like = `%${term}%`;
         bindValues.push(like, like);
       }

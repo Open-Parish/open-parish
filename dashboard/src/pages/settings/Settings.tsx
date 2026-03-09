@@ -42,9 +42,9 @@ export function Settings() {
       pdfImageRight: '',
     },
     validate: {
-      headerLine1: (value) => (!value ? 'Required' : null),
-      headerLine2: (value) => (!value ? 'Required' : null),
-      currentPriest: (value) => (!value ? 'Required' : null),
+      headerLine1: (value) => (value.length === 0 ? 'Required' : null),
+      headerLine2: (value) => (value.length === 0 ? 'Required' : null),
+      currentPriest: (value) => (value.length === 0 ? 'Required' : null),
     },
   });
 

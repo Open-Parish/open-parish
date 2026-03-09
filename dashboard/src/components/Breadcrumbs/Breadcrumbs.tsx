@@ -2,7 +2,7 @@ import { Breadcrumbs as MantineBreadcrumbs, Text } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import type { BreadcrumbsProps } from './Breadcrumbs.types';
 
-export function Breadcrumbs({ items }: BreadcrumbsProps) {
+export function Breadcrumbs({ items }: Readonly<BreadcrumbsProps>) {
   return (
     <MantineBreadcrumbs>
       {items.map((item, index) =>

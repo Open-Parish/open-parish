@@ -3,7 +3,7 @@ import { IconSelector } from '@tabler/icons-react';
 import type { IconComboboxProps } from './IconCombobox.types';
 import styles from './IconCombobox.module.css';
 
-export function IconCombobox({ data, label, placeholder, value, onChange }: IconComboboxProps) {
+export function IconCombobox({ data, label, placeholder, value, onChange }: Readonly<IconComboboxProps>) {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });

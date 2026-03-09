@@ -118,7 +118,7 @@ class ApiErrorBoundaryInner extends Component<ApiErrorBoundaryInnerProps, ApiErr
               <button
                 type="button"
                 onClick={() => {
-                  window.location.href = '/';
+                  globalThis.location.href = '/';
                 }}
                 style={{
                   padding: '10px 20px',
@@ -144,7 +144,7 @@ class ApiErrorBoundaryInner extends Component<ApiErrorBoundaryInnerProps, ApiErr
   }
 }
 
-export function ApiErrorBoundary({ children }: { children: React.ReactNode }) {
+export function ApiErrorBoundary({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <QueryErrorResetBoundary>
       {({ reset }) => <ApiErrorBoundaryInner onReset={reset}>{children}</ApiErrorBoundaryInner>}

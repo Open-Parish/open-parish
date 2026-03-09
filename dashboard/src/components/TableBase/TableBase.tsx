@@ -5,7 +5,7 @@ import type { CSSProperties } from 'react';
 import type { TableBaseProps } from './TableBase.types';
 import styles from './TableBase.module.css';
 
-export function TableBase<T>({ columns, data, minWidth, className, tableClassName }: TableBaseProps<T>) {
+export function TableBase<T>({ columns, data, minWidth, className, tableClassName }: Readonly<TableBaseProps<T>>) {
   const table = useReactTable({
     data,
     columns,
