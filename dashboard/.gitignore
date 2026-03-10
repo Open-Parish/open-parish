@@ -22,8 +22,8 @@ pnpm-debug.log*
 # local tooling
 .vite/
 
-# library source to ignore
-lib/
+# top-level library source to ignore
+/lib/
 tsconfig.tsbuildinfo
 
 cypress/screenshots
