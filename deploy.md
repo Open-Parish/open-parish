@@ -27,7 +27,7 @@ Configure these in your GitHub repository settings:
 1. `deploy-api` job
    - Installs API dependencies with `npm ci`
    - Runs remote D1 migrations:
-     - `npx wrangler d1 migrations apply olshp --remote`
+     - `npx wrangler d1 migrations apply openparish --remote`
    - Deploys Worker:
      - `npx wrangler deploy`
 2. `deploy-dashboard` job (runs after API succeeds)

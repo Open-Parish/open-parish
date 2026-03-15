@@ -53,5 +53,5 @@ After updating `api/wrangler.toml`, run:
 
 ```bash
 cd ../api
-npx wrangler d1 migrations apply olshp --remote
+npx wrangler d1 migrations apply openparish --remote
 ```

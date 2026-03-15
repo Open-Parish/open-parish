@@ -10,4 +10,7 @@ export type SettingsPayload = {
   currentPriestSignature: string | File;
   pdfImageLeft: string | File;
   pdfImageRight: string | File;
+  showParishSeal: boolean;
+  showPdfImageLeft: boolean;
+  showPdfImageRight: boolean;
 };

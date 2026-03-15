@@ -4,7 +4,6 @@ import isString from 'lodash/isString';
 import { notifications } from '@mantine/notifications';
 import type { RequestOptions } from './client.types';
 import { API_BASE_URL } from '@/config';
-import { clearSession, getToken } from '@/lib/session';
 
 export class ApiError extends Error {
   status: number;
@@ -17,6 +16,15 @@ export class ApiError extends Error {
 }
 
 const buildUrl = (path: string) => (path.startsWith('/') ? `${API_BASE_URL}${path}` : `${API_BASE_URL}/${path}`);
+let csrfToken = '';
+
+export function setCsrfToken(value: string): void {
+  csrfToken = value;
+}
+
+export function clearCsrfToken(): void {
+  csrfToken = '';
+}
 
 const showGlobalErrorNotification = (status: number, message: string) => {
   if (status === 401) return;
@@ -38,10 +46,12 @@ const showGlobalErrorNotification = (status: number, message: string) => {
 };
 
 const handleUnauthorized = async () => {
-  clearSession();
+  clearCsrfToken();
   if (globalThis.location.pathname === '/login') return;
   globalThis.location.assign('/login');
 };
+
+const shouldAttachCsrf = (method: string) => !['GET', 'HEAD', 'OPTIONS'].includes(method.toUpperCase());
 
 async function parseResponse<T>(response: Response): Promise<T> {
   if (response.status === 401) {
@@ -77,17 +87,17 @@ async function parseResponse<T>(response: Response): Promise<T> {
 async function requestJson<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const { method = 'GET', body } = options;
   const headers: Record<string, string> = {};
-  const token = getToken();
   if (body !== undefined) {
     headers['Content-Type'] = 'application/json';
   }
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
+  if (shouldAttachCsrf(method) && csrfToken) {
+    headers['X-CSRF-Token'] = csrfToken;
   }
 
   const response = await fetch(buildUrl(path), {
     method,
     headers,
+    credentials: 'include',
     body: body === undefined ? undefined : JSON.stringify(body),
   });
 
@@ -101,15 +111,15 @@ export const deleteJson = <T>(path: string) => requestJson<T>(path, { method: 'D
 export const resolveApiUrl = (path: string) => buildUrl(path);
 
 export const postFormData = async <T>(path: string, formData: FormData): Promise<T> => {
-  const token = getToken();
   const headers: Record<string, string> = {};
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
+  if (csrfToken) {
+    headers['X-CSRF-Token'] = csrfToken;
   }
 
   const response = await fetch(buildUrl(path), {
     method: 'POST',
     headers,
+    credentials: 'include',
     body: formData,
   });
 

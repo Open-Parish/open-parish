@@ -97,15 +97,13 @@ export function DashboardLayout() {
             </Tooltip>
 
             <Tooltip label="Account settings" withArrow>
-              <div
+              <button
+                type="button"
                 className={styles.userChip}
                 onClick={() => navigate('/account')}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && navigate('/account')}
               >
                 <span className={styles.userName}>{email}</span>
-              </div>
+              </button>
             </Tooltip>
             <Tooltip label="Sign out" withArrow>
               <ActionIcon variant="subtle" className={styles.headerIconBtn} onClick={logout} aria-label="Logout">

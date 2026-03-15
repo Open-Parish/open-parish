@@ -14,6 +14,9 @@ const EMPTY_SETTINGS: SettingsRecord = {
   currentPriestSignature: "",
   pdfImageLeft: "",
   pdfImageRight: "",
+  showParishSeal: true,
+  showPdfImageLeft: true,
+  showPdfImageRight: true,
 };
 
 function normalizeAssetPath(value: string | null | undefined): string {
@@ -52,7 +55,10 @@ export async function ensureSettings(db: D1Database): Promise<SettingsRecord> {
         current_priest_signature,
         logo,
         pdf_image_left,
-        pdf_image_right
+        pdf_image_right,
+        show_parish_seal,
+        show_pdf_image_left,
+        show_pdf_image_right
       FROM settings WHERE id = 1`,
     )
     .first<{
@@ -68,6 +74,9 @@ export async function ensureSettings(db: D1Database): Promise<SettingsRecord> {
       logo: string;
       pdf_image_left: string;
       pdf_image_right: string;
+      show_parish_seal: number;
+      show_pdf_image_left: number;
+      show_pdf_image_right: number;
     }>();
 
   if (!existing) return EMPTY_SETTINGS;
@@ -114,6 +123,9 @@ export async function ensureSettings(db: D1Database): Promise<SettingsRecord> {
     currentPriestSignature: normalizedSignature,
     pdfImageLeft: normalizedLeft,
     pdfImageRight: normalizedRight,
+    showParishSeal: Number(existing.show_parish_seal ?? 1) === 1,
+    showPdfImageLeft: Number(existing.show_pdf_image_left ?? 1) === 1,
+    showPdfImageRight: Number(existing.show_pdf_image_right ?? 1) === 1,
   };
 }
 
@@ -137,9 +149,12 @@ export async function upsertSettings(
         logo,
         pdf_image_left,
         pdf_image_right,
+        show_parish_seal,
+        show_pdf_image_left,
+        show_pdf_image_right,
         created_at,
         updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
       ON CONFLICT(id) DO UPDATE SET
         parish_name = excluded.parish_name,
         header_line_1 = excluded.header_line_1,
@@ -153,6 +168,9 @@ export async function upsertSettings(
         logo = excluded.logo,
         pdf_image_left = excluded.pdf_image_left,
         pdf_image_right = excluded.pdf_image_right,
+        show_parish_seal = excluded.show_parish_seal,
+        show_pdf_image_left = excluded.show_pdf_image_left,
+        show_pdf_image_right = excluded.show_pdf_image_right,
         updated_at = datetime('now')`,
     )
     .bind(
@@ -169,6 +187,9 @@ export async function upsertSettings(
       next.pdfImageLeft,
       next.pdfImageLeft,
       next.pdfImageRight,
+      next.showParishSeal ? 1 : 0,
+      next.showPdfImageLeft ? 1 : 0,
+      next.showPdfImageRight ? 1 : 0,
     )
     .run();
 }

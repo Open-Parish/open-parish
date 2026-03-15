@@ -59,9 +59,12 @@ It includes:
 ```bash
 cd api
 npm install
-npm run d1:migrate:local
 npm run dev
 ```
+
+Schema behavior:
+- In non-production (`NODE_ENV`/`APP_ENV` not `production`), install endpoints auto-create core tables/indexes for fresh local/wizard setup.
+- In production (`NODE_ENV=production`), auto-init is disabled. Run migrations explicitly.
 
 ### 2) Dashboard
 

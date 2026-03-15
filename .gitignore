@@ -16,3 +16,4 @@ terraform/terraform.tfvars.json
 .env
 **/.env
 **/.env.local
+api/.dev.vars

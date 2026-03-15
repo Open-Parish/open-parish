@@ -24,17 +24,17 @@ variable "environment" {
 variable "d1_database_name" {
   description = "D1 database name"
   type        = string
-  default     = "olshp"
+  default     = "openparish"
 }
 
 variable "r2_uploads_bucket_name" {
   description = "R2 bucket name for uploads"
   type        = string
-  default     = "olshp-uploads"
+  default     = "openparish-uploads"
 }
 
 variable "r2_preview_bucket_name" {
   description = "R2 bucket name for preview/dev uploads"
   type        = string
-  default     = "olshp-uploads-preview"
+  default     = "openparish-uploads-preview"
 }

@@ -3,16 +3,15 @@ import '@mantine/nprogress/styles.css';
 import '@mantine/notifications/styles.css';
 import './styles/global.css';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { MantineProvider, createTheme } from '@mantine/core';
+import { MantineProvider } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import { Notifications } from '@mantine/notifications';
 import { NavigationProgress } from '@mantine/nprogress';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import { BrowserRouter } from 'react-router-dom';
-import { generateColors } from '@mantine/colors-generator';
 import { App } from './app/App';
 import { theme } from './styles/theme';
 import { queryClient, QUERY_PERSIST_MAX_AGE, QUERY_PERSIST_STORAGE_KEY } from './queryClient';
@@ -26,21 +25,12 @@ const persister = createSyncStoragePersister({
 });
 
 function Providers() {
-  const { colorScheme, primaryColor } = useUi();
-
-  const dynamicTheme = useMemo(() => {
-    if (!primaryColor) return theme;
-    return createTheme({
-      ...theme,
-      colors: { ...theme.colors, custom: generateColors(primaryColor) },
-      primaryColor: 'custom',
-    });
-  }, [primaryColor]);
+  const { colorScheme } = useUi();
 
   return (
     <PersistQueryClientProvider client={queryClient} persistOptions={{ persister, maxAge: QUERY_PERSIST_MAX_AGE }}>
-      <MantineProvider defaultColorScheme="light" forceColorScheme={colorScheme} theme={dynamicTheme}>
-        <NavigationProgress />
+      <MantineProvider defaultColorScheme="light" forceColorScheme={colorScheme} theme={theme}>
+        <NavigationProgress color="#c9a157" size={8} />
         <Notifications position="top-right" />
         <ModalsProvider>
           <AuthProvider>
