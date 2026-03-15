@@ -6,6 +6,7 @@ import { uploadRoutes } from "./domains/uploads/uploads.routes";
 import { peopleRoutes } from "./domains/people/people.routes";
 import type { Env } from "./index.types";
 import { ensureDevSeed } from "./shared/lib/devSeed";
+import { assertRuntimeSecurity } from "./shared/lib/runtimeGuards";
 import { errorMessageFromUnknown } from "./shared/utils/errorMessageFromUnknown";
 import { isHttpException } from "./shared/utils/typeGuards";
 export type { Env } from "./index.types";
@@ -84,6 +85,7 @@ app.use("*", async (c, next) => {
 });
 
 app.use("*", async (c, next) => {
+  assertRuntimeSecurity(c.env);
   await ensureDevSeed(c.env);
   await next();
 });
@@ -115,7 +117,10 @@ app.onError((err, c) => {
     {
       message: "Internal server error",
       statusCode: 500,
-      details: errorMessageFromUnknown(err),
+      ...(String(c.env.NODE_ENV ?? c.env.APP_ENV ?? "").trim().toLowerCase() ===
+      "production"
+        ? {}
+        : { details: errorMessageFromUnknown(err) }),
     },
     500,
   );

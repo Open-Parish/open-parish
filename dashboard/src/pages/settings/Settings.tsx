@@ -305,7 +305,7 @@ export function Settings() {
               <Divider />
 
               <Box>
-                <Button type="submit" loading={mutation.isPending}>
+                <Button type="submit" loading={mutation.isPending} data-testid="settings-save">
                   Save Settings
                 </Button>
               </Box>

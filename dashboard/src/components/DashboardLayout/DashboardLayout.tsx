@@ -106,7 +106,13 @@ export function DashboardLayout() {
               </button>
             </Tooltip>
             <Tooltip label="Sign out" withArrow>
-              <ActionIcon variant="subtle" className={styles.headerIconBtn} onClick={logout} aria-label="Logout">
+              <ActionIcon
+                variant="subtle"
+                className={styles.headerIconBtn}
+                onClick={logout}
+                aria-label="Logout"
+                data-testid="logout-button"
+              >
                 <IconLogout size={16} />
               </ActionIcon>
             </Tooltip>

@@ -104,11 +104,17 @@ const devSeedSettings = devSeedSettingsJson as SettingsRecord;
 
 let ensureDevSeedPromise: Promise<void> | null = null;
 
-function isProductionEnv(env: Env["Bindings"]): boolean {
+function isDevSeedAllowed(env: Env["Bindings"]): boolean {
   const nodeEnv = String(env.NODE_ENV ?? env.APP_ENV ?? "")
     .trim()
     .toLowerCase();
-  return nodeEnv === "production";
+  if (nodeEnv === "production") {
+    return false;
+  }
+
+  return String(env.ENABLE_DEV_SEED ?? "")
+    .trim()
+    .toLowerCase() === "true";
 }
 
 function shouldSeedSampleData(env: Env["Bindings"]): boolean {
@@ -281,7 +287,7 @@ async function seedSampleCertificates(db: D1Database, userId: string) {
 }
 
 async function runEnsureDevSeed(env: Env["Bindings"]) {
-  if (isProductionEnv(env)) {
+  if (!isDevSeedAllowed(env)) {
     return;
   }
 
