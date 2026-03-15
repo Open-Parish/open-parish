@@ -1,0 +1,3 @@
+ALTER TABLE settings ADD COLUMN show_parish_seal INTEGER NOT NULL DEFAULT 1;
+ALTER TABLE settings ADD COLUMN show_pdf_image_left INTEGER NOT NULL DEFAULT 1;
+ALTER TABLE settings ADD COLUMN show_pdf_image_right INTEGER NOT NULL DEFAULT 1;

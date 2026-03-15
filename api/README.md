@@ -33,12 +33,27 @@ wrangler secret put JWT_SECRET
 
 Set `R2_PUBLIC_URL` in `wrangler.toml` (or via environment vars) if bucket objects are publicly served.
 
+Optional local/non-production seed vars:
+
+```bash
+wrangler secret put DEFAULT_ADMIN_EMAIL
+wrangler secret put DEFAULT_ADMIN_PASSWORD
+```
+
+Set `SEED_SAMPLE_DATA=false` if you want the default admin without sample certificate records.
+For local `wrangler dev`, copy [`api/.dev.vars.example`](./.dev.vars.example) to `.dev.vars` and set your values there.
+
 ## Local Development
 
 ```bash
 npm run d1:migrate:local
 npm run dev
 ```
+
+Non-production seed bootstrap:
+- If `NODE_ENV`/`APP_ENV` is not `production`, the worker can auto-create core schema and seed a default admin from `DEFAULT_ADMIN_EMAIL` and `DEFAULT_ADMIN_PASSWORD`.
+- If `SEED_SAMPLE_DATA` is not set to `false`, sample certificate records are also inserted for that default admin.
+- If `NODE_ENV=production`, the auto-seed path is disabled.
 
 ## Deploy
 

@@ -1,0 +1,4 @@
+NODE_ENV=development
+DEFAULT_ADMIN_EMAIL=admin@example.com
+DEFAULT_ADMIN_PASSWORD=change-this-password
+SEED_SAMPLE_DATA=true

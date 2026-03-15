@@ -34,4 +34,7 @@ export type SettingsRecord = {
   currentPriestSignature: string;
   pdfImageLeft: string;
   pdfImageRight: string;
+  showParishSeal: boolean;
+  showPdfImageLeft: boolean;
+  showPdfImageRight: boolean;
 };

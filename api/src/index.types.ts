@@ -4,6 +4,11 @@ export type Env = {
     UPLOADS: R2Bucket;
     JWT_SECRET: string;
     R2_PUBLIC_URL?: string;
+    DEFAULT_ADMIN_EMAIL?: string;
+    DEFAULT_ADMIN_PASSWORD?: string;
+    SEED_SAMPLE_DATA?: string;
+    NODE_ENV?: string;
+    APP_ENV?: string;
   };
   Variables: {
     userId: string;

@@ -5,8 +5,8 @@ import { certificateRoutes } from "./domains/certificates/certificates.routes";
 import { settingsRoutes } from "./domains/settings/settings.routes";
 import { uploadRoutes } from "./domains/uploads/uploads.routes";
 import { peopleRoutes } from "./domains/people/people.routes";
-import { installRoutes } from "./domains/install/install.routes";
 import type { Env } from "./index.types";
+import { ensureDevSeed } from "./shared/lib/devSeed";
 import { errorMessageFromUnknown } from "./shared/utils/errorMessageFromUnknown";
 import { isHttpException } from "./shared/utils/typeGuards";
 export type { Env } from "./index.types";
@@ -14,6 +14,10 @@ export type { Env } from "./index.types";
 const app = new Hono<Env>({ strict: false });
 
 app.use("*", cors());
+app.use("*", async (c, next) => {
+  await ensureDevSeed(c.env);
+  await next();
+});
 
 app.get("/status", (c) =>
   c.json({ message: "API running on Cloudflare Worker" }),
@@ -24,7 +28,6 @@ app.route("/", certificateRoutes);
 app.route("/", settingsRoutes);
 app.route("/", uploadRoutes);
 app.route("/", peopleRoutes);
-app.route("/", installRoutes);
 
 app.notFound((c) => c.json({ error: true, message: "404 not found" }, 404));
 

@@ -21,6 +21,9 @@ export const settingsFormSchema = z.object({
   currentPriestSignature: optionalFileField,
   pdfImageLeft: optionalFileField,
   pdfImageRight: optionalFileField,
+  showParishSeal: z.string().optional(),
+  showPdfImageLeft: z.string().optional(),
+  showPdfImageRight: z.string().optional(),
   logo: optionalFileField,
 });
 

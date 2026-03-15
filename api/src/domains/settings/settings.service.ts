@@ -10,6 +10,21 @@ import { asString } from "../../shared/utils/normalize";
 import { isFileValue } from "../../shared/utils/typeGuards";
 import { uploadToR2 } from "../../shared/utils/upload";
 
+function asBooleanFlag(value: unknown, fallback: boolean): boolean {
+  if (typeof value === "boolean") {
+    return value;
+  }
+  const normalized = String(value ?? "").trim().toLowerCase();
+  if (!normalized) {
+    return fallback;
+  }
+  return normalized === "true" || normalized === "1" || normalized === "on";
+}
+
+function isExplicitEmptyString(value: unknown): boolean {
+  return typeof value === "string" && value.trim() === "";
+}
+
 export async function getSettings(db: D1Database) {
   return ensureSettings(db);
 }
@@ -30,16 +45,22 @@ export async function updateSettings(
 
   if (isFileValue(leftImageFile) && leftImageFile.size > 0) {
     pdfImageLeft = await uploadToR2(env, leftImageFile);
+  } else if (isExplicitEmptyString(leftImageFile)) {
+    pdfImageLeft = "";
   }
 
   if (isFileValue(rightImageFile) && rightImageFile.size > 0) {
     pdfImageRight = await uploadToR2(env, rightImageFile);
+  } else if (isExplicitEmptyString(rightImageFile)) {
+    pdfImageRight = "";
   } else if (!pdfImageRight) {
     pdfImageRight = pdfImageLeft;
   }
 
   if (isFileValue(signatureFile) && signatureFile.size > 0) {
     currentPriestSignature = await uploadToR2(env, signatureFile);
+  } else if (isExplicitEmptyString(signatureFile)) {
+    currentPriestSignature = "";
   }
 
   const nextSettings: SettingsRecord = {
@@ -54,6 +75,15 @@ export async function updateSettings(
     pdfImageLeft,
     pdfImageRight,
     currentPriestSignature,
+    showParishSeal: asBooleanFlag(body.showParishSeal, existing.showParishSeal),
+    showPdfImageLeft: asBooleanFlag(
+      body.showPdfImageLeft,
+      existing.showPdfImageLeft,
+    ),
+    showPdfImageRight: asBooleanFlag(
+      body.showPdfImageRight,
+      existing.showPdfImageRight,
+    ),
   };
 
   await upsertSettings(env.DB, nextSettings);
