@@ -1,32 +1,60 @@
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import { postJson } from '@/api/client';
-import { clearSession, getSessionEmail, getToken, isAuthenticated, setSession } from '@/lib/session';
+import { clearCsrfToken, postJson, setCsrfToken } from '@/api/client';
+import { getProfile } from '@/features/auth/authApi';
 import type { AuthContextValue, LoginPayload, LoginResponse } from './AuthContext.types';
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
-  const [token, setToken] = useState<string | null>(getToken());
-  const [email, setEmail] = useState<string>(getSessionEmail());
+  const [authenticated, setAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [email, setEmail] = useState<string>('Admin');
+
+  useEffect(() => {
+    let active = true;
+
+    void getProfile()
+      .then((response) => {
+        if (!active) return;
+        setCsrfToken(response.csrfToken);
+        setAuthenticated(true);
+        setEmail(response.user.email || 'Admin');
+      })
+      .catch(() => {
+        if (!active) return;
+        clearCsrfToken();
+        setAuthenticated(false);
+        setEmail('Admin');
+      })
+      .finally(() => {
+        if (!active) return;
+        setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const login = useCallback(async (payload: LoginPayload) => {
     const response = await postJson<LoginResponse>('/login', payload);
     const nextEmail = response.user?.email ?? payload.email;
-    setSession(response.token, nextEmail);
-    setToken(response.token);
+    setCsrfToken(response.csrfToken);
+    setAuthenticated(true);
     setEmail(nextEmail);
   }, []);
 
   const logout = useCallback(() => {
-    clearSession();
-    setToken(null);
+    void postJson<{ success: boolean }>('/logout', {});
+    clearCsrfToken();
+    setAuthenticated(false);
     setEmail('Admin');
   }, []);
 
   const value = useMemo(
-    () => ({ token, email, authenticated: isAuthenticated(), login, logout }),
-    [email, login, logout, token],
+    () => ({ email, authenticated, loading, login, logout }),
+    [authenticated, email, loading, login, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

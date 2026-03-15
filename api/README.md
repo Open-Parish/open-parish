@@ -43,6 +43,14 @@ wrangler secret put DEFAULT_ADMIN_PASSWORD
 Set `SEED_SAMPLE_DATA=false` if you want the default admin without sample certificate records.
 For local `wrangler dev`, copy [`api/.dev.vars.example`](./.dev.vars.example) to `.dev.vars` and set your values there.
 
+Set `CORS_ALLOWED_ORIGINS` to the dashboard origin list that should be allowed to call the API. Example:
+
+```env
+CORS_ALLOWED_ORIGINS=http://127.0.0.1:5173,http://localhost:5173
+```
+
+In production, set this explicitly. The API no longer reflects arbitrary origins.
+
 ## Local Development
 
 ```bash

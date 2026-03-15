@@ -30,7 +30,11 @@ export async function loginUser(
     email: user.email,
   });
 
-  return { token, user: { id: user.id, email: user.email } };
+  return {
+    token,
+    user: { id: user.id, email: user.email },
+    responseUser: { id: user.id, email: user.email },
+  };
 }
 
 export async function changeUserPassword(

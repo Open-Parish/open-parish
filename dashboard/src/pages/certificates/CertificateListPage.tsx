@@ -7,7 +7,6 @@ import { openConfirmDeleteModal } from '@/components/ConfirmDeleteModal/ConfirmD
 import { PageShell } from '@/components/PageShell/PageShell';
 import { QueryState } from '@/components/QueryState/QueryState';
 import { API_BASE_URL } from '@/config';
-import { getToken } from '@/lib/session';
 import { normalizeText } from '@/utils/normalizeText';
 import { listCertificates, removeCertificate } from '@/features/certificates/api';
 import { getCertificateConfigByPath } from '@/features/certificates/config';
@@ -67,7 +66,6 @@ export function CertificateListPage() {
 
   const { data } = listQuery;
   const docs = data?.docs ?? [];
-  const token = getToken();
   const isEmpty = !listQuery.isLoading && docs.length === 0;
 
   return (
@@ -110,7 +108,7 @@ export function CertificateListPage() {
                 const { id: rawId, occasionDate, createdAt, updatedAt } = row;
                 const id = normalizeText(rawId);
                 const printType = config.certificateType ?? config.apiModule;
-                const printLink = `${API_BASE_URL}/certificates/${config.apiModule}/print/${id}/${printType}?auth_token=${token ?? ''}`;
+                const printLink = `${API_BASE_URL}/certificates/${config.apiModule}/print/${id}/${printType}`;
 
                 return (
                   <Table.Tr key={id}>

@@ -39,28 +39,20 @@ export function buildCertificateHtml(input: {
   record: Record<string, unknown>;
   settings: SettingsRecord;
   baseUrl: string;
-  authToken?: string;
 }): string {
-  const { title, certificateType, record, settings, baseUrl, authToken } =
-    input;
+  const { title, certificateType, record, settings, baseUrl } = input;
   const now = issueDateText();
   const body = buildCertificateTemplate(certificateType, record, title)
     .map(renderTemplateBlock)
     .join("");
-  const leftImageUrl = resolveAssetUrl(
-    settings.pdfImageLeft,
-    baseUrl,
-    authToken,
-  );
+  const leftImageUrl = resolveAssetUrl(settings.pdfImageLeft, baseUrl);
   const rightImageUrl = resolveAssetUrl(
     pickString(settings.pdfImageRight, settings.pdfImageLeft),
     baseUrl,
-    authToken,
   );
   const signatureUrl = resolveAssetUrl(
     settings.currentPriestSignature,
     baseUrl,
-    authToken,
   );
   const showLeftImage = settings.showPdfImageLeft && Boolean(leftImageUrl);
   const showRightImage = settings.showPdfImageRight && Boolean(rightImageUrl);
@@ -149,18 +141,9 @@ export function buildCertificateHtml(input: {
 </html>`;
 }
 
-function withAuthToken(url: string, authToken?: string): string {
-  if (!authToken) return url;
-  const [path, query = ""] = url.split("?");
-  const params = new URLSearchParams(query);
-  params.set("auth_token", authToken);
-  return `${path}?${params.toString()}`;
-}
-
 export function resolveAssetUrl(
   value: string,
   baseUrl: string,
-  authToken?: string,
 ): string {
   const trimmed = asTrimmedString(value);
   if (!trimmed) return "";
@@ -172,7 +155,7 @@ export function resolveAssetUrl(
     return trimmed;
   }
   if (trimmed.startsWith("/")) {
-    return withAuthToken(`${baseUrl}${trimmed}`, authToken);
+    return `${baseUrl}${trimmed}`;
   }
-  return withAuthToken(`${baseUrl}/upload/file/${trimmed}`, authToken);
+  return `${baseUrl}/upload/file/${trimmed}`;
 }

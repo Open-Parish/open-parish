@@ -1,5 +1,4 @@
 import { Hono } from "hono";
-import { cors } from "hono/cors";
 import { authRoutes } from "./domains/auth/auth.routes";
 import { certificateRoutes } from "./domains/certificates/certificates.routes";
 import { settingsRoutes } from "./domains/settings/settings.routes";
@@ -13,7 +12,63 @@ export type { Env } from "./index.types";
 
 const app = new Hono<Env>({ strict: false });
 
-app.use("*", cors());
+const DEFAULT_DEV_CORS_ORIGINS = [
+  "http://127.0.0.1:5173",
+  "http://localhost:5173",
+  "http://127.0.0.1:4173",
+  "http://localhost:4173",
+];
+
+function parseAllowedOrigins(env: Env["Bindings"]): Set<string> {
+  const configured = (env.CORS_ALLOWED_ORIGINS ?? "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+  if (configured.length > 0) {
+    return new Set(configured);
+  }
+
+  const isProduction =
+    env.NODE_ENV === "production" || env.APP_ENV === "production";
+  return isProduction ? new Set() : new Set(DEFAULT_DEV_CORS_ORIGINS);
+}
+
+function applyCorsHeaders(headers: Headers, origin: string): void {
+  headers.set("Access-Control-Allow-Origin", origin);
+  headers.set("Access-Control-Allow-Credentials", "true");
+  headers.set(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, X-CSRF-Token",
+  );
+  headers.set("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
+  headers.append("Vary", "Origin");
+}
+
+app.use("*", async (c, next) => {
+  const origin = c.req.header("Origin") ?? "";
+  const allowedOrigins = parseAllowedOrigins(c.env);
+  const isAllowedOrigin = origin !== "" && allowedOrigins.has(origin);
+
+  if (c.req.method === "OPTIONS") {
+    if (origin && !isAllowedOrigin) {
+      return c.json({ message: "Origin not allowed", statusCode: 403 }, 403);
+    }
+
+    const headers = new Headers();
+    if (isAllowedOrigin) {
+      applyCorsHeaders(headers, origin);
+    }
+    return new Response(null, { status: 204, headers });
+  }
+
+  await next();
+
+  if (isAllowedOrigin) {
+    applyCorsHeaders(c.res.headers, origin);
+  }
+});
+
 app.use("*", async (c, next) => {
   await ensureDevSeed(c.env);
   await next();

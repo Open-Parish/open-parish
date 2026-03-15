@@ -18,7 +18,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef } from 'react';
 import { PageShell } from '@/components/PageShell/PageShell';
 import { getSettings, updateSettings } from '@/features/settings/settingsApi';
-import { getToken } from '@/lib/session';
 import { createObjectUrlIfFile } from '@/utils/createObjectUrlIfFile';
 import { pickNormalizedString } from '@/utils/pickNormalizedString';
 import type { SettingsForm } from './Settings.types';
@@ -84,7 +83,6 @@ function UploadField({ label, placeholder, value, onChange }: Readonly<UploadFie
 
 export function Settings() {
   const queryClient = useQueryClient();
-  const authToken = getToken();
   const query = useQuery({ queryKey: ['settings'], queryFn: getSettings });
   const hasHydratedFromQuery = useRef(false);
 
@@ -128,16 +126,16 @@ export function Settings() {
   );
 
   const leftImagePreview = useMemo(
-    () => resolveAssetPreview(pickNormalizedString(leftImageObjectUrl, form.values.pdfImageLeft), authToken),
-    [authToken, form.values.pdfImageLeft, leftImageObjectUrl],
+    () => resolveAssetPreview(pickNormalizedString(leftImageObjectUrl, form.values.pdfImageLeft)),
+    [form.values.pdfImageLeft, leftImageObjectUrl],
   );
   const rightImagePreview = useMemo(
-    () => resolveAssetPreview(pickNormalizedString(rightImageObjectUrl, form.values.pdfImageRight), authToken),
-    [authToken, form.values.pdfImageRight, rightImageObjectUrl],
+    () => resolveAssetPreview(pickNormalizedString(rightImageObjectUrl, form.values.pdfImageRight)),
+    [form.values.pdfImageRight, rightImageObjectUrl],
   );
   const signaturePreview = useMemo(
-    () => resolveAssetPreview(pickNormalizedString(signatureObjectUrl, form.values.currentPriestSignature), authToken),
-    [authToken, form.values.currentPriestSignature, signatureObjectUrl],
+    () => resolveAssetPreview(pickNormalizedString(signatureObjectUrl, form.values.currentPriestSignature)),
+    [form.values.currentPriestSignature, signatureObjectUrl],
   );
 
   useEffect(() => {

@@ -1,8 +1,7 @@
 import { resolveApiUrl } from '@/api/client';
 import { normalizeText } from '@/utils/normalizeText';
-import { withAuthToken } from './withAuthToken';
 
-export function resolveAssetPreview(value: string, authToken?: string | null): string {
+export function resolveAssetPreview(value: string): string {
   const trimmed = normalizeText(value).trim();
   if (!trimmed) return '';
 
@@ -16,8 +15,8 @@ export function resolveAssetPreview(value: string, authToken?: string | null): s
   }
 
   if (trimmed.startsWith('/')) {
-    return withAuthToken(resolveApiUrl(trimmed), authToken);
+    return resolveApiUrl(trimmed);
   }
 
-  return withAuthToken(resolveApiUrl(`/${trimmed}`), authToken);
+  return resolveApiUrl(`/${trimmed}`);
 }

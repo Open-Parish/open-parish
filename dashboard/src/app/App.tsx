@@ -5,7 +5,11 @@ import { useAuth } from '@/context/AuthContext';
 import { loginRoute, appRoutes } from './routes';
 
 export function App() {
-  const { authenticated } = useAuth();
+  const { authenticated, loading } = useAuth();
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <>

@@ -95,21 +95,18 @@ export async function printCertificateController(c: Context<Env>) {
   const type = getCertificateType(c);
   const id = requiredParam(c.req.param("id"), "id");
 
-  const bearer = c.req.header("Authorization");
-  const authHeaderToken = bearer?.startsWith("Bearer ") ? bearer.slice(7) : "";
-  const authToken = asString(c.req.query("auth_token") || authHeaderToken);
-
   const html = await buildCertificatePrintHtml(
     c.env.DB,
     type,
     id,
     new URL(c.req.url).origin,
-    authToken,
   );
 
   const shouldDownload = c.req.query("download") === "1";
   const responseHeaders = new Headers({
     "Content-Type": "text/html; charset=utf-8",
+    "Cache-Control": "no-store, private",
+    Pragma: "no-cache",
   });
 
   if (shouldDownload) {

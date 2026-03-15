@@ -129,7 +129,6 @@ export async function buildCertificatePrintHtml(
   type: CertificateRouteType,
   id: string,
   baseUrl: string,
-  authToken: string,
 ) {
   const record = await getCrud(type).getById(db, id);
   if (!record) {
@@ -144,6 +143,5 @@ export async function buildCertificatePrintHtml(
     settings,
     record,
     baseUrl,
-    authToken,
   });
 }

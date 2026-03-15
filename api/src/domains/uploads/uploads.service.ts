@@ -24,6 +24,8 @@ export async function getUploadFileResponse(env: Env["Bindings"], key: string) {
   const headers = new Headers();
   object.writeHttpMetadata(headers);
   headers.set("etag", object.httpEtag);
+  headers.set("Cache-Control", "no-store, private");
+  headers.set("Pragma", "no-cache");
 
   return new Response(object.body, { headers });
 }
