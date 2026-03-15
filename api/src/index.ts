@@ -117,7 +117,10 @@ app.onError((err, c) => {
     {
       message: "Internal server error",
       statusCode: 500,
-      details: errorMessageFromUnknown(err),
+      ...(String(c.env.NODE_ENV ?? c.env.APP_ENV ?? "").trim().toLowerCase() ===
+      "production"
+        ? {}
+        : { details: errorMessageFromUnknown(err) }),
     },
     500,
   );
