@@ -2,14 +2,24 @@ import { HTTPException } from "hono/http-exception";
 import { createJwt } from "../../shared/lib/security/jwt";
 import { hashPassword, verifyPassword } from "../../shared/lib/security/password";
 import { asTrimmedLowercase } from "../../shared/utils/normalize";
+import type { Env } from "../../index.types";
 
 export async function loginUser(
   db: D1Database,
+  loginRateLimiter: Env["Bindings"]["LOGIN_RATE_LIMITER"],
   jwtSecret: string,
   emailInput: string,
   password: string,
 ) {
   const email = asTrimmedLowercase(emailInput);
+  const { success } = await loginRateLimiter.limit({
+    key: `login:${email || "unknown"}`,
+  });
+  if (!success) {
+    throw new HTTPException(429, {
+      message: "Too many login attempts. Please try again later.",
+    });
+  }
 
   const user = await db
     .prepare("SELECT id, email, password_hash FROM users WHERE email = ?")

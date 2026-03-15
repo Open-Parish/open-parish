@@ -51,6 +51,11 @@ CORS_ALLOWED_ORIGINS=http://127.0.0.1:5173,http://localhost:5173
 
 In production, set this explicitly. The API no longer reflects arbitrary origins.
 
+Authentication hardening:
+
+- Login attempts are rate limited by Cloudflare's Workers Rate Limiting binding.
+- Production cookies use `Secure`, `SameSite=Strict`, and `__Host-` prefixed names.
+
 ## Local Development
 
 ```bash

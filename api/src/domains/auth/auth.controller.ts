@@ -18,6 +18,7 @@ export async function loginController(c: Context<Env>) {
   const payload = getValidatedJson<typeof authSchema>(c);
   const result = await loginUser(
     c.env.DB,
+    c.env.LOGIN_RATE_LIMITER,
     c.env.JWT_SECRET,
     payload.email,
     payload.password,

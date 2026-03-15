@@ -1,4 +1,4 @@
-name = "olshp-api"
+name = "openparish-api"
 main = "src/index.ts"
 compatibility_date = "2026-03-08"
 
@@ -11,11 +11,19 @@ R2_PUBLIC_URL = ""
 
 [[d1_databases]]
 binding = "DB"
-database_name = "olshp"
+database_name = "openparish"
 database_id = "9140faa6-7bbd-43b7-ae7d-76535d174ffd"
 migrations_dir = "migrations"
 
 [[r2_buckets]]
 binding = "UPLOADS"
-bucket_name = "olshp-uploads"
-preview_bucket_name = "olshp-uploads-preview"
+bucket_name = "openparish-uploads"
+preview_bucket_name = "openparish-uploads-preview"
+
+[[ratelimits]]
+name = "LOGIN_RATE_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 5
+  period = 60
