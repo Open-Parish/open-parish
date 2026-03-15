@@ -55,6 +55,9 @@ Authentication hardening:
 
 - Login attempts are rate limited by Cloudflare's Workers Rate Limiting binding.
 - Production cookies use `Secure`, `SameSite=Strict`, and `__Host-` prefixed names.
+- Production startup fails if `JWT_SECRET` is blank or still set to the default placeholder value.
+- Internal error details are only returned outside production.
+- Dev seed is opt-in via `ENABLE_DEV_SEED=true`.
 
 ## Local Development
 
@@ -64,9 +67,15 @@ npm run dev
 ```
 
 Non-production seed bootstrap:
-- If `NODE_ENV`/`APP_ENV` is not `production`, the worker can auto-create core schema and seed a default admin from `DEFAULT_ADMIN_EMAIL` and `DEFAULT_ADMIN_PASSWORD`.
+- The worker only auto-seeds when `ENABLE_DEV_SEED=true`.
+- When enabled outside production, it can auto-create core schema and seed a default admin from `DEFAULT_ADMIN_EMAIL` and `DEFAULT_ADMIN_PASSWORD`.
 - If `SEED_SAMPLE_DATA` is not set to `false`, sample certificate records are also inserted for that default admin.
 - If `NODE_ENV=production`, the auto-seed path is disabled.
+
+Upload hardening:
+- Authenticated uploads are restricted to PNG, JPEG, and WebP images.
+- Uploads larger than 5 MB are rejected.
+- Stored content types are derived from detected file signatures, not caller-supplied MIME types.
 
 ## Deploy
 
