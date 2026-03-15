@@ -28,9 +28,7 @@ function parseAllowedOrigins(env: Env["Bindings"]): Set<string> {
     return new Set(configured);
   }
 
-  const isProduction =
-    env.NODE_ENV === "production" || env.APP_ENV === "production";
-  return isProduction ? new Set() : new Set();
+  return new Set();
 }
 
 function isAllowedOrigin(origin: string, env: Env["Bindings"]): boolean {

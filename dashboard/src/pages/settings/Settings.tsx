@@ -19,6 +19,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { PageShell } from '@/components/PageShell/PageShell';
 import { getSettings, updateSettings } from '@/features/settings/settingsApi';
 import { createObjectUrlIfFile } from '@/utils/createObjectUrlIfFile';
+import { hasNormalizedText } from '@/utils/hasNormalizedText';
 import { pickNormalizedString } from '@/utils/pickNormalizedString';
 import type { SettingsForm } from './Settings.types';
 import { resolveAssetPreview } from './utils/resolveAssetPreview';
@@ -47,9 +48,21 @@ type UploadFieldProps = {
   onChange: (file: File | null) => void;
 };
 
+function getUploadHelperText(value: string | File): string {
+  if (value instanceof File) {
+    return value.name;
+  }
+
+  if (hasNormalizedText(value)) {
+    return 'Image saved';
+  }
+
+  return 'No image selected';
+}
+
 function UploadField({ label, placeholder, value, onChange }: Readonly<UploadFieldProps>) {
-  const hasValue = value instanceof File || (typeof value === 'string' && value.trim().length > 0);
-  const helperText = value instanceof File ? value.name : hasValue ? 'Image saved' : 'No image selected';
+  const hasValue = value instanceof File || hasNormalizedText(value);
+  const helperText = getUploadHelperText(value);
 
   return (
     <Stack gap={6}>

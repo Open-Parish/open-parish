@@ -353,12 +353,10 @@ async function runEnsureDevSeed(env: Env["Bindings"]) {
 }
 
 export function ensureDevSeed(env: Env["Bindings"]): Promise<void> {
-  if (!ensureDevSeedPromise) {
-    ensureDevSeedPromise = runEnsureDevSeed(env).catch((error) => {
-      ensureDevSeedPromise = null;
-      throw error;
-    });
-  }
+  ensureDevSeedPromise ??= runEnsureDevSeed(env).catch((error) => {
+    ensureDevSeedPromise = null;
+    throw error;
+  });
 
   return ensureDevSeedPromise;
 }

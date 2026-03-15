@@ -133,11 +133,9 @@ async function runEnsureCoreSchema(db: D1Database): Promise<void> {
 }
 
 export function ensureCoreSchema(db: D1Database): Promise<void> {
-  if (!ensurePromise) {
-    ensurePromise = runEnsureCoreSchema(db).catch((error) => {
-      ensurePromise = null;
-      throw error;
-    });
-  }
+  ensurePromise ??= runEnsureCoreSchema(db).catch((error) => {
+    ensurePromise = null;
+    throw error;
+  });
   return ensurePromise;
 }

@@ -6,7 +6,7 @@ import {
   verifyPassword,
 } from "../../shared/lib/security/password";
 import type { SettingsRecord } from "../../shared/lib/types.types";
-import { asString } from "../../shared/utils/normalize";
+import { asString, asTrimmedLowercase } from "../../shared/utils/normalize";
 import { isFileValue } from "../../shared/utils/typeGuards";
 import { uploadToR2 } from "../../shared/utils/upload";
 
@@ -14,7 +14,7 @@ function asBooleanFlag(value: unknown, fallback: boolean): boolean {
   if (typeof value === "boolean") {
     return value;
   }
-  const normalized = String(value ?? "").trim().toLowerCase();
+  const normalized = asTrimmedLowercase(value);
   if (!normalized) {
     return fallback;
   }
