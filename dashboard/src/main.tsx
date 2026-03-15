@@ -40,7 +40,7 @@ function Providers() {
   return (
     <PersistQueryClientProvider client={queryClient} persistOptions={{ persister, maxAge: QUERY_PERSIST_MAX_AGE }}>
       <MantineProvider defaultColorScheme="light" forceColorScheme={colorScheme} theme={dynamicTheme}>
-        <NavigationProgress />
+        <NavigationProgress color="#c9a157" size={8} />
         <Notifications position="top-right" />
         <ModalsProvider>
           <AuthProvider>

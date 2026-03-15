@@ -11,9 +11,9 @@ export function AccountPage() {
   const form = useForm({
     initialValues: { currentPassword: '', newPassword: '', repeatPassword: '' },
     validate: {
-      currentPassword: (v) => (!v ? 'Required' : null),
+      currentPassword: (v) => (v.length === 0 ? 'Required' : null),
       newPassword: (v) => (v.length < 8 ? 'At least 8 characters' : null),
-      repeatPassword: (v, vals) => (v !== vals.newPassword ? 'Passwords do not match' : null),
+      repeatPassword: (v, vals) => (vals.newPassword === v ? null : 'Passwords do not match'),
     },
   });
 

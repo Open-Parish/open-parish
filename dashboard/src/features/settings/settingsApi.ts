@@ -18,5 +18,8 @@ export function updateSettings(values: SettingsPayload) {
   formData.append('currentPriestSignature', values.currentPriestSignature);
   formData.append('pdfImageLeft', values.pdfImageLeft);
   formData.append('pdfImageRight', values.pdfImageRight);
+  formData.append('showParishSeal', String(values.showParishSeal));
+  formData.append('showPdfImageLeft', String(values.showPdfImageLeft));
+  formData.append('showPdfImageRight', String(values.showPdfImageRight));
   return postFormData<SettingsPayload>('/settings', formData);
 }
