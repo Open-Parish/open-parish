@@ -8,6 +8,7 @@ export type Env = {
     CORS_ALLOWED_ORIGINS?: string;
     DEFAULT_ADMIN_EMAIL?: string;
     DEFAULT_ADMIN_PASSWORD?: string;
+    ENABLE_DEV_SEED?: string;
     SEED_SAMPLE_DATA?: string;
     NODE_ENV?: string;
     APP_ENV?: string;
