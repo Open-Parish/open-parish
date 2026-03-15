@@ -1,96 +1,118 @@
-# OLSHP API (Cloudflare)
+# Open Parish API
 
-Hono API running on Cloudflare Workers with:
+Cloudflare Worker API for Open Parish.
+
+It uses:
+- Hono for routing
 - D1 for relational data
-- R2 for uploaded files/images
-- JWT auth (email + password)
+- R2 for uploaded images
+- JWT-based auth with secure cookies
 
-## Runtime
+## Requirements
 
-- Worker entry: `src/index.ts`
-- Hono modules: `src/domains/**`, `src/shared/**`
-- D1 migrations: `migrations/**`
-- Wrangler config: `wrangler.toml`
+- Node.js 20+
+- npm
+- Wrangler
+- A Cloudflare account with D1 and R2 enabled
 
-## Setup
+## Local Setup
 
-1. Install dependencies
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-2. Create D1 DB + R2 bucket in Cloudflare, then update `wrangler.toml`:
+Copy the local env example:
+
+```bash
+cp .dev.vars.example .dev.vars
+```
+
+Then update values in `.dev.vars` as needed.
+
+## Local Development
+
+Apply local migrations:
+
+```bash
+npm run d1:migrate:local
+```
+
+Start the Worker:
+
+```bash
+npm run dev
+```
+
+Default local API URL:
+
+```text
+http://localhost:8787
+```
+
+## Local Env Vars
+
+Common local vars:
+
+```env
+NODE_ENV=development
+CORS_ALLOWED_ORIGINS=http://127.0.0.1:5173,http://localhost:5173
+ENABLE_DEV_SEED=true
+DEFAULT_ADMIN_EMAIL=admin@example.com
+DEFAULT_ADMIN_PASSWORD=change-this-password
+SEED_SAMPLE_DATA=true
+```
+
+Notes:
+- `ENABLE_DEV_SEED=true` is required for automatic local seeding.
+- `SEED_SAMPLE_DATA=false` disables sample certificate records.
+- In production, the dev seed path is disabled.
+
+## Cloudflare Setup
+
+Create your D1 database and R2 bucket, then update [`wrangler.toml`](./wrangler.toml):
+
 - `d1_databases.database_id`
+- `d1_databases.database_name`
 - `r2_buckets.bucket_name`
 - `r2_buckets.preview_bucket_name`
 
-3. Configure secrets/vars
+Set the required secret:
 
 ```bash
 wrangler secret put JWT_SECRET
 ```
 
-Set `R2_PUBLIC_URL` in `wrangler.toml` (or via environment vars) if bucket objects are publicly served.
-
-Optional local/non-production seed vars:
-
-```bash
-wrangler secret put DEFAULT_ADMIN_EMAIL
-wrangler secret put DEFAULT_ADMIN_PASSWORD
-```
-
-Set `SEED_SAMPLE_DATA=false` if you want the default admin without sample certificate records.
-For local `wrangler dev`, copy [`api/.dev.vars.example`](./.dev.vars.example) to `.dev.vars` and set your values there.
-
-Set `CORS_ALLOWED_ORIGINS` to the dashboard origin list that should be allowed to call the API. Example:
-
-```env
-CORS_ALLOWED_ORIGINS=http://127.0.0.1:5173,http://localhost:5173
-```
-
-In production, set this explicitly. The API no longer reflects arbitrary origins.
-
-Authentication hardening:
-
-- Login attempts are rate limited by Cloudflare's Workers Rate Limiting binding.
-- Production cookies use `Secure`, `SameSite=Strict`, and `__Host-` prefixed names.
-- Production startup fails if `JWT_SECRET` is blank or still set to the default placeholder value.
-- Internal error details are only returned outside production.
-- Dev seed is opt-in via `ENABLE_DEV_SEED=true`.
-
-## Local Development
-
-```bash
-npm run d1:migrate:local
-npm run dev
-```
-
-Non-production seed bootstrap:
-- The worker only auto-seeds when `ENABLE_DEV_SEED=true`.
-- When enabled outside production, it can auto-create core schema and seed a default admin from `DEFAULT_ADMIN_EMAIL` and `DEFAULT_ADMIN_PASSWORD`.
-- If `SEED_SAMPLE_DATA` is not set to `false`, sample certificate records are also inserted for that default admin.
-- If `NODE_ENV=production`, the auto-seed path is disabled.
-
-Upload hardening:
-- Authenticated uploads are restricted to PNG, JPEG, and WebP images.
-- Uploads larger than 5 MB are rejected.
-- Stored content types are derived from detected file signatures, not caller-supplied MIME types.
+If you serve uploads from a public URL, set `R2_PUBLIC_URL`.
 
 ## Deploy
 
+Apply remote migrations:
+
 ```bash
 npm run d1:migrate:remote
+```
+
+Deploy the Worker:
+
+```bash
 npm run deploy
 ```
 
-## Implemented Features
+## Security Notes
 
-- Username/password auth using email (`/register`, `/login`)
-- JWT-protected routes
-- Certificate CRUD for birth/baptismal/confirmation, death, marriage
-- Pagination + search (`/page`, `/search`)
-- Settings read/update (+ password change)
-- Image upload to R2 (`/upload` and settings file fields)
-- Printable certificate views (`/print`, `/print-preview`)
-- Downloadable certificate output via `?download=1`
+- Production startup fails if `JWT_SECRET` is blank or still set to the default placeholder value.
+- Login requests are rate limited with Cloudflare Workers Rate Limiting.
+- Production cookies use `Secure`, `SameSite=Strict`, and `__Host-` prefixes.
+- Internal error details are hidden in production responses.
+- Authenticated uploads only allow PNG, JPEG, and WebP images up to 5 MB.
+- Stored upload content types are derived from detected file signatures, not caller-provided MIME types.
+
+## Features
+
+- Email/password login
+- Protected certificate CRUD
+- Settings read/update
+- Image uploads for signature and certificate header assets
+- Print preview and downloadable certificate output
