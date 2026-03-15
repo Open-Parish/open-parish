@@ -12,11 +12,9 @@ export type { Env } from "./index.types";
 
 const app = new Hono<Env>({ strict: false });
 
-const DEFAULT_DEV_CORS_ORIGINS = [
-  "http://127.0.0.1:5173",
-  "http://localhost:5173",
-  "http://127.0.0.1:4173",
-  "http://localhost:4173",
+const DEFAULT_DEV_CORS_ORIGIN_PATTERNS = [
+  /^http:\/\/127\.0\.0\.1:\d+$/,
+  /^http:\/\/localhost:\d+$/,
 ];
 
 function parseAllowedOrigins(env: Env["Bindings"]): Set<string> {
@@ -31,7 +29,24 @@ function parseAllowedOrigins(env: Env["Bindings"]): Set<string> {
 
   const isProduction =
     env.NODE_ENV === "production" || env.APP_ENV === "production";
-  return isProduction ? new Set() : new Set(DEFAULT_DEV_CORS_ORIGINS);
+  return isProduction ? new Set() : new Set();
+}
+
+function isAllowedOrigin(origin: string, env: Env["Bindings"]): boolean {
+  const allowedOrigins = parseAllowedOrigins(env);
+  if (allowedOrigins.has(origin)) {
+    return true;
+  }
+
+  const isProduction =
+    env.NODE_ENV === "production" || env.APP_ENV === "production";
+  if (isProduction) {
+    return false;
+  }
+
+  return DEFAULT_DEV_CORS_ORIGIN_PATTERNS.some((pattern) =>
+    pattern.test(origin),
+  );
 }
 
 function applyCorsHeaders(headers: Headers, origin: string): void {
@@ -47,16 +62,15 @@ function applyCorsHeaders(headers: Headers, origin: string): void {
 
 app.use("*", async (c, next) => {
   const origin = c.req.header("Origin") ?? "";
-  const allowedOrigins = parseAllowedOrigins(c.env);
-  const isAllowedOrigin = origin !== "" && allowedOrigins.has(origin);
+  const originAllowed = origin !== "" && isAllowedOrigin(origin, c.env);
 
   if (c.req.method === "OPTIONS") {
-    if (origin && !isAllowedOrigin) {
+    if (origin && !originAllowed) {
       return c.json({ message: "Origin not allowed", statusCode: 403 }, 403);
     }
 
     const headers = new Headers();
-    if (isAllowedOrigin) {
+    if (originAllowed) {
       applyCorsHeaders(headers, origin);
     }
     return new Response(null, { status: 204, headers });
@@ -64,7 +78,7 @@ app.use("*", async (c, next) => {
 
   await next();
 
-  if (isAllowedOrigin) {
+  if (originAllowed) {
     applyCorsHeaders(c.res.headers, origin);
   }
 });
