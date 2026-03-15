@@ -121,7 +121,7 @@ export function CertificateListPage() {
                     <Table.Td>{friendlyDate(createdAt)}</Table.Td>
                     <Table.Td>{friendlyDate(updatedAt)}</Table.Td>
                     <Table.Td>
-                      <Anchor href={printLink} target="_blank">
+                      <Anchor href={printLink} target="_blank" data-testid="certificate-print-link">
                         <IconPrinter size={16} />
                       </Anchor>
                     </Table.Td>
